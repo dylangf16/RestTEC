@@ -1,0 +1,66 @@
+{
+    "usuarios": [
+      {
+        "nombre": "pepito ramirez",    
+        "correo": "pepito@chef.com",
+        "contrasena": "chef123",
+        "rol": "chef",
+        "id": 100
+        },
+        {
+        "nombre": "juanita ramirez", 
+        "correo": "juana@chef.com",
+        "contrasena": "chef321",
+        "rol": "chef",
+        "id": 101
+        },
+        {
+        "nombre": "pepito rodriguez", 
+        "correo": "pepito@admin.com",
+        "contrasena": "admin123",
+        "rol": "administrador",
+        "id": 102
+        },
+        {
+        "nombre": "juanita rodriguez", 
+        "correo": "juana@admin.com",
+        "contrasena": "admin321",
+        "rol": "administrador",
+        "id": 103
+        }
+
+    ],
+
+    "pedidos": [
+        {
+        "id": 1,
+        "descripcion": "Pedido de cliente A",
+        "tiempo_limite": "2024-03-30T14:30:00Z",
+        "chef_id": 100
+        },
+        {
+        "id": 2,
+        "descripcion": "Pedido de cliente B",
+        "tiempo_limite": "2024-03-31T10:00:00Z",
+        "chef_id": 100
+        },
+        {
+        "id": 3,
+        "descripcion": "Pedido de cliente C",
+        "tiempo_limite": "2024-03-31T10:00:00Z",
+        "chef_id": 101
+        },
+        {
+        "id": 4,
+        "descripcion": "Pedido de cliente D",
+        "tiempo_limite": "2024-04-01T13:00:00Z",
+        "chef_id": 0
+        },
+        {
+        "id": 5,
+        "descripcion": "Pedido de cliente E",
+        "tiempo_limite": "2024-04-01T12:00:00Z",
+        "chef_id": 0
+        }
+    ]
+}
