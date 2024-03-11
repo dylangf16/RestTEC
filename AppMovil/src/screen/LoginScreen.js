@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, Alert, ScrollView } from 'react-native';
-import usersData from './users.json'; // Importamos el archivo JSON
+import jsonData from '../../src/bd/usuarios.json'; // Import the JSON data from the new path
 
 export default function App() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    // Buscamos el usuario en el archivo JSON
-    const user = usersData.find(user => user.email === email && user.password === password);
+    // Search for the user in the JSON data
+    const user = jsonData.usuarios.find(user => user.correo === email && user.contrasena === password);
     
     if (user) {
       Alert.alert('¡Inicio de sesión exitoso!');
-      // Aquí podrías redirigir al usuario a la pantalla de menú
+      // Here you could redirect the user to the menu screen
     } else {
       Alert.alert('Error', 'Credenciales incorrectas');
     }
