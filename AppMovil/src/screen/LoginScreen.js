@@ -1,21 +1,44 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, Alert, ScrollView } from 'react-native';
 import jsonData from '../../src/bd/usuarios.json'; // Import the JSON data from the new path
+import config from '../../src/config/config'; // Import the configuration file
+
+const ip = config.ip;
 
 export default function App() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    // Search for the user in the JSON data
-    const user = jsonData.usuarios.find(user => user.correo === email && user.contrasena === password);
-    
-    if (user) {
-      Alert.alert('¡Inicio de sesión exitoso!');
-      // Here you could redirect the user to the menu screen
-    } else {
-      Alert.alert('Error', 'Credenciales incorrectas');
-    }
+    // Prepare user data
+    const userData = {
+      correo: email,
+      contrasena: password
+    };
+
+    // Send POST request to Flask server for login
+    fetch('http://'+ ip +':5000/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    })
+      .then(response => {
+        if (response.ok) {
+          // Redirect to the next page upon successful login
+          // Add your redirection logic here
+          // For example:
+          // navigation.navigate('NextPage');
+          Alert.alert('Inicio de sesion', 'Se ha iniciado sesion con exito.');
+        } else {
+          Alert.alert('Error', 'Correo electrónico o contraseña incorrectos.');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        Alert.alert('Error', 'Hubo un problema al intentar iniciar sesión.');
+      });
   };
 
   return (

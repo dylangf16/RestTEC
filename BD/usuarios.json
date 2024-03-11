@@ -41,6 +41,13 @@
             "correo": "admin@sis.com",
             "contrasena": "123456",
             "rol": "cliente"
+        },
+        {
+            "id": 106,
+            "nombre": "alejandra",
+            "correo": "rodriguezc@gotmail.com",
+            "contrasena": "aleee",
+            "rol": "cliente"
         }
     ],
     "platos": [
