@@ -45,5 +45,19 @@ def register():
 
     return jsonify({'message': 'Registro exitoso'}), 201
 
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.json
+    email = data.get('correo')
+    password = data.get('contrasena')
+
+    # Find user with matching email and password
+    user = next((user for user in usuarios_data['usuarios'] if user['correo'] == email and user['contrasena'] == password), None)
+
+    if user:
+        return jsonify({'message': 'Inicio de sesión exitoso'}), 200
+    else:
+        return jsonify({'error': 'Credenciales incorrectas'}), 401
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)

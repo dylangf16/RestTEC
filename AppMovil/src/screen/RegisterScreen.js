@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, Alert, ScrollView, TouchableOpacity } from 'react-native';
 import config from '../../src/config/config'; // Import the configuration file
 
 const ip = config.ip;
 
-const RegisterScreen = () => {
+const RegisterScreen = ( navigation) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -38,6 +38,10 @@ const RegisterScreen = () => {
       });
   };
 
+  const handleNavigateBack = () => {
+    navigation.goBack();
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Registro</Text>
@@ -64,6 +68,9 @@ const RegisterScreen = () => {
         <View style={styles.buttonContainer}>
           <Button title="Registrarse" onPress={handleRegister} />
         </View>
+        <TouchableOpacity onPress={handleNavigateBack}>
+            <Text style={styles.backText}>Back to Login</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );

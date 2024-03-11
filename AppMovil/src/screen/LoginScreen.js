@@ -1,21 +1,44 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert, ScrollView } from 'react-native';
-import jsonData from '../../src/bd/usuarios.json'; // Import the JSON data from the new path
+import { StyleSheet, Text, View, TextInput, Button, Alert, ScrollView, TouchableOpacity } from 'react-native';
+import config from '../../src/config/config'; // Import the configuration file
 
-export default function App() {
+const ip = config.ip;
+
+const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    // Search for the user in the JSON data
-    const user = jsonData.usuarios.find(user => user.correo === email && user.contrasena === password);
-    
-    if (user) {
-      Alert.alert('¡Inicio de sesión exitoso!');
-      // Here you could redirect the user to the menu screen
-    } else {
-      Alert.alert('Error', 'Credenciales incorrectas');
-    }
+  const handleLogin = (navigation) => {
+    // Create user data object
+    const userData = {
+      correo: email,
+      contrasena: password,
+    };
+
+    // Send POST request to login endpoint
+    fetch(`http://${ip}:5000/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    })
+      .then(response => {
+        if (response.ok) {
+          Alert.alert('¡Inicio de sesión exitoso!');
+          // Here you could redirect the user to the menu screen
+        } else {
+          Alert.alert('Error', 'Credenciales incorrectas');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        Alert.alert('Error', 'Hubo un problema al intentar iniciar sesión.');
+      });
+  };
+
+  const handleNavigateToRegister = () => {
+    navigation.navigate('Register');
   };
 
   return (
@@ -38,6 +61,11 @@ export default function App() {
         <View style={styles.buttonContainer}>
           <Button title="Iniciar Sesión" onPress={handleLogin} />
         </View>
+
+        <TouchableOpacity onPress={handleNavigateToRegister}>
+          <Text style={styles.registerText}>Don't have an account? Register here!</Text>
+       </TouchableOpacity>
+
       </View>
     </ScrollView>
   );
@@ -68,3 +96,5 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 });
+
+export default LoginScreen;
