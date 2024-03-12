@@ -5,8 +5,6 @@ import "./LoginForm.css";
 // ruta al jason
 import usuariosData from "../Assets/usuarios.json";
 
-//
-
 // iconos
 import { GrUserAdmin } from "react-icons/gr";
 import { RiLockPasswordFill } from "react-icons/ri";

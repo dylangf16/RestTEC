@@ -35,29 +35,29 @@
         {
             "nombre": "Pizza Margarita",
             "descripcion": "Deliciosa pizza con salsa de tomate, mozzarella fresca y albahaca.",
-            "vendidos": 0,
-            "feedback": 5,
+            "vendidos": 45,
+            "feedback": 4.9,
             "tiempoEstimado": 30
         },
         {
             "nombre": "Ensalada César",
             "descripcion": "Ensalada fresca con lechuga romana, pollo a la parrilla, crutones, queso parmesano y aderezo César.",
-            "vendidos": 0,
-            "feedback": 5,
+            "vendidos": 27,
+            "feedback": 4.6,
             "tiempoEstimado": 5
         },
         {
             "nombre": "Sushi Variado",
             "descripcion": "Selección de sushi fresco y variado, incluyendo nigiri, sashimi y rollos.",
-            "vendidos": 0,
-            "feedback": 5,
+            "vendidos": 31,
+            "feedback": 4.8,
             "tiempoEstimado": 20
         },
         {
             "nombre": "Hamburguesa Clásica",
             "descripcion": "Jugosa hamburguesa de carne de res con queso cheddar, lechuga, tomate, cebolla y salsa especial.",
-            "vendidos": 0,
-            "feedback": 5,
+            "vendidos": 53,
+            "feedback": 4.5,
             "tiempoEstimado": 10
         }
     ],
@@ -65,25 +65,25 @@
     "menu": [
         {
             "nombre_plato": "Pizza Margarita",
-            "precio": 10.99,
+            "precio": 8500,
             "calorias": 800,
             "tipo": "Pizza"
         },
         {
             "nombre_plato": "Ensalada César",
-            "precio": 8.50,
+            "precio": 4000,
             "calorias": 350,
             "tipo": "Ensalada"
         },
         {
             "nombre_plato": "Sushi Variado",
-            "precio": 15.99,
+            "precio": 10000,
             "calorias": 600,
             "tipo": "Sushi"
         },
         {
             "nombre_plato": "Hamburguesa Clásica",
-            "precio": 12.99,
+            "precio": 4000,
             "calorias": 1000,
             "tipo": "Hamburguesa"
         }

@@ -1,4 +1,4 @@
-const calcularTiempoRestante = (tiempo_limite, descripcion) => {
+const calcularTiempoRestante = (tiempo_limite) => {
   const ahora = new Date();
 
   // Convertimos el tiempo límite a un objeto Date
