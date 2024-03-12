@@ -5,8 +5,6 @@ import "./LoginForm.css";
 // ruta al jason
 import usuariosData from "../Assets/usuarios.json";
 
-//
-
 // iconos
 import { GrUserAdmin } from "react-icons/gr";
 import { RiLockPasswordFill } from "react-icons/ri";
@@ -15,6 +13,7 @@ export const LoginForm = () => {
   const [correo, setCorreo] = useState("");
   const [contrasena, setContrasena] = useState("");
   const Navigate = useNavigate();
+  const [error, setError] = useState("");
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -30,7 +29,7 @@ export const LoginForm = () => {
         Navigate("/admin", { state: { usuario: usuarioEncontrado } });
       }
     } else {
-      console.log("Credenciales incorrectas");
+      setError("Credenciales incorrectas");
     }
   };
 
@@ -50,7 +49,6 @@ export const LoginForm = () => {
             />
             <GrUserAdmin className="icon" />
           </div>
-
           <div className="input-box">
             <input
               type="password"
@@ -61,13 +59,11 @@ export const LoginForm = () => {
             />
             <RiLockPasswordFill className="icon" />
           </div>
-
+          {error && <p className="error-message">{error}</p>}{" "}
           <div className="forget">
             <a href="#">Recuperar Contraseña</a>
           </div>
-
           <button type="submit">Iniciar Sesión</button>
-
           <div className="register">
             <a href="#">Registrarse</a>
           </div>

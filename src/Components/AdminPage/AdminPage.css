@@ -1,14 +1,94 @@
-.full-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
+.nav-pills .nav-link {
+  border-radius: 0;
+  color: #000000;
+  background-color: white;
+}
+
+.nav-pills .nav-item:not(:nth-last-child(1)) .nav-link {
+  border-right: 1px solid white;
+}
+
+.tab-content {
+  background-color: #f9fafb;
+  border: 1px solid #dddddd;
+}
+
+.py-4 h1 {
+  color: white;
+  align-self: center;
+}
+
+.table-wrapper {
   width: 100%;
-  height: 100%;
-  background-color: rgb(
-    210,
-    53,
-    241
-  ); /* Por ejemplo, color de fondo semitransparente */
-  z-index: 9999; /* Ajusta el valor de z-index según sea necesario */
-  /* Otros estilos específicos del componente */
+}
+
+.table {
+  display: block;
+  overflow: hidden;
+  table-layout: fixed;
+  border-collapse: collapse;
+  box-shadow: 0px 10px 10px #ccc;
+  border-radius: 10px;
+  white-space: nowrap;
+  width: 100em;
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
+  table-layout: auto;
+  overflow-x: auto;
+}
+
+.table thead th {
+  background-color: #ccc;
+  color: #222;
+}
+
+.table th,
+.table td {
+  padding: 0.8rem;
+}
+
+.table td {
+  border-top: 0.5px solid #ddd;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table tbody tr:hover td {
+  background-color: #eee;
+}
+
+.expand {
+  width: 100%;
+}
+
+.label {
+  border-radius: 3px;
+  padding: 0.3rem;
+  color: white;
+}
+
+.label-draft {
+  background-color: #777;
+}
+
+.label-live {
+  background-color: #42a942;
+}
+
+.label-error {
+  background-color: #d9534f;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-around;
+}
+
+.actions svg {
+  cursor: pointer;
+}
+
+.delete-btn {
+  color: #e10d05;
 }

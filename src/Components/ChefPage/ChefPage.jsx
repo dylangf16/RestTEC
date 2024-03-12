@@ -2,35 +2,154 @@ import React, { useState, useEffect } from "react";
 import "./ChefPage.css";
 import { useLocation } from "react-router-dom";
 
+import DataTable from "react-data-table-component";
+
+import { Container, Row, Tabs, Tab } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+//funciones
+import { calcularTiempoRestante } from "../helpers/timeHelpers";
+
+//json
 import usuariosData from "../Assets/usuarios.json";
 
-const calcularTiempoRestante = (tiempo_limite) => {
-  const ahora = new Date();
-
-  // Convertimos el tiempo límite a un objeto Date
-  const tiempoLimite = new Date(tiempo_limite);
-
-  // Calculamos la diferencia en milisegundos entre la fecha actual y el tiempo límite
-  const diferencia = tiempoLimite - ahora;
-
-  // Convertimos la diferencia a días, horas, minutos y segundos
-  const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-  const horas = Math.floor(
-    (diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-  );
-  const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
-  const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
-
-  // Retornamos el tiempo restante en un formato legible
-  return `${dias} días, ${horas} horas, ${minutos} minutos y ${segundos} segundos`;
-};
-
 const ChefPage = () => {
-  const location = useLocation(); // Usar useLocation para obtener la ubicación actual
-  const { usuario } = location.state || {}; // Obtener los datos del usuario desde las props
+  const location = useLocation();
+  const { usuario } = location.state || {};
 
   const [chefData, setChefData] = useState(null);
   const [pedidosNoTomados, setPedidosNoTomados] = useState([]);
+  const [activeTab, setActiveTab] = useState("pedidos-actuales");
+
+  const eliminarOrden = (orderId) => {
+    // Eliminar la orden del JSON
+    const updatedPedidos = usuariosData.pedidos.filter(
+      (pedido) => pedido.id !== orderId
+    );
+    usuariosData.pedidos = updatedPedidos;
+    setChefData((prevData) => ({
+      ...prevData,
+      pedidos: updatedPedidos.filter((pedido) => pedido.chef_id === usuario.id),
+    }));
+  };
+
+  const reasignarOrden = (orderId) => {
+    // Cambiar el chef_id al id del chef actual
+    const updatedPedidos = usuariosData.pedidos.map((pedido) => {
+      if (pedido.id === orderId) {
+        return { ...pedido, chef_id: usuario.id };
+      }
+      return pedido;
+    });
+    usuariosData.pedidos = updatedPedidos;
+    setChefData((prevData) => ({
+      ...prevData,
+      pedidos: updatedPedidos.filter((pedido) => pedido.chef_id === usuario.id),
+    }));
+  };
+
+  const prepararOrden = (orderId) => {
+    // Cambiar el chef_id al id del chef actual
+    const updatedPedidos = usuariosData.pedidos.map((pedido) => {
+      if (pedido.id === orderId) {
+        return { ...pedido, chef_id: usuario.id };
+      }
+      return pedido;
+    });
+    usuariosData.pedidos = updatedPedidos;
+
+    // Actualizar la lista de pedidos no tomados
+    const noTomados = updatedPedidos.filter((pedido) => pedido.chef_id === 0);
+    setPedidosNoTomados(noTomados);
+
+    // Actualizar el estado de chefData
+    setChefData((prevData) => ({
+      ...prevData,
+      pedidos: updatedPedidos.filter((pedido) => pedido.chef_id === usuario.id),
+    }));
+  };
+
+  const pedidos_actuales = [
+    {
+      name: "n° de orden",
+      selector: (row) => row.id,
+    },
+    {
+      name: "Descripción",
+      selector: (row) => row.descripcion,
+    },
+    {
+      name: "Tiempo limite",
+      selector: (row) =>
+        calcularTiempoRestante(row.tiempo_limite, row.descripcion),
+    },
+    {
+      name: "",
+      cell: (row) => (
+        <button className="btn btn-info" onClick={() => eliminarOrden(row.id)}>
+          Orden Preparada
+        </button>
+      ),
+    },
+  ];
+
+  const pedidos_de_otros_chef = [
+    {
+      name: "n° de orden",
+      selector: (row) => row.id,
+    },
+    {
+      name: "ID del chef",
+      selector: (row) => row.chef_id,
+    },
+    {
+      name: "Descripción",
+      selector: (row) => row.descripcion,
+    },
+    {
+      name: "Tiempo limite",
+      selector: (row) =>
+        calcularTiempoRestante(row.tiempo_limite, row.descripcion),
+    },
+    {
+      name: "",
+      cell: (row) => (
+        <button
+          className="btn btn-success"
+          onClick={() => reasignarOrden(row.id)}
+        >
+          Reasignar orden
+        </button>
+      ),
+    },
+  ];
+
+  const pedidos_no_tomados = [
+    {
+      name: "n° de orden",
+      selector: (row) => row.id,
+    },
+    {
+      name: "Descripción",
+      selector: (row) => row.descripcion,
+    },
+    {
+      name: "Tiempo limite",
+      selector: (row) =>
+        calcularTiempoRestante(row.tiempo_limite, row.descripcion),
+    },
+    {
+      name: "",
+      cell: (row) => (
+        <button
+          className="btn btn-warning"
+          onClick={() => prepararOrden(row.id)}
+        >
+          Preparar orden
+        </button>
+      ),
+    },
+  ];
 
   useEffect(() => {
     if (usuario) {
@@ -39,7 +158,6 @@ const ChefPage = () => {
       );
       setChefData({ usuario: usuario, pedidos: chefOrders });
 
-      // Filtrar los pedidos no tomados
       const noTomados = usuariosData.pedidos.filter(
         (pedido) => pedido.chef_id === 0
       );
@@ -51,7 +169,49 @@ const ChefPage = () => {
     return <div>Cargando...</div>;
   }
 
+  const handleTabClick = (tabId) => {
+    setActiveTab(tabId);
+  };
+
   return (
+    <Container className="py-4">
+      <h1>Bienvenido {usuario.nombre}</h1>
+      <Row className="justify-content-center">
+        <Tabs
+          justify
+          variant="pills"
+          defaultActiveKey="tab-1"
+          className="mb-1 p-0"
+        >
+          <Tab eventKey="tab-1" title="Pedidos actuales">
+            <DataTable
+              columns={pedidos_actuales}
+              data={chefData.pedidos} // Pasa los datos de los pedidos del chef
+            />
+          </Tab>
+          <Tab eventKey="tab-2" title="Pedidos de otros chefs">
+            <DataTable
+              columns={pedidos_de_otros_chef}
+              data={usuariosData.pedidos.filter(
+                (pedido) => pedido.chef_id !== usuario.id
+              )} // Filtra los pedidos de otros chefs
+            />
+          </Tab>
+          <Tab eventKey="tab-3" title="Pedidos no tomados">
+            <DataTable
+              columns={pedidos_no_tomados}
+              data={pedidosNoTomados} // Pasa los pedidos no tomados
+            />
+          </Tab>
+        </Tabs>
+      </Row>
+    </Container>
+  );
+};
+
+export default ChefPage;
+
+/*  return (
     <div className="chef-page">
       <h1>Bienvenido {usuario.nombre}</h1>
       <div className="current-orders">
@@ -98,7 +258,4 @@ const ChefPage = () => {
         </ul>
       </div>
     </div>
-  );
-};
-
-export default ChefPage;
+  ); */
