@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, Alert, ScrollView } from 'react-native';
-import jsonData from '../../src/bd/usuarios.json'; // Import the JSON data from the new path
+import { useNavigation } from '@react-navigation/native';
 import config from '../../src/config/config'; // Import the configuration file
 
 const ip = config.ip;
@@ -8,6 +8,7 @@ const ip = config.ip;
 export default function App() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigation = useNavigation();
 
   const handleLogin = () => {
     // Prepare user data
@@ -61,6 +62,11 @@ export default function App() {
         <View style={styles.buttonContainer}>
           <Button title="Iniciar Sesión" onPress={handleLogin} />
         </View>
+
+        <View style={styles.buttonContainer}>
+        <Button title="Register" onPress={() => navigation.navigate('RegisterScreen')} />
+        </View>
+
       </View>
     </ScrollView>
   );
