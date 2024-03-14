@@ -75,6 +75,10 @@ const ChefPage = () => {
       selector: (row) => row.id,
     },
     {
+      name: "ID",
+      selector: (row) => row.chef_id,
+    },
+    {
       name: "Descripción",
       selector: (row) => row.descripcion,
     },
@@ -99,7 +103,7 @@ const ChefPage = () => {
       selector: (row) => row.id,
     },
     {
-      name: "ID del chef",
+      name: "ID del chef encargado",
       selector: (row) => row.chef_id,
     },
     {
@@ -184,25 +188,21 @@ const ChefPage = () => {
           className="mb-1 p-0"
         >
           <Tab eventKey="tab-1" title="Pedidos actuales">
-            <DataTable
-              columns={pedidos_actuales}
-              data={chefData.pedidos} // Pasa los datos de los pedidos del chef
-            />
+            <DataTable columns={pedidos_actuales} data={chefData.pedidos} />
           </Tab>
           <Tab eventKey="tab-2" title="Pedidos de otros chefs">
             <DataTable
               columns={pedidos_de_otros_chef}
               data={usuariosData.pedidos.filter(
-                (pedido) => pedido.chef_id !== usuario.id
-              )} // Filtra los pedidos de otros chefs
+                (pedido) =>
+                  pedido.chef_id !== usuario.id && pedido.chef_id !== 0
+              )}
             />
           </Tab>
-          <Tab eventKey="tab-3" title="Pedidos no tomados">
-            <DataTable
-              columns={pedidos_no_tomados}
-              data={pedidosNoTomados} // Pasa los pedidos no tomados
-            />
+          <Tab eventKey="tab-3" title="Pedidos Pendientes">
+            <DataTable columns={pedidos_no_tomados} data={pedidosNoTomados} />
           </Tab>
+          <Tab></Tab>
         </Tabs>
       </Row>
     </Container>
