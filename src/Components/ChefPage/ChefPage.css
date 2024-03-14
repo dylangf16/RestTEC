@@ -1,19 +1,45 @@
-.nav-pills .nav-link {
-  border-radius: 0;
-  color: #000000;
-  background-color: white;
+.container {
+  width: 80%;
+  margin: auto;
+  background-color: hsla(0, 0%, 0%, 0.548);
+
+  border: 2px solid rgba(25, 255, 255, 0.2);
+  color: white;
+  border-radius: 10px;
+  padding: 30px 40px;
+  margin-top: 50px;
 }
 
-.nav-pills .nav-item:not(:nth-last-child(1)) .nav-link {
-  border-right: 1px solid white;
+.container h1 {
+  font-size: 36px;
+  text-align: center;
+}
+
+.container .row {
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.nav-pills .nav-link {
+  border-radius: 40px;
+  color: white;
+  background-color: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  margin-right: 10px;
+}
+
+.nav-pills .nav-item:not(:last-child) .nav-link {
+  border-right: none;
 }
 
 .tab-content {
-  background-color: #f9fafb;
-  border: 1px solid #dddddd;
+  background-color: transparent;
+  border: none;
+  padding: 0;
 }
 
 .py-4 h1 {
   color: white;
-  align-self: center;
+  text-align: center;
+  margin-bottom: 20px;
 }

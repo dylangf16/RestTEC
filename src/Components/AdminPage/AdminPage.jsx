@@ -158,7 +158,7 @@ const AdminPage = () => {
 
   return (
     <Container className="py-4">
-      {/*       <h1>Bienvenido {usuario.nombre}</h1> */}
+      <h1>Bienvenido {usuario.nombre}</h1>
       <Row className="justify-content-center">
         <Tabs
           justify
