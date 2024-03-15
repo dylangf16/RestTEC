@@ -1,22 +1,24 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, Alert, ScrollView, TouchableOpacity } from 'react-native';
-import config from '../../src/config/config'; // Import the configuration file
 
-const ip = config.ip;
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => { // Don't forget to include 'navigation' in the props
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = (navigation) => {
+  console.log('Email:', email);
+  console.log('Password:', password);
+
+  const handleLogin = () => {
     // Create user data object
     const userData = {
-      correo: email,
-      contrasena: password,
+      correo: email, // Use 'correo' instead of 'email'
+      contrasena: password, // Use 'contrasena' instead of 'password'
     };
 
     // Send POST request to login endpoint
-    fetch(`http://${ip}:5000/login`, {
+    fetch(`http://10.0.2.2:5274/login`, { // Update the endpoint to '/login' and use the correct port
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -63,8 +65,8 @@ const LoginScreen = () => {
         </View>
 
         <TouchableOpacity onPress={handleNavigateToRegister}>
-          <Text style={styles.registerText}>Don't have an account? Register here!</Text>
-       </TouchableOpacity>
+          <Text style={styles.registerText}>¿No tienes una cuenta? ¡Regístrate aquí!</Text>
+        </TouchableOpacity>
 
       </View>
     </ScrollView>

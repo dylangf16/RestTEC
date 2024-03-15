@@ -1,0 +1,11 @@
+@RestService_HostAddress = http://localhost:5274
+
+### Login Test
+POST {{RestService_HostAddress}}/login
+Content-Type: application/json
+
+{
+    "Username": "admin@adming.sis",
+    "Password": "123456"
+}
+
