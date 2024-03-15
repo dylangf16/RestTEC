@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from flask import Flask, request, jsonify
 import json
@@ -62,12 +62,12 @@ def login():
     if user:
         # Check if password matches
         if user['contrasena'] == password:
-            return jsonify({'message': 'Inicio de sesión exitoso'}), 200
+            client_id = user['id']  # Get the client ID
+            return jsonify({'message': 'Inicio de sesión exitoso', 'client_id': client_id}), 200
         else:
             return jsonify({'error': 'Contraseña incorrecta'}), 401
     else:
         return jsonify({'error': 'El correo electrónico no está registrado'}), 404
-
 
 @app.route('/dishes', methods=['GET'])
 def get_dishes():
@@ -78,32 +78,45 @@ def get_dishes():
 def place_order():
     order_data = request.json
     selected_dishes = order_data.get('platos', [])
+    client_id = order_data.get('client_id')
 
     # Retrieve dishes information from the menu
     menu = dataBase.get('menu', [])
     ordered_dishes = []
     total_amount = 0
+    total_duration = 0
     for dish_id in selected_dishes:
         for menu_item in menu:
-            if menu_item['id_plato'] == id_name:
+            if menu_item['id_plato'] == dish_id:
                 ordered_dishes.append({
                     'nombre_plato': menu_item['nombre_plato'],
-                    'precio': menu_item['precio']
+                    'precio': menu_item['precio'],
+                    'duracionEstMin': menu_item['duracionEstMin']
                 })
+                # Multiply the price by the quantity
                 total_amount += menu_item['precio']
+                total_duration += menu_item['duracionEstMin']
 
     # Generate a unique ID for the order
     order_id = len(dataBase['pedidos']) + 1
 
     # Current date and time
     current_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+    # With only 2 decimal places
+    total_amount = "{:.2f}".format(total_amount)
+
+    # Hora a la que se debe completar la orden
+    completion_time = (datetime.utcnow() + timedelta(minutes=total_duration)).strftime('%Y-%m-%dT%H:%M:%SZ')
 
     # Create the order object
     new_order = {
-        'id': order_id,
+        'id_pedido': order_id,
+        'id_cliente': client_id,
         'platos': ordered_dishes,
         'monto_total': total_amount,
-        'fecha_hora': current_time
+        'fecha_hora': current_time,
+        'hora_finalizacion': completion_time,
+        'estado': "Recibido por el restaurante"
     }
 
     # Add the order to the orders list
@@ -113,7 +126,15 @@ def place_order():
     with open('usuarios.json', 'w') as f:
         json.dump(dataBase, f, indent=4)
 
-    return jsonify({'message': 'Pedido realizado exitosamente', 'order_id': order_id}), 201
+    return jsonify({'message': 'Pedido registrado con exito', 'order_id': order_id}), 200
+
+@app.route('/order/<int:order_id>', methods=['GET'])
+def get_order(order_id):
+    order = next((order for order in dataBase['pedidos'] if order.get('id_pedido') == order_id), None)
+    if order:
+        return jsonify(order), 200
+    else:
+        return jsonify({'error': 'No se encontró el pedido'}), 404
 
 
 if __name__ == '__main__':

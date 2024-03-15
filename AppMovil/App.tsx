@@ -5,6 +5,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import LoginScreen from './src/screen/LoginScreen';
 import RegisterScreen from './src/screen/RegisterScreen';
 import ShoppingScreen from './src/screen/ShoppingScreen';
+import OrderScreen from './src/screen/OrderScreen';
+import ReceiptScreen from './src/screen/ReceiptScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,7 +17,8 @@ export default function App(): JSX.Element {
         <Stack.Screen name = "LoginScreen" component = {LoginScreen} options = {{}} />
         <Stack.Screen name = "RegisterScreen" component = {RegisterScreen} options = {{}} />
         <Stack.Screen name = "ShoppingScreen" component = {ShoppingScreen} options = {{}} />
-
+        <Stack.Screen name = "OrderScreen" component = {OrderScreen} options = {{}} />
+        <Stack.Screen name = "ReceiptScreen" component = {ReceiptScreen} options = {{}} />
       </Stack.Navigator>
 
     </NavigationContainer>

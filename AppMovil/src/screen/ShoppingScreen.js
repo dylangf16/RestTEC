@@ -24,31 +24,41 @@ export default function MenuScreen({ navigation }) {
       });
   };
 
-  const addToCart = (dishID) => {
-    const newCart = [...cart, dishID]; // Add the selected dish ID to the cart
+  const addToCart = (dishID, dishName, dishPrice) => {
+    const dishData = {
+        nombre_plato: dishName,
+        precio: dishPrice,
+        id_plato: dishID
+      };
+    const newCart = [...cart, dishData]; // Add the selected dish ID to the cart
     setCart(newCart);
-    Alert.alert('Success', 'Item added to cart successfully.');
   };
 
   const removeFromCart = (dishID) => {
-    const updatedCart = cart.filter(id => id !== dishID); // Remove the dish from the cart
-    setCart(updatedCart);
-    Alert.alert('Success', 'Item removed from cart successfully.');
+    const indexToRemove = cart.findIndex(dish => dish.id_plato === dishID); // Find the index of the dish to remove
+    if (indexToRemove !== -1) {
+      const updatedCart = [...cart.slice(0, indexToRemove), ...cart.slice(indexToRemove + 1)]; // Remove the dish from the cart
+      setCart(updatedCart);
+    } else {
+      Alert.alert('Error', 'Item not found in cart.');
+    }
   };
-
+  
   const isItemInCart = (dishID) => {
-    return cart.includes(dishID);
+    return cart.some(dish => dish.id_plato === dishID);
   };
-
+  
   const getCartItemQuantity = (dishID) => {
-    return cart.filter(id => id === dishID).length; // Count the quantity of the specific dish in the cart
+    return cart.reduce((total, dish) => {
+      return dish.id_plato === dishID ? total + 1 : total;
+    }, 0);
   };
-
+  
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Menu</Text>
       <View style={styles.buttonContainer}>
-        <Button title="Realizar pedido" onPress={() => navigation.navigate('OrderScreen', { cartData: cart })} />
+        <Button title="Ver pedido" onPress={() => navigation.navigate('OrderScreen', { cartData: cart })} />
       </View>
       <View style={styles.menuContainer}>
         {dishes.map((dish, index) => (
@@ -61,7 +71,7 @@ export default function MenuScreen({ navigation }) {
           <Text>En carrito: {getCartItemQuantity(dish.id_plato)}</Text>
           <Button
             title="Añadir al carrito"
-            onPress={() => addToCart(dish.id_plato)}
+            onPress={() => addToCart(dish.id_plato, dish.nombre_plato, dish.precio)}
           />
           {isItemInCart(dish.id_plato) && (
             <Button title="Remover del carrito" onPress={() => removeFromCart(dish.id_plato)} />
