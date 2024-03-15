@@ -28,10 +28,8 @@ export default function App() {
       .then(response => {
         if (response.ok) {
           // Redirect to the next page upon successful login
-          // Add your redirection logic here
-          // For example:
-          // navigation.navigate('NextPage');
           Alert.alert('Inicio de sesion', 'Se ha iniciado sesion con exito.');
+          navigation.navigate('ShoppingScreen');
         } else {
           Alert.alert('Error', 'Correo electrónico o contraseña incorrectos.');
         }

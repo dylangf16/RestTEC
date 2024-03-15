@@ -77,25 +77,33 @@
             "nombre_plato": "Pizza Margarita",
             "precio": 10.99,
             "calorias": 800,
-            "tipo": "Pizza"
+            "tipo": "Pizza",
+            "id_plato": 100,
+            "duracionEstMin": 15
         },
         {
             "nombre_plato": "Ensalada C\u00c3\u00a9sar",
             "precio": 8.5,
             "calorias": 350,
-            "tipo": "Ensalada"
+            "tipo": "Ensalada",
+            "id_plato": 101,
+            "duracionEstMin": 15
         },
         {
             "nombre_plato": "Sushi Variado",
             "precio": 15.99,
             "calorias": 600,
-            "tipo": "Sushi"
+            "tipo": "Sushi",
+            "id_plato": 102,
+            "duracionEstMin": 15
         },
         {
             "nombre_plato": "Hamburguesa Cl\u00c3\u00a1sica",
             "precio": 12.99,
             "calorias": 1000,
-            "tipo": "Hamburguesa"
+            "tipo": "Hamburguesa",
+            "id_plato": 103,
+            "duracionEstMin": 15
         }
     ],
     "pedidos": [
