@@ -1,0 +1,44 @@
+{
+    "menu": [
+        {
+            "nombre_plato": "Pizza Margarita",
+            "descripcion": "Deliciosa pizza con salsa de tomate, mozzarella fresca y albahaca.",
+            "precio": 10.99,
+            "calorias": 800,
+            "tipo": "Pizza",
+            "id_plato": 100,
+            "duracionEstMin": 15,
+            "vendidos": 2
+        },
+        {
+            "nombre_plato": "Ensalada C\u00c3\u00a9sar",
+            "descripcion": "Ensalada fresca con lechuga romana, pollo a la parrilla, crutones, queso parmesano y aderezo C\u00c3\u00a9sar.",
+            "precio": 8.5,
+            "calorias": 350,
+            "tipo": "Ensalada",
+            "id_plato": 101,
+            "duracionEstMin": 15,
+            "vendidos": 4
+        },
+        {
+            "nombre_plato": "Sushi Variado",
+            "descripcion": "Selecci\u00c3\u00b3n de sushi fresco y variado, incluyendo nigiri, sashimi y rollos.",
+            "precio": 15.99,
+            "calorias": 600,
+            "tipo": "Sushi",
+            "id_plato": 102,
+            "duracionEstMin": 15,
+            "vendidos": 2
+        },
+        {
+            "nombre_plato": "Hamburguesa Cl\u00c3\u00a1sica",
+            "descripcion": "Jugosa hamburguesa de carne de res con queso cheddar, lechuga, tomate, cebolla y salsa especial.",
+            "precio": 12.99,
+            "calorias": 1000,
+            "tipo": "Hamburguesa",
+            "id_plato": 103,
+            "duracionEstMin": 15,
+            "vendidos": 1
+        }
+    ]
+}

@@ -1,47 +1,46 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, Alert, ScrollView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { setClientId } from '../globalVariables/clientID';
 
-
-const LoginScreen = ({ navigation }) => { // Don't forget to include 'navigation' in the props
-
+export default function App() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  console.log('Email:', email);
-  console.log('Password:', password);
+  const navigation = useNavigation();
 
   const handleLogin = () => {
-    // Create user data object
+    // Prepare user data
     const userData = {
-      correo: email, // Use 'correo' instead of 'email'
-      contrasena: password, // Use 'contrasena' instead of 'password'
+      correo: email,
+      contrasena: password
     };
 
-    // Send POST request to login endpoint
-    fetch(`http://10.0.2.2:5274/login`, { // Update the endpoint to '/login' and use the correct port
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(userData),
+    // Send POST request to Flask server for login
+    fetch('http://10.0.2.2:5274/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(userData),
+  })
+    .then(response => {
+      if (response.ok) {
+        response.json().then(data => {
+          const { client_id } = data;
+          // Set client ID in the global variable
+          setClientId(client_id);
+          Alert.alert('Inicio de sesion', 'Se ha iniciado sesion con exito.');
+          navigation.navigate('HomeScreen');
+        });
+      } else {
+        Alert.alert('Error', 'Correo electrónico o contraseña incorrectos.');
+      }
     })
-      .then(response => {
-        if (response.ok) {
-          Alert.alert('¡Inicio de sesión exitoso!');
-          // Here you could redirect the user to the menu screen
-        } else {
-          Alert.alert('Error', 'Credenciales incorrectas');
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        Alert.alert('Error', 'Hubo un problema al intentar iniciar sesión.');
-      });
-  };
-
-  const handleNavigateToRegister = () => {
-    navigation.navigate('Register');
-  };
+    .catch(error => {
+      console.error('Error:', error);
+      Alert.alert('Error', 'Hubo un problema al intentar iniciar sesión.');
+    });
+};
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -64,9 +63,10 @@ const LoginScreen = ({ navigation }) => { // Don't forget to include 'navigation
           <Button title="Iniciar Sesión" onPress={handleLogin} />
         </View>
 
-        <TouchableOpacity onPress={handleNavigateToRegister}>
-          <Text style={styles.registerText}>¿No tienes una cuenta? ¡Regístrate aquí!</Text>
-        </TouchableOpacity>
+        <View style={styles.buttonContainer}>
+        <Text style={styles.text}>¿Aún no tienes cuenta?</Text>
+        <Button title="Registrarse" onPress={() => navigation.navigate('RegisterScreen')} />
+        </View>
 
       </View>
     </ScrollView>
@@ -84,6 +84,10 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 20,
   },
+  text: {
+    fontSize: 14,
+    marginBottom: 10,
+  },
   formContainer: {
     width: '80%',
   },
@@ -98,5 +102,3 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 });
-
-export default LoginScreen;

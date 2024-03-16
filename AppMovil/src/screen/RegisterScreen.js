@@ -1,24 +1,48 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert, ScrollView, TouchableOpacity } from 'react-native';
-import config from '../../src/config/config'; // Import the configuration file
+import { StyleSheet, Text, View, TextInput, Button, Alert, ScrollView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-const ip = config.ip;
 
-const RegisterScreen = ( navigation) => {
-  const [name, setName] = useState('');
+const RegisterScreen = () => {
+  const [firstName, setFirstName] = useState('');
+  const [firstLastName, setFirstLastName] = useState('');
+  const [secondLastName, setSecondLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [idNumber, setIdNumber] = useState('');
+  const [birthDate, setBirthDate] = useState('');
+  const [phoneNumbers, setPhoneNumbers] = useState(['']);
+  const [province, setProvince] = useState('');
+  const [canton, setCanton] = useState('');
+  const [district, setDistrict] = useState('');
+  const navigation = useNavigation();
 
   const handleRegister = () => {
+    // Check if all required fields are filled
+    if (!firstName || !firstLastName || !secondLastName || !email || !password || !idNumber || !birthDate || !province || !canton || !district || phoneNumbers.some(number => !number.trim())) {
+      Alert.alert('Error', 'Todos los campos son obligatorios.');
+      return;
+    }
+
     // Create user data object
     const userData = {
-      nombre: name,
+      nombre: firstName,
+      apellido1: firstLastName,
+      apellido2: secondLastName,
       correo: email,
       contrasena: password,
+      cedula: idNumber,
+      fecha_nacimiento: birthDate,
+      telefonos: phoneNumbers.filter(number => number.trim()), // Remove empty phone numbers
+      direccion: {
+        provincia: province,
+        canton: canton,
+        distrito: district,
+      }
     };
 
     // Send POST request to Flask server
-    fetch('http://'+ ip +':5000/register', {
+    fetch('http://10.0.2.2:5274/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -28,6 +52,8 @@ const RegisterScreen = ( navigation) => {
       .then(response => {
         if (response.ok) {
           Alert.alert('Registro exitoso', '¡Tu cuenta ha sido creada exitosamente!');
+          navigation.navigate('LoginScreen');
+
         } else {
           Alert.alert('Error', 'El correo electrónico ya está registrado.');
         }
@@ -38,8 +64,14 @@ const RegisterScreen = ( navigation) => {
       });
   };
 
-  const handleNavigateBack = () => {
-    navigation.goBack();
+  const addPhoneNumber = () => {
+    setPhoneNumbers([...phoneNumbers, '']);
+  };
+
+  const handlePhoneNumberChange = (text, index) => {
+    const newPhoneNumbers = [...phoneNumbers];
+    newPhoneNumbers[index] = text;
+    setPhoneNumbers(newPhoneNumbers);
   };
 
   return (
@@ -48,9 +80,21 @@ const RegisterScreen = ( navigation) => {
       <View style={styles.formContainer}>
         <TextInput
           style={styles.input}
-          placeholder="Nombre completo"
-          onChangeText={(text) => setName(text)}
-          value={name}
+          placeholder="Nombre"
+          onChangeText={(text) => setFirstName(text)}
+          value={firstName}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Primer apellido"
+          onChangeText={(text) => setFirstLastName(text)}
+          value={firstLastName}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Segundo apellido"
+          onChangeText={(text) => setSecondLastName(text)}
+          value={secondLastName}
         />
         <TextInput
           style={styles.input}
@@ -65,12 +109,51 @@ const RegisterScreen = ( navigation) => {
           value={password}
           secureTextEntry={true}
         />
+        <TextInput
+          style={styles.input}
+          placeholder="Número de cédula"
+          onChangeText={(text) => setIdNumber(text)}
+          value={idNumber}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Fecha de nacimiento (YYYY-MM-DD)"
+          onChangeText={(text) => setBirthDate(text)}
+          value={birthDate}
+        />
+        {phoneNumbers.map((phoneNumber, index) => (
+          <TextInput
+            key={index}
+            style={styles.input}
+            placeholder="Teléfono"
+            onChangeText={(text) => handlePhoneNumberChange(text, index)}
+            value={phoneNumber}
+          />
+        ))}
+        <View style={styles.buttonContainer}>
+          <Button title="Agregar teléfono" onPress={addPhoneNumber} />
+        </View>
+        <TextInput
+          style={styles.input}
+          placeholder="Provincia"
+          onChangeText={(text) => setProvince(text)}
+          value={province}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Cantón"
+          onChangeText={(text) => setCanton(text)}
+          value={canton}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Distrito"
+          onChangeText={(text) => setDistrict(text)}
+          value={district}
+        />
         <View style={styles.buttonContainer}>
           <Button title="Registrarse" onPress={handleRegister} />
         </View>
-        <TouchableOpacity onPress={handleNavigateBack}>
-            <Text style={styles.backText}>Back to Login</Text>
-        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -98,7 +181,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   buttonContainer: {
-    marginTop: 20,
+    marginTop: 10,
+    marginBottom: 10,
   },
 });
 

@@ -12,9 +12,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 
-// Middleware to log incoming requests and their responses
-app.UseMiddleware<RequestLoggingMiddleware>();
-
 app.UseHttpsRedirection();
 
 // Map a route to handle login requests from JavaScript
@@ -31,7 +28,6 @@ app.MapPost("/login", async context =>
     var usuariosJsonPath = Path.Combine(Directory.GetCurrentDirectory(), "db", "usuarios.json");
     Console.WriteLine($"Usuarios JSON Path: {usuariosJsonPath}"); // Debugging output
 
-
     var usuariosJson = await File.ReadAllTextAsync(usuariosJsonPath);
     var usuariosObject = JsonSerializer.Deserialize<Dictionary<string, List<Usuario>>>(usuariosJson);
 
@@ -44,7 +40,14 @@ app.MapPost("/login", async context =>
         if (user != null)
         {
             context.Response.StatusCode = StatusCodes.Status200OK; // Set status code before writing to response
-            await context.Response.WriteAsync("Login successful");
+            var client_id = user.id; // Get the client ID
+            var responseData = new
+            {
+                message = "Inicio de sesión exitoso",
+                client_id = client_id
+            };
+            var jsonResponse = JsonSerializer.Serialize(responseData);
+            await context.Response.WriteAsync(jsonResponse);
         }
         else
         {
@@ -59,7 +62,6 @@ app.MapPost("/login", async context =>
     }
 });
 
-// Map a route to handle registration requests
 // Map a route to handle registration requests
 app.MapPost("/register", async context =>
 {
@@ -148,34 +150,188 @@ app.MapPost("/register", async context =>
     await context.Response.WriteAsync("Registro exitoso");
 });
 
+// Map a route to handle getting dishes
+app.MapGet("/dishes", async context =>
+{
+    // Access the JSON file to get the list of dishes
+    var dishesJsonPath = Path.Combine(Directory.GetCurrentDirectory(), "db", "menu.json");
+    Console.WriteLine($"Dishes JSON Path: {dishesJsonPath}"); // Debugging output
+
+    try
+    {
+        var dishesJson = await File.ReadAllTextAsync(dishesJsonPath);
+        var menuObject = JsonSerializer.Deserialize<Menu>(dishesJson);
+
+        // Return the list of dishes
+        context.Response.StatusCode = StatusCodes.Status200OK;
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsJsonAsync(new { dishes = menuObject.menu });
+    }
+    catch (Exception ex)
+    {
+        // Handle file read exception
+        Console.WriteLine($"Error reading menu.json file: {ex.Message}");
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        await context.Response.WriteAsync("Error reading menu.json file");
+    }
+});
+
+// Map a route to handle placing orders
+app.MapPost("/order", async context =>
+{
+    // Read request body
+    using var reader = new StreamReader(context.Request.Body);
+    var body = await reader.ReadToEndAsync();
+
+    // Deserialize JSON request body to obtain order data
+    var orderData = JsonSerializer.Deserialize<OrderData>(body);
+
+    // Access the JSON file to store the order
+    var pedidosJsonPath = Path.Combine(Directory.GetCurrentDirectory(), "db", "pedidos.json");
+    Console.WriteLine($"Pedidos JSON Path: {pedidosJsonPath}"); // Debugging output
+
+    // Read existing orders from the JSON file
+    List<Pedido> pedidos;
+    try
+    {
+        var pedidosJson = await File.ReadAllTextAsync(pedidosJsonPath);
+        var pedidosObject = JsonSerializer.Deserialize<Pedidos>(pedidosJson);
+        pedidos = pedidosObject?.pedidos ?? new List<Pedido>();
+    }
+    catch (Exception ex)
+    {
+        // Handle file read exception
+        Console.WriteLine($"Error reading pedidos.json file: {ex.Message}");
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        await context.Response.WriteAsync("Error reading pedidos.json file");
+        return;
+    }
+
+    // Generate a unique ID for the new order
+    int newId = pedidos.Count > 0 ? pedidos.Max(p => p.id_pedido) + 1 : 1;
+
+    // Create new order object
+    var newPedido = new Pedido(
+        newId,
+        orderData.id_cliente,
+        orderData.platos,
+        DateTime.UtcNow, // Use current UTC time for 'fecha_hora'
+        "Recibido por el restaurante" // Set initial status
+    );
+
+    // Add the new order to the list of orders
+    pedidos.Add(newPedido);
+
+    // Write updated data back to JSON file
+    try
+    {
+        var updatedJson = JsonSerializer.Serialize(new Pedidos(pedidos));
+        await File.WriteAllTextAsync(pedidosJsonPath, updatedJson);
+    }
+    catch (Exception ex)
+    {
+        // Handle file write exception
+        Console.WriteLine($"Error writing to pedidos.json file: {ex.Message}");
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        await context.Response.WriteAsync("Error writing to pedidos.json file");
+        return;
+    }
+
+    // Return success message with order ID
+    context.Response.StatusCode = StatusCodes.Status201Created;
+    await context.Response.WriteAsync($"{{ \"order_id\": {newId} }}");
+});
+
+// Map a route to handle fetching active orders for a specific client
+app.MapGet("/orders/{clientId}", async (int clientId, HttpContext context) =>
+{
+    // Access the JSON file to get the list of orders
+    var pedidosJsonPath = Path.Combine(Directory.GetCurrentDirectory(), "db", "pedidos.json");
+    Console.WriteLine($"Pedidos JSON Path: {pedidosJsonPath}"); // Debugging output
+
+    try
+    {
+        var pedidosJson = await File.ReadAllTextAsync(pedidosJsonPath);
+        var pedidosObject = JsonSerializer.Deserialize<Pedidos>(pedidosJson);
+
+        // Filter active orders for the specified client
+        var activeOrders = pedidosObject?.pedidos.Where(p => p.id_cliente == clientId && p.estado == "Recibido por el restaurante").ToList();
+
+        if (activeOrders != null && activeOrders.Any())
+        {
+            // Return the list of active orders
+            context.Response.StatusCode = StatusCodes.Status200OK;
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsJsonAsync(new { orders = activeOrders });
+        }
+        else
+        {
+            // No active orders found for the client
+            context.Response.StatusCode = StatusCodes.Status404NotFound;
+            await context.Response.WriteAsync($"No active orders found for client ID {clientId}");
+        }
+    }
+    catch (Exception ex)
+    {
+        // Handle file read exception
+        Console.WriteLine($"Error reading pedidos.json file: {ex.Message}");
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        await context.Response.WriteAsync("Error reading pedidos.json file");
+    }
+});
+
+// Map a route to handle fetching details of a specific order by its ID
+app.MapGet("/order/{orderId}", async (int orderId, HttpContext context) =>
+{
+    // Access the JSON file to get the list of orders
+    var pedidosJsonPath = Path.Combine(Directory.GetCurrentDirectory(), "db", "pedidos.json");
+    Console.WriteLine($"Pedidos JSON Path: {pedidosJsonPath}"); // Debugging output
+
+    try
+    {
+        var pedidosJson = await File.ReadAllTextAsync(pedidosJsonPath);
+        var pedidosObject = JsonSerializer.Deserialize<Pedidos>(pedidosJson);
+
+        // Find the order with the specified ID
+        var order = pedidosObject?.pedidos.FirstOrDefault(p => p.id_pedido == orderId);
+
+        if (order != null)
+        {
+            // Return the details of the order
+            context.Response.StatusCode = StatusCodes.Status200OK;
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsJsonAsync(order);
+        }
+        else
+        {
+            // No order found with the specified ID
+            context.Response.StatusCode = StatusCodes.Status404NotFound;
+            await context.Response.WriteAsync($"Order with ID {orderId} not found");
+        }
+    }
+    catch (Exception ex)
+    {
+        // Handle file read exception
+        Console.WriteLine($"Error reading pedidos.json file: {ex.Message}");
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        await context.Response.WriteAsync("Error reading pedidos.json file");
+    }
+});
+
 
 app.Run();
 
-// Request logging middleware
-public class RequestLoggingMiddleware
-{
-    private readonly RequestDelegate _next;
-
-    public RequestLoggingMiddleware(RequestDelegate next)
-    {
-        _next = next;
-    }
-
-    public async Task Invoke(HttpContext context)
-    {
-        // Log information about the incoming request
-        Console.WriteLine($"Received {context.Request.Method} request to {context.Request.Path}");
-
-        // Call the next middleware in the pipeline
-        await _next(context);
-
-        // Log information about the response
-        Console.WriteLine($"Response status code: {context.Response.StatusCode}");
-    }
-}
-
-// Models
+// Models login
 record LoginInfo(string correo, string contrasena);
 record Usuario(int id, string nombre, string apellido1, string apellido2, string correo, string contrasena, string cedula, string fecha_nacimiento, List<string> telefonos, Direccion direccion, string Rol);
+// Models Registration
 record RegistrationData(string nombre, string apellido1, string apellido2, string correo, string contrasena, string cedula, string fecha_nacimiento, List<string> telefonos, Direccion direccion);
 public record Direccion(string? provincia = null, string? canton = null, string? distrito = null);
+//Models Dishes
+public record Dish(string nombre_plato, string descripcion, decimal precio, int calorias, string tipo, int id_plato, int duracionEstMin, int vendidos, int cantidad);
+public record Menu(List<Dish> menu);
+//Models Orders
+public record OrderData(int id_cliente, List<Dish> platos);
+public record Pedido(int id_pedido, int id_cliente, List<Dish> platos, DateTime fecha_hora, string estado);
+public record Pedidos(List<Pedido> pedidos);
+

@@ -35,3 +35,4 @@ C:\Users\maest\Documents\TEC\github\BD\RestTEC\RestService\obj\Debug\net8.0\ref\
 C:\Users\maest\Documents\TEC\github\BD\RestTEC\RestService\bin\Debug\net8.0\db\usuarios.json
 C:\Users\maest\Documents\TEC\github\BD\RestTEC\RestService\bin\Debug\net8.0\db\menu.json
 C:\Users\maest\Documents\TEC\github\BD\RestTEC\RestService\bin\Debug\net8.0\db\pedidos.json
+C:\Users\maest\Documents\TEC\github\BD\RestTEC\RestService\bin\Debug\net8.0\db\platos.json
