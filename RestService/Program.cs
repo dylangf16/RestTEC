@@ -28,7 +28,9 @@ app.MapPost("/login", async context =>
     var loginInfo = JsonSerializer.Deserialize<LoginInfo>(body);
 
     // Access the JSON file to authenticate the user
-    var usuariosJsonPath = Path.Combine(AppContext.BaseDirectory, "db", "usuarios.json");
+    var usuariosJsonPath = Path.Combine(Directory.GetCurrentDirectory(), "db", "usuarios.json");
+    Console.WriteLine($"Usuarios JSON Path: {usuariosJsonPath}"); // Debugging output
+
 
     var usuariosJson = await File.ReadAllTextAsync(usuariosJsonPath);
     var usuariosObject = JsonSerializer.Deserialize<Dictionary<string, List<Usuario>>>(usuariosJson);
@@ -57,6 +59,96 @@ app.MapPost("/login", async context =>
     }
 });
 
+// Map a route to handle registration requests
+// Map a route to handle registration requests
+app.MapPost("/register", async context =>
+{
+    // Read request body
+    using var reader = new StreamReader(context.Request.Body);
+    var body = await reader.ReadToEndAsync();
+
+    // Deserialize JSON request body to obtain registration data
+    var registrationData = JsonSerializer.Deserialize<RegistrationData>(body);
+
+    // Access the JSON file to check for existing users
+    var usuariosJsonPath = Path.Combine(Directory.GetCurrentDirectory(), "db", "usuarios.json");
+    Console.WriteLine($"Usuarios JSON Path: {usuariosJsonPath}"); // Debugging output
+
+
+    // Read existing users from the JSON file
+    Dictionary<string, List<Usuario>> usuariosObject;
+    try
+    {
+        var usuariosJson = await File.ReadAllTextAsync(usuariosJsonPath);
+        usuariosObject = JsonSerializer.Deserialize<Dictionary<string, List<Usuario>>>(usuariosJson);
+    }
+    catch (Exception ex)
+    {
+        // Handle file read exception
+        Console.WriteLine($"Error reading usuarios.json file: {ex.Message}");
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        await context.Response.WriteAsync("Error reading usuarios.json file");
+        return;
+    }
+
+    // Check if the usuariosObject is null, if yes, initialize it
+    if (usuariosObject == null)
+    {
+        usuariosObject = new Dictionary<string, List<Usuario>>();
+        usuariosObject.Add("usuarios", new List<Usuario>());
+    }
+
+    // Check if the email already exists
+    var existingUser = usuariosObject["usuarios"]?.FirstOrDefault(u => u.correo == registrationData?.correo);
+    if (existingUser != null)
+    {
+        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+        await context.Response.WriteAsync("El correo electrónico ya está registrado");
+        return;
+    }
+
+    // Generate a unique ID for the new user
+    int newId = usuariosObject["usuarios"].Count > 0 ? usuariosObject["usuarios"].Max(u => u.id) + 1 : 1;
+
+    // Create new user object
+    var newUser = new Usuario(
+        newId,
+        registrationData.nombre,
+        registrationData.apellido1,
+        registrationData.apellido2,
+        registrationData.correo,
+        registrationData.contrasena,
+        registrationData.cedula,
+        registrationData.fecha_nacimiento,
+        registrationData.telefonos ?? new List<string>(),
+        registrationData.direccion ?? new Direccion(),
+        "cliente" // You can set the default role here
+    );
+
+    // Add the new user to the list of users
+    usuariosObject["usuarios"].Add(newUser);
+
+    // Write updated data back to JSON file
+    try
+    {
+        var updatedJson = JsonSerializer.Serialize(usuariosObject);
+        await File.WriteAllTextAsync(usuariosJsonPath, updatedJson);
+    }
+    catch (Exception ex)
+    {
+        // Handle file write exception
+        Console.WriteLine($"Error writing to usuarios.json file: {ex.Message}");
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        await context.Response.WriteAsync("Error writing to usuarios.json file");
+        return;
+    }
+
+    // Return success message
+    context.Response.StatusCode = StatusCodes.Status201Created;
+    await context.Response.WriteAsync("Registro exitoso");
+});
+
+
 app.Run();
 
 // Request logging middleware
@@ -84,5 +176,6 @@ public class RequestLoggingMiddleware
 
 // Models
 record LoginInfo(string correo, string contrasena);
-
-record Usuario(string Nombre, string correo, string contrasena, string Rol);
+record Usuario(int id, string nombre, string apellido1, string apellido2, string correo, string contrasena, string cedula, string fecha_nacimiento, List<string> telefonos, Direccion direccion, string Rol);
+record RegistrationData(string nombre, string apellido1, string apellido2, string correo, string contrasena, string cedula, string fecha_nacimiento, List<string> telefonos, Direccion direccion);
+public record Direccion(string? provincia = null, string? canton = null, string? distrito = null);

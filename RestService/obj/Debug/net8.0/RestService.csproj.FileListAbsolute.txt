@@ -33,3 +33,5 @@ C:\Users\maest\Documents\TEC\github\BD\RestTEC\RestService\obj\Debug\net8.0\Rest
 C:\Users\maest\Documents\TEC\github\BD\RestTEC\RestService\obj\Debug\net8.0\RestService.genruntimeconfig.cache
 C:\Users\maest\Documents\TEC\github\BD\RestTEC\RestService\obj\Debug\net8.0\ref\RestService.dll
 C:\Users\maest\Documents\TEC\github\BD\RestTEC\RestService\bin\Debug\net8.0\db\usuarios.json
+C:\Users\maest\Documents\TEC\github\BD\RestTEC\RestService\bin\Debug\net8.0\db\menu.json
+C:\Users\maest\Documents\TEC\github\BD\RestTEC\RestService\bin\Debug\net8.0\db\pedidos.json

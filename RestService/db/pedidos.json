@@ -1,0 +1,83 @@
+{
+    "pedidos": [
+        {
+            "id_pedido": 1,
+            "id_cliente": 106,
+            "platos": [
+                {
+                    "id_plato": 100,
+                    "nombre_plato": "Pizza Margarita",
+                    "precio": 10.99,
+                    "duracionEstMin": 15,
+                    "cantidad": 1
+                },
+                {
+                    "id_plato": 101,
+                    "nombre_plato": "Ensalada C\u00c3\u00a9sar",
+                    "precio": 8.5,
+                    "duracionEstMin": 15,
+                    "cantidad": 2
+                }
+            ],
+            "monto_total": "55.98",
+            "fecha_hora": "2024-03-16T07:29:14Z",
+            "hora_finalizacion": "2024-03-16T08:14:14Z",
+            "estado": "Recibido por el restaurante"
+        },
+        {
+            "id_pedido": 2,
+            "id_cliente": 106,
+            "platos": [
+                {
+                    "id_plato": 102,
+                    "nombre_plato": "Sushi Variado",
+                    "precio": 15.99,
+                    "duracionEstMin": 15,
+                    "cantidad": 1
+                },
+                {
+                    "id_plato": 103,
+                    "nombre_plato": "Hamburguesa Cl\u00c3\u00a1sica",
+                    "precio": 12.99,
+                    "duracionEstMin": 15,
+                    "cantidad": 1
+                }
+            ],
+            "monto_total": "57.96",
+            "fecha_hora": "2024-03-16T07:30:54Z",
+            "hora_finalizacion": "2024-03-16T08:00:54Z",
+            "estado": "Recibido por el restaurante"
+        },
+        {
+            "id_pedido": 3,
+            "id_cliente": 106,
+            "platos": [
+                {
+                    "id_plato": 100,
+                    "nombre_plato": "Pizza Margarita",
+                    "precio": 10.99,
+                    "duracionEstMin": 15,
+                    "cantidad": 1
+                },
+                {
+                    "id_plato": 101,
+                    "nombre_plato": "Ensalada C\u00c3\u00a9sar",
+                    "precio": 8.5,
+                    "duracionEstMin": 15,
+                    "cantidad": 2
+                },
+                {
+                    "id_plato": 102,
+                    "nombre_plato": "Sushi Variado",
+                    "precio": 15.99,
+                    "duracionEstMin": 15,
+                    "cantidad": 1
+                }
+            ],
+            "monto_total": "43.98",
+            "fecha_hora": "2024-03-16T07:32:21Z",
+            "hora_finalizacion": "2024-03-16T08:32:21Z",
+            "estado": "Recibido por el restaurante"
+        }
+    ]
+}

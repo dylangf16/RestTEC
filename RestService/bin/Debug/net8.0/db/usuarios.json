@@ -41,86 +41,26 @@
             "correo": "admin@sis.com",
             "contrasena": "123456",
             "rol": "cliente"
-        }
-    ],
-    "platos": [
-        {
-            "nombre": "Pizza Margarita",
-            "descripcion": "Deliciosa pizza con salsa de tomate, mozzarella fresca y albahaca.",
-            "vendidos": 0
         },
         {
-            "nombre": "Ensalada C\u00c3\u00a9sar",
-            "descripcion": "Ensalada fresca con lechuga romana, pollo a la parrilla, crutones, queso parmesano y aderezo C\u00c3\u00a9sar.",
-            "vendidos": 0
-        },
-        {
-            "nombre": "Sushi Variado",
-            "descripcion": "Selecci\u00c3\u00b3n de sushi fresco y variado, incluyendo nigiri, sashimi y rollos.",
-            "vendidos": 0
-        },
-        {
-            "nombre": "Hamburguesa Cl\u00c3\u00a1sica",
-            "descripcion": "Jugosa hamburguesa de carne de res con queso cheddar, lechuga, tomate, cebolla y salsa especial.",
-            "vendidos": 0
-        }
-    ],
-    "menu": [
-        {
-            "nombre_plato": "Pizza Margarita",
-            "precio": 10.99,
-            "calorias": 800,
-            "tipo": "Pizza"
-        },
-        {
-            "nombre_plato": "Ensalada C\u00c3\u00a9sar",
-            "precio": 8.5,
-            "calorias": 350,
-            "tipo": "Ensalada"
-        },
-        {
-            "nombre_plato": "Sushi Variado",
-            "precio": 15.99,
-            "calorias": 600,
-            "tipo": "Sushi"
-        },
-        {
-            "nombre_plato": "Hamburguesa Cl\u00c3\u00a1sica",
-            "precio": 12.99,
-            "calorias": 1000,
-            "tipo": "Hamburguesa"
-        }
-    ],
-    "pedidos": [
-        {
-            "id": 1,
-            "descripcion": "Pedido de cliente A",
-            "tiempo_limite": "2024-03-30T14:30:00Z",
-            "chef_id": 100
-        },
-        {
-            "id": 2,
-            "descripcion": "Pedido de cliente B",
-            "tiempo_limite": "2024-03-31T10:00:00Z",
-            "chef_id": 100
-        },
-        {
-            "id": 3,
-            "descripcion": "Pedido de cliente C",
-            "tiempo_limite": "2024-03-31T10:00:00Z",
-            "chef_id": 101
-        },
-        {
-            "id": 4,
-            "descripcion": "Pedido de cliente D",
-            "tiempo_limite": "2024-04-01T13:00:00Z",
-            "chef_id": 0
-        },
-        {
-            "id": 5,
-            "descripcion": "Pedido de cliente E",
-            "tiempo_limite": "2024-04-01T12:00:00Z",
-            "chef_id": 0
+            "id": 106,
+            "nombre": "Ale",
+            "apellido1": "Rodriguez",
+            "apellido2": "castro",
+            "correo": "alerod@hotmail.com",
+            "contrasena": "aleeee",
+            "cedula": "1234567",
+            "fecha_nacimiento": "2002-12-07",
+            "telefonos": [
+                "8112821",
+                "1234565"
+            ],
+            "direccion": {
+                "provincia": "alajuela",
+                "canton": "poas",
+                "distrito": "san pedro"
+            },
+            "rol": "cliente"
         }
     ]
 }
