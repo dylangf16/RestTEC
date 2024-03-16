@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, ScrollView, Alert } from 'react-native';
+import { View, Text, Button, ScrollView, Alert, StyleSheet } from 'react-native';
 import config from '../../src/config/config'; // Import the configuration file
 import { getClientId } from '../globalVariables/clientID';
 
@@ -22,7 +22,7 @@ export default function OrderScreen({ route, navigation }) {
       // Prepare order data
       const orderData = {
         client_id: clientId, // Add the client ID to the order data
-        platos: Object.values(groupedCartData).map(dish => dish.id_plato) // Extract dish IDs from groupedCartData
+        platos: Object.values(cartData).map(dish => dish.id_plato) // Extract dish IDs from groupedCartData
       };
   
       // Send POST request to API for placing the order
@@ -56,20 +56,55 @@ export default function OrderScreen({ route, navigation }) {
   
     return (
       <ScrollView>
-        <View style={{ margin: 20 }}>
+        <View style={styles.container}>
+          <Text style={styles.title}>Resumen del Pedido</Text>
           {Object.values(groupedCartData).map((dish, index) => (
-            <View key={index} style={{ marginBottom: 10 }}>
-              <Text>{dish.nombre_plato} - Cantidad: {dish.quantity} - Precio unitario: ${dish.precio}</Text>
+            <View key={index} style={styles.itemContainer}>
+              <Text style={styles.itemText}>{dish.nombre_plato}</Text>
+              <Text style={styles.itemText}>Cantidad: {dish.quantity}</Text>
+              <Text style={styles.itemText}>Precio unitario: ${dish.precio}</Text>
             </View>
           ))}
-          <View style={{ marginTop: 20 }}>
-            <Text>Total: ${calculateTotalPrice()}</Text>
+          <View style={styles.totalContainer}>
+            <Text style={styles.totalText}>Total: ${calculateTotalPrice()}</Text>
           </View>
-          <View style={{ marginTop: 20 }}>
+          <View style={styles.buttonContainer}>
             <Button title="Confirmar pedido" onPress={sendOrderToAPI} />
           </View>
         </View>
       </ScrollView>
     );
-  }
-  
+}
+
+const styles = StyleSheet.create({
+  container: {
+    margin: 20,
+    padding: 20,
+    backgroundColor: '#f0f0f0',
+    borderRadius: 10,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  itemContainer: {
+    marginBottom: 10,
+  },
+  itemText: {
+    fontSize: 16,
+  },
+  totalContainer: {
+    marginTop: 20,
+    borderTopWidth: 1,
+    borderTopColor: '#ccc',
+    paddingTop: 10,
+  },
+  totalText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  buttonContainer: {
+    marginTop: 20,
+  },
+});

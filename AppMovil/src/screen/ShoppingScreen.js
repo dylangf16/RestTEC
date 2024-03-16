@@ -58,7 +58,7 @@ export default function MenuScreen({ navigation }) {
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Menu</Text>
       <View style={styles.buttonContainer}>
-        <Button title="Ver pedido" onPress={() => navigation.navigate('OrderScreen', { cartData: cart })} />
+        <Button title="Ver mi pedido" onPress={() => navigation.navigate('OrderScreen', { cartData: cart })} />
       </View>
       <View style={styles.menuContainer}>
         {dishes.map((dish, index) => (
@@ -69,12 +69,18 @@ export default function MenuScreen({ navigation }) {
           <Text>Tipo: {dish.tipo}</Text>
           <Text>Calorias: {dish.calorias}</Text>
           <Text>En carrito: {getCartItemQuantity(dish.id_plato)}</Text>
+          <View style={styles.buttonContainer}>
           <Button
             title="Añadir al carrito"
-            onPress={() => addToCart(dish.id_plato, dish.nombre_plato, dish.precio)}
-          />
+            color = "green"
+            onPress={() => addToCart(dish.id_plato, dish.nombre_plato, dish.precio)}/>
+          </View>
           {isItemInCart(dish.id_plato) && (
-            <Button title="Remover del carrito" onPress={() => removeFromCart(dish.id_plato)} />
+            <View style={styles.buttonContainer}>
+            <Button title="Remover del carrito" onPress={() => removeFromCart(dish.id_plato)} 
+            color = "red"
+            />
+            </View>
           )}
         </View>
         ))}
@@ -106,6 +112,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   buttonContainer: {
-    marginTop: 20,
+    marginTop: 15,
+    marginBottom: 15,
   },
 });

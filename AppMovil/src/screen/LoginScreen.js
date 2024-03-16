@@ -33,7 +33,7 @@ export default function App() {
           // Set client ID in the global variable
           setClientId(client_id);
           Alert.alert('Inicio de sesion', 'Se ha iniciado sesion con exito.');
-          navigation.navigate('ShoppingScreen');
+          navigation.navigate('HomeScreen');
         });
       } else {
         Alert.alert('Error', 'Correo electrónico o contraseña incorrectos.');
@@ -67,7 +67,8 @@ export default function App() {
         </View>
 
         <View style={styles.buttonContainer}>
-        <Button title="Register" onPress={() => navigation.navigate('RegisterScreen')} />
+        <Text style={styles.text}>¿Aún no tienes cuenta?</Text>
+        <Button title="Registrarse" onPress={() => navigation.navigate('RegisterScreen')} />
         </View>
 
       </View>
@@ -85,6 +86,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     marginBottom: 20,
+  },
+  text: {
+    fontSize: 14,
+    marginBottom: 10,
   },
   formContainer: {
     width: '80%',
