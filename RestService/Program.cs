@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
@@ -76,7 +77,6 @@ app.MapPost("/register", async context =>
     var usuariosJsonPath = Path.Combine(Directory.GetCurrentDirectory(), "db", "usuarios.json");
     Console.WriteLine($"Usuarios JSON Path: {usuariosJsonPath}"); // Debugging output
 
-
     // Read existing users from the JSON file
     Dictionary<string, List<Usuario>> usuariosObject;
     try
@@ -130,10 +130,14 @@ app.MapPost("/register", async context =>
     // Add the new user to the list of users
     usuariosObject["usuarios"].Add(newUser);
 
-    // Write updated data back to JSON file
+    // Write updated data back to JSON file with indented formatting
     try
     {
-        var updatedJson = JsonSerializer.Serialize(usuariosObject);
+        var options = new JsonSerializerOptions
+        {
+            WriteIndented = true
+        };
+        var updatedJson = JsonSerializer.Serialize(usuariosObject, options);
         await File.WriteAllTextAsync(usuariosJsonPath, updatedJson);
     }
     catch (Exception ex)
@@ -188,7 +192,7 @@ app.MapPost("/order", async context =>
 
     // Access the JSON file to store the order
     var pedidosJsonPath = Path.Combine(Directory.GetCurrentDirectory(), "db", "pedidos.json");
-    Console.WriteLine($"Pedidos JSON Path: {pedidosJsonPath}"); // Debugging output
+    var menuJsonPath = Path.Combine(Directory.GetCurrentDirectory(), "db", "menu.json");
 
     // Read existing orders from the JSON file
     List<Pedido> pedidos;
@@ -207,33 +211,88 @@ app.MapPost("/order", async context =>
         return;
     }
 
+    // Read the menu from the JSON file
+    List<Dish> menu;
+    try
+    {
+        var menuJson = await File.ReadAllTextAsync(menuJsonPath);
+        var menuObject = JsonSerializer.Deserialize<Menu>(menuJson);
+        menu = menuObject?.menu ?? new List<Dish>();
+    }
+    catch (Exception ex)
+    {
+        // Handle file read exception
+        Console.WriteLine($"Error reading menu.json file: {ex.Message}");
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        await context.Response.WriteAsync("Error reading menu.json file");
+        return;
+    }
+
     // Generate a unique ID for the new order
     int newId = pedidos.Count > 0 ? pedidos.Max(p => p.id_pedido) + 1 : 1;
+
+    var orderedDishes = new List<Dish>();
+    foreach (var plato in orderData.platos)
+    {
+        Dish dish = menu.FirstOrDefault(d => d.id_plato == plato.id_plato);
+        if (dish != null)
+        {
+            // Create a new Dish object and set the cantidad property
+            var orderedDish = new Dish(dish.nombre_plato, dish.descripcion, dish.precio, dish.calorias,  dish.tipo, dish.id_plato, dish.duracionEstMin, dish.vendidos, plato.cantidad);
+
+            orderedDishes.Add(orderedDish);
+        }
+        else
+        {
+            // Handle case where plato ID is not found in the menu
+            Console.WriteLine($"Plato with ID {plato.id_plato} not found in the menu");
+        }
+    }
+
+
+
+    // Calculate the estimated time
+    double estimatedTime = 0;
+    foreach (var plato in orderedDishes)
+    {
+        estimatedTime += plato.duracionEstMin;
+    }
 
     // Create new order object
     var newPedido = new Pedido(
         newId,
         orderData.id_cliente,
-        orderData.platos,
+        orderedDishes,
         DateTime.UtcNow, // Use current UTC time for 'fecha_hora'
-        "Recibido por el restaurante" // Set initial status
+        "Recibido por el restaurante", // Set initial status
+        orderData.total, // Add total amount to the order
+        estimatedTime // Add estimated time to the order
     );
 
     // Add the new order to the list of orders
     pedidos.Add(newPedido);
 
-    // Write updated data back to JSON file
+    // Write updated data back to JSON file with indented formatting
     try
     {
-        var updatedJson = JsonSerializer.Serialize(new Pedidos(pedidos));
+        var options = new JsonSerializerOptions
+        {
+            WriteIndented = true
+        };
+
+        var updatedJson = JsonSerializer.Serialize(new Pedidos(pedidos), options);
         await File.WriteAllTextAsync(pedidosJsonPath, updatedJson);
+
+        // Write updated menu back to JSON file with indented formatting
+        var updatedMenuJson = JsonSerializer.Serialize(new Menu(menu), options);
+        await File.WriteAllTextAsync(menuJsonPath, updatedMenuJson);
     }
     catch (Exception ex)
     {
         // Handle file write exception
-        Console.WriteLine($"Error writing to pedidos.json file: {ex.Message}");
+        Console.WriteLine($"Error writing to files: {ex.Message}");
         context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-        await context.Response.WriteAsync("Error writing to pedidos.json file");
+        await context.Response.WriteAsync("Error writing to files");
         return;
     }
 
@@ -241,6 +300,35 @@ app.MapPost("/order", async context =>
     context.Response.StatusCode = StatusCodes.Status201Created;
     await context.Response.WriteAsync($"{{ \"order_id\": {newId} }}");
 });
+
+
+// Map a route to retrieve the menu
+app.MapGet("/menu", async context =>
+{
+    // Access the JSON file to get the list of dishes
+    var dishesJsonPath = Path.Combine(Directory.GetCurrentDirectory(), "db", "menu.json");
+    Console.WriteLine($"Dishes JSON Path: {dishesJsonPath}"); // Debugging output
+
+    try
+    {
+        var dishesJson = await File.ReadAllTextAsync(dishesJsonPath);
+        var menuObject = JsonSerializer.Deserialize<Menu>(dishesJson);
+
+        // Return the list of dishes
+        context.Response.StatusCode = StatusCodes.Status200OK;
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsJsonAsync(new { dishes = menuObject.menu });
+    }
+    catch (Exception ex)
+    {
+        // Handle file read exception
+        Console.WriteLine($"Error reading menu.json file: {ex.Message}");
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        await context.Response.WriteAsync("Error reading menu.json file");
+    }
+});
+
+
 
 // Map a route to handle fetching active orders for a specific client
 app.MapGet("/orders/{clientId}", async (int clientId, HttpContext context) =>
@@ -457,8 +545,8 @@ public record Direccion(string? provincia = null, string? canton = null, string?
 public record Dish(string nombre_plato, string descripcion, decimal precio, int calorias, string tipo, int id_plato, int duracionEstMin, int vendidos, int cantidad);
 public record Menu(List<Dish> menu);
 //Models Orders
-public record OrderData(int id_cliente, List<Dish> platos);
-public record Pedido(int id_pedido, int id_cliente, List<Dish> platos, DateTime fecha_hora, string estado);
+public record OrderData(int id_cliente, List<Dish> platos, double total);
+public record Pedido(int id_pedido, int id_cliente, List<Dish> platos, DateTime fecha_hora, string estado, double montoTotal, double tiempoEstimado);
 public record Pedidos(List<Pedido> pedidos);
 //Model Update
 public record UpdateData(string nombre, string apellido1, string apellido2, string correo, string contrasena, string cedula, string fecha_nacimiento, List<string> telefonos, Direccion direccion);

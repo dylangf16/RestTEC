@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\RestTEC\\RestService\\RestService.csproj": {}
+    "C:\\Users\\ale-r\\OneDrive\\Documents\\GitHub\\RestTEC\\RestService\\RestService.csproj": {}
   },
   "projects": {
-    "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\RestTEC\\RestService\\RestService.csproj": {
+    "C:\\Users\\ale-r\\OneDrive\\Documents\\GitHub\\RestTEC\\RestService\\RestService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\RestTEC\\RestService\\RestService.csproj",
+        "projectUniqueName": "C:\\Users\\ale-r\\OneDrive\\Documents\\GitHub\\RestTEC\\RestService\\RestService.csproj",
         "projectName": "RestService",
-        "projectPath": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\RestTEC\\RestService\\RestService.csproj",
-        "packagesPath": "C:\\Users\\maest\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\maest\\Documents\\TEC\\github\\BD\\RestTEC\\RestService\\obj\\",
+        "projectPath": "C:\\Users\\ale-r\\OneDrive\\Documents\\GitHub\\RestTEC\\RestService\\RestService.csproj",
+        "packagesPath": "C:\\Users\\ale-r\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ale-r\\OneDrive\\Documents\\GitHub\\RestTEC\\RestService\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\maest\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\ale-r\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -32,11 +32,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -71,7 +66,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.203/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Users\\ale-r\\.dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,7 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ScrollView, Button, Alert } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Button,
+  Alert,
+  ImageBackground,
+} from 'react-native';
 
-export default function MenuScreen({ navigation }) {
+export default function MenuScreen({navigation}) {
   const [dishes, setDishes] = useState([]);
   const [cart, setCart] = useState([]);
 
@@ -22,80 +30,126 @@ export default function MenuScreen({ navigation }) {
   };
 
   const addToCart = (dishID, dishName, dishPrice) => {
-    const dishData = {
-        nombre_plato: dishName,
-        precio: dishPrice,
-        id_plato: dishID
-      };
-    const newCart = [...cart, dishData]; // Add the selected dish ID to the cart
-    setCart(newCart);
+    const existingDishIndex = cart.findIndex(dish => dish.id_plato === dishID);
+    if (existingDishIndex !== -1) {
+      const updatedCart = [...cart];
+      updatedCart[existingDishIndex].cantidad++; // Increase quantity if the dish already exists in the cart
+      setCart(updatedCart);
+    } else {
+      const newCart = [
+        ...cart,
+        {
+          id_plato: dishID,
+          nombre_plato: dishName,
+          precio: dishPrice,
+          cantidad: 1,
+        },
+      ];
+      setCart(newCart);
+    }
   };
 
-  const removeFromCart = (dishID) => {
-    const indexToRemove = cart.findIndex(dish => dish.id_plato === dishID); // Find the index of the dish to remove
-    if (indexToRemove !== -1) {
-      const updatedCart = [...cart.slice(0, indexToRemove), ...cart.slice(indexToRemove + 1)]; // Remove the dish from the cart
+  const removeFromCart = dishID => {
+    const existingDishIndex = cart.findIndex(dish => dish.id_plato === dishID);
+    if (existingDishIndex !== -1) {
+      const updatedCart = [...cart];
+      if (updatedCart[existingDishIndex].cantidad > 1) {
+        updatedCart[existingDishIndex].cantidad--; // Decrease quantity if more than one item exists
+      } else {
+        updatedCart.splice(existingDishIndex, 1); // Remove the dish from the cart if only one item exists
+      }
       setCart(updatedCart);
     } else {
       Alert.alert('Error', 'Item not found in cart.');
     }
   };
-  
-  const isItemInCart = (dishID) => {
+  const isItemInCart = dishID => {
     return cart.some(dish => dish.id_plato === dishID);
   };
-  
-  const getCartItemQuantity = (dishID) => {
+
+  const getCartItemQuantity = dishID => {
     return cart.reduce((total, dish) => {
-      return dish.id_plato === dishID ? total + 1 : total;
+      return dish.id_plato === dishID ? total + dish.cantidad : total;
     }, 0);
   };
-  
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Menu</Text>
-      <View style={styles.buttonContainer}>
-        <Button title="Ver mi pedido" onPress={() => navigation.navigate('OrderScreen', { cartData: cart })} />
-      </View>
-      <View style={styles.menuContainer}>
-        {dishes.map((dish, index) => (
-          <View key={index} style={styles.dishContainer}>
-          <Text>Nombre: {dish.nombre_plato}</Text>
-          <Text>Descripción: {dish.descripcion}</Text>
-          <Text>Precio: ${dish.precio}</Text>
-          <Text>Tipo: {dish.tipo}</Text>
-          <Text>Calorias: {dish.calorias}</Text>
-          <Text>En carrito: {getCartItemQuantity(dish.id_plato)}</Text>
-          <View style={styles.buttonContainer}>
+    <ImageBackground
+      source={require('../Images/foodWallpaper.jpg')}
+      style={styles.background}
+      resizeMode="cover">
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.title}>Menú</Text>
+        <View style={styles.buttonContainer}>
           <Button
-            title="Añadir al carrito"
-            color = "green"
-            onPress={() => addToCart(dish.id_plato, dish.nombre_plato, dish.precio)}/>
-          </View>
-          {isItemInCart(dish.id_plato) && (
-            <View style={styles.buttonContainer}>
-            <Button title="Remover del carrito" onPress={() => removeFromCart(dish.id_plato)} 
-            color = "red"
-            />
-            </View>
-          )}
+            title="Ver mi pedido"
+            color="#841584"
+            onPress={() => navigation.navigate('OrderScreen', {cartData: cart})}
+          />
         </View>
-        ))}
-      </View>
-    </ScrollView>
+        <View style={styles.menuContainer}>
+          {dishes.map((dish, index) => (
+            <View key={index} style={styles.dishContainer}>
+              <Text style={styles.dishTitle}>Nombre: {dish.nombre_plato}</Text>
+              <Text style={styles.dishDetail}>
+                Descripción: {dish.descripcion}
+              </Text>
+              <Text style={styles.dishDetail}>Precio: ${dish.precio}</Text>
+              <Text style={styles.dishDetail}>Tipo: {dish.tipo}</Text>
+              <Text style={styles.dishDetail}>Calorías: {dish.calorias}</Text>
+              <Text style={styles.dishDetail}>
+                En carrito: {getCartItemQuantity(dish.id_plato)}
+              </Text>
+              <View style={styles.buttonContainer}>
+                <Button
+                  title="Añadir al carrito"
+                  color="#6E8B3D" // Dark olive green
+                  onPress={() =>
+                    addToCart(dish.id_plato, dish.nombre_plato, dish.precio)
+                  }
+                />
+              </View>
+              {isItemInCart(dish.id_plato) && (
+                <View style={styles.buttonContainer}>
+                  <Button
+                    title="Remover del carrito"
+                    onPress={() => removeFromCart(dish.id_plato)}
+                    color="#8B0000" // Dark red
+                  />
+                </View>
+              )}
+            </View>
+          ))}
+        </View>
+      </ScrollView>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
   },
   title: {
-    fontSize: 24,
-    marginBottom: 20,
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#fff',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10,
+  },
+  buttonContainer: {
+    marginTop: 15,
+    marginBottom: 15,
   },
   menuContainer: {
     width: '80%',
@@ -107,9 +161,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
   },
-  buttonContainer: {
-    marginTop: 15,
-    marginBottom: 15,
+  dishTitle: {
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  dishDetail: {
+    marginBottom: 5,
   },
 });
