@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, Alert, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { getClientId } from '../globalVariables/clientID';
 
-
-const RegisterScreen = () => {
+const UpdateScreen = () => {
   const [firstName, setFirstName] = useState('');
   const [firstLastName, setFirstLastName] = useState('');
   const [secondLastName, setSecondLastName] = useState('');
@@ -17,7 +17,9 @@ const RegisterScreen = () => {
   const [district, setDistrict] = useState('');
   const navigation = useNavigation();
 
-  const handleRegister = () => {
+  const userId = getClientId();
+
+  const handleUpdate = () => {
     // Check if all required fields are filled
     if (!firstName || !firstLastName || !secondLastName || !email || !password || !idNumber || !birthDate || !province || !canton || !district || phoneNumbers.some(number => !number.trim())) {
       Alert.alert('Error', 'Todos los campos son obligatorios.');
@@ -26,6 +28,7 @@ const RegisterScreen = () => {
 
     // Create user data object
     const userData = {
+        userId: userId,
       nombre: firstName,
       apellido1: firstLastName,
       apellido2: secondLastName,
@@ -41,9 +44,9 @@ const RegisterScreen = () => {
       }
     };
 
-    // Send POST request to Flask server
-    fetch('http://10.0.2.2:5274/register', {
-      method: 'POST',
+    // Send PUT request to update user information
+    fetch(`http://10.0.2.2:5274/update/${userId}`, {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -51,16 +54,15 @@ const RegisterScreen = () => {
     })
       .then(response => {
         if (response.ok) {
-          Alert.alert('Registro exitoso', '¡Tu cuenta ha sido creada exitosamente!');
-          navigation.navigate('LoginScreen');
-
+          Alert.alert('Actualización exitosa', '¡Tu información ha sido actualizada exitosamente!');
+          navigation.navigate('HomeScreen'); // Navigate to the profile screen
         } else {
-          Alert.alert('Error', 'El correo electrónico ya está registrado.');
+          Alert.alert('Error', 'Hubo un problema al intentar actualizar la información.');
         }
       })
       .catch(error => {
         console.error('Error:', error);
-        Alert.alert('Error', 'Hubo un problema al intentar registrar la cuenta.');
+        Alert.alert('Error', 'Hubo un problema al intentar actualizar la información.');
       });
   };
 
@@ -74,9 +76,45 @@ const RegisterScreen = () => {
     setPhoneNumbers(newPhoneNumbers);
   };
 
+  const handleDeleteAccount = () => {
+    // Confirm with the user before deleting the account
+    Alert.alert(
+      'Eliminar cuenta',
+      '¿Estás seguro que deseas eliminar tu cuenta?',
+      [
+        {
+          text: 'Cancelar',
+          onPress: () => console.log('Cancelado'),
+          style: 'cancel',
+        },
+        { text: 'Eliminar', onPress: deleteAccount },
+      ],
+      { cancelable: false }
+    );
+  };
+
+  const deleteAccount = () => {
+    // Send DELETE request to delete the account
+    fetch(`http://10.0.2.2:5274/delete/${userId}`, {
+      method: 'DELETE',
+    })
+      .then(response => {
+        if (response.ok) {
+          Alert.alert('Cuenta eliminada', 'Tu cuenta ha sido eliminada exitosamente.');
+          navigation.navigate('LoginScreen'); // Navigate to the home screen
+        } else {
+          Alert.alert('Error', 'Hubo un problema al intentar eliminar la cuenta.');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        Alert.alert('Error', 'Hubo un problema al intentar eliminar la cuenta.');
+      });
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Registro</Text>
+      <Text style={styles.title}>Actualizar Información</Text>
       <View style={styles.formContainer}>
         <TextInput
           style={styles.input}
@@ -152,8 +190,11 @@ const RegisterScreen = () => {
           value={district}
         />
         <View style={styles.buttonContainer}>
-          <Button title="Registrarse" onPress={handleRegister} />
+          <Button title="Actualizar" onPress={handleUpdate} />
         </View>
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button title="Eliminar cuenta" onPress={handleDeleteAccount} color="red" />
       </View>
     </ScrollView>
   );
@@ -186,4 +227,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RegisterScreen;
+export default UpdateScreen;

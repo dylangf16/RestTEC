@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, Alert, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import config from '../../src/config/config'; // Import the configuration file
 import { setClientId } from '../globalVariables/clientID';
-
-const ip = config.ip;
 
 export default function App() {
   const [email, setEmail] = useState('');
@@ -19,7 +16,7 @@ export default function App() {
     };
 
     // Send POST request to Flask server for login
-    fetch('http://'+ ip +':5000/login', {
+    fetch('http://10.0.2.2:5274/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

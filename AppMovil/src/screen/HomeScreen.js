@@ -20,6 +20,12 @@ const HomeScreen = ({ navigation }) => {
       </View>
       <View style={styles.buttonContainer}>
         <Button
+          title="Actualizar mi cuenta"
+          onPress={() => navigation.navigate('UpdateScreen')}
+        />
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button
           title="Cerrar sesion"
           onPress={() => {
             setClientId(null);

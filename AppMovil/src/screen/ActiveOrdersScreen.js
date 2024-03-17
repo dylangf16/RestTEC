@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Alert, ScrollView, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { getClientId } from '../globalVariables/clientID';
-import config from '../../src/config/config';
 import CustomProgressBar from '../customComponents/CustomProgressBar'; // Import the custom progress bar component
-
-const ip = config.ip;
 
 const StateScreen = () => {
   const [activeOrders, setActiveOrders] = useState([]);
@@ -17,7 +14,7 @@ const StateScreen = () => {
   }, []);
 
   const fetchActiveOrders = () => {
-    fetch(`http://${ip}:5000/orders/${clientId}`)
+    fetch(`http://10.0.2.2:5274/orders/${clientId}`)
       .then(response => {
         if (response.ok) {
           return response.json();

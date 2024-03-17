@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator, Button, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import config from '../../src/config/config';
-
-const ip = config.ip;
 
 export default function ReceiptScreen({ route }) {
   const { orderId } = route.params;
@@ -16,7 +13,7 @@ export default function ReceiptScreen({ route }) {
   }, []);
 
   const fetchOrderDetails = (orderId) => {
-    fetch(`http://${ip}:5000/order/${orderId}`)
+    fetch(`http://10.0.2.2:5274/order/${orderId}`)
       .then(response => {
         if (response.ok) {
           return response.json();

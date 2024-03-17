@@ -1,0 +1,36 @@
+@RestService_HostAddress = http://localhost:5274
+
+###
+# Login Endpoint
+###
+POST {{RestService_HostAddress}}/login
+Content-Type: application/json
+
+{
+    "correo": "pepe.doe@example.com",
+    "contrasena": "securepassword"
+}
+
+###
+# Register Endpoint
+###
+
+# POST request to register a new user
+POST {{RestService_HostAddress}}/register
+Content-Type: application/json
+
+{
+  "nombre": "John",
+  "apellido1": "Doe",
+  "apellido2": "Smith",
+  "correo": "pepe.doe@example.com",
+  "contrasena": "securepassword",
+  "cedula": "123456789",
+  "fecha_nacimiento": "1990-01-01",
+  "telefonos": ["1234567890", "0987654321"],
+  "direccion": {
+    "provincia": "San Jose",
+    "canton": "San Jose",
+    "distrito": "San Jose"
+  }
+}

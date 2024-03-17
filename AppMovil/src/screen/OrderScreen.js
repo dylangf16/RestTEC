@@ -1,9 +1,6 @@
 import React from 'react';
 import { View, Text, Button, ScrollView, Alert, StyleSheet } from 'react-native';
-import config from '../../src/config/config'; // Import the configuration file
 import { getClientId } from '../globalVariables/clientID';
-
-const ip = config.ip;
 
 export default function OrderScreen({ route, navigation }) {
     const { cartData } = route.params;
@@ -17,35 +14,38 @@ export default function OrderScreen({ route, navigation }) {
       return acc;
     }, {});
   
-    const sendOrderToAPI = () => {
+    const sendOrderToAPI = async () => {
       const clientId = getClientId(); // Retrieve the client ID
       // Prepare order data
       const orderData = {
-        client_id: clientId, // Add the client ID to the order data
-        platos: Object.values(cartData).map(dish => dish.id_plato) // Extract dish IDs from groupedCartData
+        id_cliente: clientId, // Change 'client_id' to 'id_cliente'
+        platos: cartData // Send the complete 'Dish' objects
       };
-  
-      // Send POST request to API for placing the order
-      fetch(`http://${ip}:5000/order`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(orderData),
-      })
-      .then(response => {
+    
+      try {
+        // Send POST request to API for placing the order
+        const response = await fetch(`http://10.0.2.2:5274/order`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(orderData),
+        });
+    
         if (response.ok) {
-            response.json().then(data => {
-              const { order_id } = data; // Access 'order_id' directly
-              Alert.alert('Pedido realizado', 'Se ha realizado el pedido con éxito');
-              navigation.navigate('ReceiptScreen', { orderId: order_id }); // Pass 'order_id' to 'ReceiptScreen'
-            });
-          } else {
+          const data = await response.json();
+          const { order_id } = data; // Access 'order_id' directly
+          Alert.alert('Pedido realizado', 'Se ha realizado el pedido con éxito');
+          navigation.navigate('ReceiptScreen', { orderId: order_id }); // Pass 'order_id' to 'ReceiptScreen'
+        } else {
           Alert.alert('Error', 'No se pudo completar la compra.');
         }
-      })
-      
+      } catch (error) {
+        console.error('Error:', error);
+        Alert.alert('Error', 'No se pudo completar la compra.');
+      }
     };
+    
   
     const calculateTotalPrice = () => {
       const totalPrice = Object.values(groupedCartData).reduce((total, dish) => {

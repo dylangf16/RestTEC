@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, Button, Alert } from 'react-native';
-import config from '../../src/config/config'; // Import the configuration file
-
-const ip = config.ip;
 
 export default function MenuScreen({ navigation }) {
   const [dishes, setDishes] = useState([]);
@@ -13,7 +10,7 @@ export default function MenuScreen({ navigation }) {
   }, []);
 
   const fetchMenu = () => {
-    fetch('http://' + ip + ':5000/dishes')
+    fetch('http://10.0.2.2:5274/dishes')
       .then(response => response.json())
       .then(data => {
         setDishes(data.dishes);

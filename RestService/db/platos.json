@@ -1,0 +1,24 @@
+{
+    "platos": [
+        {
+            "nombre": "Pizza Margarita",
+            "descripcion": "Deliciosa pizza con salsa de tomate, mozzarella fresca y albahaca.",
+            "vendidos": 0
+        },
+        {
+            "nombre": "Ensalada César",
+            "descripcion": "Ensalada fresca con lechuga romana, pollo a la parrilla, crutones, queso parmesano y aderezo César.",
+            "vendidos": 0
+        },
+        {
+            "nombre": "Sushi Variado",
+            "descripcion": "Selección de sushi fresco y variado, incluyendo nigiri, sashimi y rollos.",
+            "vendidos": 0
+        },
+        {
+            "nombre": "Hamburguesa Clásica",
+            "descripcion": "Jugosa hamburguesa de carne de res con queso cheddar, lechuga, tomate, cebolla y salsa especial.",
+            "vendidos": 0
+        }
+    ]
+}
