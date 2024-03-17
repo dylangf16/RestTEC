@@ -111,23 +111,6 @@
         "distrito": "San Jose"
       },
       "Rol": "cliente"
-    },
-    {
-      "id": 108,
-      "nombre": "Dylan",
-      "apellido1": "Garbanzo",
-      "apellido2": "Fallas",
-      "correo": "sis@gmail.com",
-      "contrasena": "123456789",
-      "cedula": "118650414",
-      "fecha_nacimiento": "2003-01-16",
-      "telefonos": ["83164704"],
-      "direccion": {
-        "provincia": "Cartago",
-        "canton": "Corralillo",
-        "distrito": "SJS"
-      },
-      "Rol": "cliente"
     }
   ]
 }

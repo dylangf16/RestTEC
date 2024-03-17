@@ -114,19 +114,15 @@
     },
     {
       "id": 108,
-      "nombre": "Dylan",
-      "apellido1": "Garbanzo",
-      "apellido2": "Fallas",
+      "nombre": "\u00D0\u00AE\u00FC]\u00F3\u00E6",
+      "apellido1": "]",
+      "apellido2": "[",
       "correo": "sis@gmail.com",
-      "contrasena": "123456789",
-      "cedula": "118650414",
-      "fecha_nacimiento": "2003-01-16",
-      "telefonos": ["83164704"],
-      "direccion": {
-        "provincia": "Cartago",
-        "canton": "Corralillo",
-        "distrito": "SJS"
-      },
+      "contrasena": "1234",
+      "cedula": "11111",
+      "fecha_nacimiento": "Si",
+      "telefonos": ["83164704", "88877601", "83575147"],
+      "direccion": { "provincia": "C", "canton": "C", "distrito": "S" },
       "Rol": "cliente"
     }
   ]
