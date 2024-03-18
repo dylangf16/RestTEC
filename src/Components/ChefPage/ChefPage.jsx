@@ -11,7 +11,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { calcularTiempoRestante } from "../helpers/timeHelpers";
 
 //json
-import usuariosData from "../Assets/usuarios.json";
+import pedidosData from "../Assets/pedidos.json";
 
 const ChefPage = () => {
   const location = useLocation();
@@ -22,10 +22,10 @@ const ChefPage = () => {
   const [activeTab, setActiveTab] = useState("pedidos-actuales");
 
   const eliminarOrden = (orderId) => {
-    const updatedPedidos = usuariosData.pedidos.filter(
+    const updatedPedidos = pedidosData.pedidos.filter(
       (pedido) => pedido.id_pedido !== orderId
     );
-    usuariosData.pedidos = updatedPedidos;
+    pedidosData.pedidos = updatedPedidos;
     setChefData((prevData) => ({
       ...prevData,
       pedidos: updatedPedidos.filter((pedido) => pedido.chef_id === usuario.id),
@@ -33,13 +33,13 @@ const ChefPage = () => {
   };
 
   const reasignarOrden = (orderId) => {
-    const updatedPedidos = usuariosData.pedidos.map((pedido) => {
+    const updatedPedidos = pedidosData.pedidos.map((pedido) => {
       if (pedido.id_pedido === orderId) {
         return { ...pedido, chef_id: usuario.id };
       }
       return pedido;
     });
-    usuariosData.pedidos = updatedPedidos;
+    pedidosData.pedidos = updatedPedidos;
     setChefData((prevData) => ({
       ...prevData,
       pedidos: updatedPedidos.filter((pedido) => pedido.chef_id === usuario.id),
@@ -48,13 +48,13 @@ const ChefPage = () => {
 
   const prepararOrden = (orderId) => {
     // Cambiar el chef_id al id del chef actual
-    const updatedPedidos = usuariosData.pedidos.map((pedido) => {
+    const updatedPedidos = pedidosData.pedidos.map((pedido) => {
       if (pedido.id_pedido === orderId) {
         return { ...pedido, chef_id: usuario.id };
       }
       return pedido;
     });
-    usuariosData.pedidos = updatedPedidos;
+    pedidosData.pedidos = updatedPedidos;
 
     // Actualizar la lista de pedidos no tomados
     const noTomados = updatedPedidos.filter((pedido) => pedido.chef_id === 0);
@@ -220,12 +220,12 @@ const ChefPage = () => {
 
   useEffect(() => {
     if (usuario) {
-      const chefOrders = usuariosData.pedidos.filter(
+      const chefOrders = pedidosData.pedidos.filter(
         (pedido) => pedido.chef_id === usuario.id
       );
       setChefData({ usuario: usuario, pedidos: chefOrders });
 
-      const noTomados = usuariosData.pedidos.filter(
+      const noTomados = pedidosData.pedidos.filter(
         (pedido) => pedido.chef_id === 0
       );
       setPedidosNoTomados(noTomados);
@@ -258,7 +258,7 @@ const ChefPage = () => {
           <Tab eventKey="tab-2" title="Pedidos de otros chefs">
             <DataTable
               columns={pedidos_de_otros_chef}
-              data={usuariosData.pedidos.filter(
+              data={pedidosData.pedidos.filter(
                 (pedido) =>
                   pedido.chef_id !== usuario.id && pedido.chef_id !== 0
               )}

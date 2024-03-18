@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./LoginForm.css";
 
 // ruta al jason
-import usuariosData from "../Assets/usuarios.json";
+import usuariosData from "../Assets/usuariosAdmin.json";
 
 // iconos
 import { GrUserAdmin } from "react-icons/gr";
