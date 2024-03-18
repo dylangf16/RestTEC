@@ -90,34 +90,181 @@
     ],
     "pedidos": [
         {
-        "id": 1,
-        "descripcion": "Hamburguesa Clásica",
-        "tiempo_limite": "2024-03-30T14:30:00Z",
-        "chef_id": 100
+          "id_pedido": 1,
+          "id_cliente": 106,
+          "chef_id" : 100,
+          "platos": [
+            {
+              "nombre_plato": "Pizza Margarita",
+              "descripcion": null,
+              "precio": 10.99,
+              "calorias": 0,
+              "tipo": null,
+              "id_plato": 100,
+              "duracionEstMin": 15,
+              "vendidos": 0,
+              "cantidad": 1
+            },
+            {
+              "nombre_plato": "Ensalada C\u00C3\u00A9sar",
+              "descripcion": null,
+              "precio": 8.5,
+              "calorias": 0,
+              "tipo": null,
+              "id_plato": 101,
+              "duracionEstMin": 15,
+              "vendidos": 0,
+              "cantidad": 2
+            }
+          ],
+          "fecha_hora": "2024-03-16T07:29:14Z",
+          "estado": "Recibido por el restaurante"
         },
         {
-        "id": 2,
-        "descripcion": "Ensalada César",
-        "tiempo_limite": "2024-03-31T10:00:00Z",
-        "chef_id": 100
+          "id_pedido": 2,
+          "id_cliente": 106,
+          "chef_id" : 100,
+          "platos": [
+            {
+              "nombre_plato": "Sushi Variado",
+              "descripcion": null,
+              "precio": 15.99,
+              "calorias": 0,
+              "tipo": null,
+              "id_plato": 102,
+              "duracionEstMin": 15,
+              "vendidos": 0,
+              "cantidad": 1
+            },
+            {
+              "nombre_plato": "Hamburguesa Cl\u00C3\u00A1sica",
+              "descripcion": null,
+              "precio": 12.99,
+              "calorias": 0,
+              "tipo": null,
+              "id_plato": 103,
+              "duracionEstMin": 15,
+              "vendidos": 0,
+              "cantidad": 1
+            }
+          ],
+          "fecha_hora": "2024-03-16T07:30:54Z",
+          "estado": "Recibido por el restaurante"
         },
         {
-        "id": 3,
-        "descripcion": "Pizza Margarita",
-        "tiempo_limite": "2024-03-31T10:00:00Z",
-        "chef_id": 101
+          "id_pedido": 3,
+          "id_cliente": 106,
+          "chef_id" : 0,
+          "platos": [
+            {
+              "nombre_plato": "Pizza Margarita",
+              "descripcion": null,
+              "precio": 10.99,
+              "calorias": 0,
+              "tipo": null,
+              "id_plato": 100,
+              "duracionEstMin": 15,
+              "vendidos": 0,
+              "cantidad": 1
+            },
+            {
+              "nombre_plato": "Ensalada C\u00C3\u00A9sar",
+              "descripcion": null,
+              "precio": 8.5,
+              "calorias": 0,
+              "tipo": null,
+              "id_plato": 101,
+              "duracionEstMin": 15,
+              "vendidos": 0,
+              "cantidad": 2
+            },
+            {
+              "nombre_plato": "Sushi Variado",
+              "descripcion": null,
+              "precio": 15.99,
+              "calorias": 0,
+              "tipo": null,
+              "id_plato": 102,
+              "duracionEstMin": 15,
+              "vendidos": 0,
+              "cantidad": 1
+            }
+          ],
+          "fecha_hora": "2024-03-16T07:32:21Z",
+          "estado": "Recibido por el restaurante"
         },
         {
-        "id": 4,
-        "descripcion": "Sushi Variado",
-        "tiempo_limite": "2024-04-01T13:00:00Z",
-        "chef_id": 0
+          "id_pedido": 4,
+          "id_cliente": 106,
+          "chef_id" : 101,
+          "platos": [
+            {
+              "nombre_plato": "Ensalada C\u00C3\u00A9sar",
+              "descripcion": null,
+              "precio": 8.5,
+              "calorias": 0,
+              "tipo": null,
+              "id_plato": 101,
+              "duracionEstMin": 0,
+              "vendidos": 0,
+              "cantidad": 3
+            },
+            {
+              "nombre_plato": "Sushi Variado",
+              "descripcion": null,
+              "precio": 15.99,
+              "calorias": 0,
+              "tipo": null,
+              "id_plato": 102,
+              "duracionEstMin": 0,
+              "vendidos": 0,
+              "cantidad": 4
+            }
+          ],
+          "fecha_hora": "2024-03-16T22:50:30.6407335Z",
+          "estado": "Recibido por el restaurante"
         },
         {
-        "id": 5,
-        "descripcion": "Hamburguesa Clásica",
-        "tiempo_limite": "2024-04-01T12:00:00Z",
-        "chef_id": 0
+          "id_pedido": 5,
+          "id_cliente": 108,
+          "chef_id" : 101,
+          "platos": [
+            {
+              "nombre_plato": "Pizza Margarita",
+              "descripcion": null,
+              "precio": 10.99,
+              "calorias": 0,
+              "tipo": null,
+              "id_plato": 100,
+              "duracionEstMin": 0,
+              "vendidos": 0,
+              "cantidad": 2
+            },
+            {
+              "nombre_plato": "Ensalada C\u00C3\u00A9sar",
+              "descripcion": null,
+              "precio": 8.5,
+              "calorias": 0,
+              "tipo": null,
+              "id_plato": 101,
+              "duracionEstMin": 0,
+              "vendidos": 0,
+              "cantidad": 1
+            },
+            {
+              "nombre_plato": "Sushi Variado",
+              "descripcion": null,
+              "precio": 15.99,
+              "calorias": 0,
+              "tipo": null,
+              "id_plato": 102,
+              "duracionEstMin": 0,
+              "vendidos": 0,
+              "cantidad": 5
+            }
+          ],
+          "fecha_hora": "2024-03-16T22:57:05.5799857Z",
+          "estado": "Recibido por el restaurante"
         }
-    ]
+      ]
 }

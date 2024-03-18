@@ -22,9 +22,8 @@ const ChefPage = () => {
   const [activeTab, setActiveTab] = useState("pedidos-actuales");
 
   const eliminarOrden = (orderId) => {
-    // Eliminar la orden del JSON
     const updatedPedidos = usuariosData.pedidos.filter(
-      (pedido) => pedido.id !== orderId
+      (pedido) => pedido.id_pedido !== orderId
     );
     usuariosData.pedidos = updatedPedidos;
     setChefData((prevData) => ({
@@ -34,9 +33,8 @@ const ChefPage = () => {
   };
 
   const reasignarOrden = (orderId) => {
-    // Cambiar el chef_id al id del chef actual
     const updatedPedidos = usuariosData.pedidos.map((pedido) => {
-      if (pedido.id === orderId) {
+      if (pedido.id_pedido === orderId) {
         return { ...pedido, chef_id: usuario.id };
       }
       return pedido;
@@ -51,7 +49,7 @@ const ChefPage = () => {
   const prepararOrden = (orderId) => {
     // Cambiar el chef_id al id del chef actual
     const updatedPedidos = usuariosData.pedidos.map((pedido) => {
-      if (pedido.id === orderId) {
+      if (pedido.id_pedido === orderId) {
         return { ...pedido, chef_id: usuario.id };
       }
       return pedido;
@@ -72,25 +70,47 @@ const ChefPage = () => {
   const pedidos_actuales = [
     {
       name: "n° de orden",
-      selector: (row) => row.id,
+      selector: (row) => row.id_pedido,
+      width: "15%",
     },
     {
-      name: "ID",
+      name: "ID del Chef",
       selector: (row) => row.chef_id,
+      width: "15%",
     },
     {
       name: "Descripción",
-      selector: (row) => row.descripcion,
+      width: "20%",
+      selector: (row) => {
+        const descripciones = [];
+
+        row.platos.forEach((plato) => {
+          const descripcionPlato = `${plato.cantidad} ${plato.nombre_plato}`;
+
+          descripciones.push(descripcionPlato);
+        });
+
+        return descripciones.map((descripcion, index) => (
+          <span key={index}>
+            {descripcion}
+            <br />
+          </span>
+        ));
+      },
     },
     {
       name: "Tiempo limite",
-      selector: (row) =>
-        calcularTiempoRestante(row.tiempo_limite, row.descripcion),
+      selector: (row) => calcularTiempoRestante(row.fecha_hora),
+      width: "32%",
     },
     {
       name: "",
+      width: "25%",
       cell: (row) => (
-        <button className="btn btn-info" onClick={() => eliminarOrden(row.id)}>
+        <button
+          className="btn btn-info"
+          onClick={() => eliminarOrden(row.id_pedido)}
+        >
           Orden Preparada
         </button>
       ),
@@ -100,27 +120,51 @@ const ChefPage = () => {
   const pedidos_de_otros_chef = [
     {
       name: "n° de orden",
-      selector: (row) => row.id,
+      selector: (row) => row.id_pedido,
+      width: "15%",
     },
     {
       name: "ID del chef encargado",
       selector: (row) => row.chef_id,
+      width: "15%",
     },
     {
       name: "Descripción",
-      selector: (row) => row.descripcion,
+      width: "15%",
+      selector: (row) => {
+        // Crear un array para almacenar las descripciones de los platos
+        const descripciones = [];
+
+        // Iterar sobre los platos en el pedido
+        row.platos.forEach((plato) => {
+          // Construir la descripción del plato con la cantidad y nombre
+          const descripcionPlato = `${plato.cantidad} ${plato.nombre_plato}`;
+
+          // Agregar la descripción del plato al array
+          descripciones.push(descripcionPlato);
+        });
+
+        // Unir todas las descripciones en una sola cadena separada por comas
+        return descripciones.map((descripcion, index) => (
+          <span key={index}>
+            {descripcion}
+            <br />
+          </span>
+        ));
+      },
     },
     {
+      width: "32%",
       name: "Tiempo limite",
-      selector: (row) =>
-        calcularTiempoRestante(row.tiempo_limite, row.descripcion),
+      selector: (row) => calcularTiempoRestante(row.fecha_hora),
     },
     {
       name: "",
+      width: "25%",
       cell: (row) => (
         <button
           className="btn btn-success"
-          onClick={() => reasignarOrden(row.id)}
+          onClick={() => reasignarOrden(row.id_pedido)}
         >
           Reasignar orden
         </button>
@@ -131,23 +175,42 @@ const ChefPage = () => {
   const pedidos_no_tomados = [
     {
       name: "n° de orden",
-      selector: (row) => row.id,
+      selector: (row) => row.id_pedido,
     },
     {
       name: "Descripción",
-      selector: (row) => row.descripcion,
+      selector: (row) => {
+        // Crear un array para almacenar las descripciones de los platos
+        const descripciones = [];
+
+        // Iterar sobre los platos en el pedido
+        row.platos.forEach((plato) => {
+          // Construir la descripción del plato con la cantidad y nombre
+          const descripcionPlato = `${plato.cantidad} ${plato.nombre_plato}`;
+
+          // Agregar la descripción del plato al array
+          descripciones.push(descripcionPlato);
+        });
+
+        // Unir todas las descripciones en una sola cadena separada por comas
+        return descripciones.map((descripcion, index) => (
+          <span key={index}>
+            {descripcion}
+            <br />
+          </span>
+        ));
+      },
     },
     {
       name: "Tiempo limite",
-      selector: (row) =>
-        calcularTiempoRestante(row.tiempo_limite, row.descripcion),
+      selector: (row) => calcularTiempoRestante(row.fecha_hora),
     },
     {
       name: "",
       cell: (row) => (
         <button
           className="btn btn-warning"
-          onClick={() => prepararOrden(row.id)}
+          onClick={() => prepararOrden(row.id_pedido)}
         >
           Preparar orden
         </button>
@@ -188,7 +251,9 @@ const ChefPage = () => {
           className="mb-1 p-0"
         >
           <Tab eventKey="tab-1" title="Pedidos actuales">
-            <DataTable columns={pedidos_actuales} data={chefData.pedidos} />
+            <div className="table-container">
+              <DataTable columns={pedidos_actuales} data={chefData.pedidos} />
+            </div>
           </Tab>
           <Tab eventKey="tab-2" title="Pedidos de otros chefs">
             <DataTable
@@ -210,52 +275,3 @@ const ChefPage = () => {
 };
 
 export default ChefPage;
-
-/*  return (
-    <div className="chef-page">
-      <h1>Bienvenido {usuario.nombre}</h1>
-      <div className="current-orders">
-        <h2>Pedidos actuales</h2>
-        <ul>
-          {chefData.pedidos.map((pedido) => (
-            <li key={pedido.id}>
-              {pedido.descripcion} - Tiempo restante:{" "}
-              {calcularTiempoRestante(pedido.tiempo_limite)}
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className="other-chefs-orders">
-        <h2>Pedidos de otros chefs</h2>
-        <ul>
-          {usuariosData.pedidos
-            .filter(
-              (pedido) => pedido.chef_id !== usuario.id && pedido.chef_id !== 0
-            )
-            .map((pedido) => (
-              <li key={pedido.id}>
-                {pedido.descripcion} - Chef:{" "}
-                {
-                  usuariosData.usuarios.find(
-                    (usuario) => usuario.id === pedido.chef_id
-                  )?.nombre
-                }
-                - Tiempo restante:{" "}
-                {calcularTiempoRestante(pedido.tiempo_limite)}
-              </li>
-            ))}
-        </ul>
-      </div>
-      <div className="untaken-orders">
-        <h2>Pedidos no tomados</h2>
-        <ul>
-          {pedidosNoTomados.map((pedido) => (
-            <li key={pedido.id}>
-              {pedido.descripcion} - Tiempo restante:{" "}
-              {calcularTiempoRestante(pedido.tiempo_limite)}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  ); */
