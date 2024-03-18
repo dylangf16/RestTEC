@@ -43,3 +43,8 @@
   text-align: center;
   margin-bottom: 20px;
 }
+
+.table-container {
+  width: 100%; /* Ajusta el ancho del contenedor de la tabla */
+  overflow-x: auto; /* Agrega scroll horizontal si es necesario */
+}

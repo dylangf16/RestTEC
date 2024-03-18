@@ -17,6 +17,7 @@ const AdminPage = () => {
   const location = useLocation();
   const { usuario } = location.state || {};
   const [activeTab, setActiveTab] = useState("pedidos-actuales");
+
   const [pedidos, setPedidos] = useState(usuariosData.pedidos || []);
   const [platos, setPlatos] = useState(usuariosData.platos || []);
   const [menu, setMenu] = useState(usuariosData.menu || []);
@@ -180,9 +181,17 @@ const AdminPage = () => {
                 <tbody>
                   {pedidos.map((pedidos, idx) => (
                     <tr key={idx}>
-                      <td>{pedidos.id}</td>
-                      <td>{pedidos.descripcion}</td>
-                      <td>{calcularTiempoRestante(pedidos.tiempo_limite)}</td>
+                      <td>{pedidos.id_pedido}</td>
+                      <td>
+                        {" "}
+                        {pedidos.platos.map((platosss, idx) => (
+                          <span key={idx}>
+                            {platosss.cantidad} {platosss.nombre_plato}
+                            <br />
+                          </span>
+                        ))}
+                      </td>
+                      <td>{calcularTiempoRestante(pedidos.fecha_hora)}</td>
                       <td>{pedidos.chef_id}</td>
                     </tr>
                   ))}
