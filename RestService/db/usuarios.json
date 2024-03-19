@@ -11,7 +11,8 @@
       "fecha_nacimiento": null,
       "telefonos": null,
       "direccion": null,
-      "Rol": null
+      "Rol": null,
+      "NumPedidos": 0
     },
     {
       "id": 101,
@@ -24,7 +25,8 @@
       "fecha_nacimiento": null,
       "telefonos": null,
       "direccion": null,
-      "Rol": null
+      "Rol": null,
+      "NumPedidos": 0
     },
     {
       "id": 102,
@@ -37,7 +39,8 @@
       "fecha_nacimiento": null,
       "telefonos": null,
       "direccion": null,
-      "Rol": null
+      "Rol": null,
+      "NumPedidos": 0
     },
     {
       "id": 103,
@@ -50,7 +53,8 @@
       "fecha_nacimiento": null,
       "telefonos": null,
       "direccion": null,
-      "Rol": null
+      "Rol": null,
+      "NumPedidos": 0
     },
     {
       "id": 104,
@@ -63,7 +67,8 @@
       "fecha_nacimiento": null,
       "telefonos": null,
       "direccion": null,
-      "Rol": null
+      "Rol": null,
+      "NumPedidos": 0
     },
     {
       "id": 105,
@@ -76,7 +81,8 @@
       "fecha_nacimiento": null,
       "telefonos": null,
       "direccion": null,
-      "Rol": null
+      "Rol": null,
+      "NumPedidos": 0
     },
     {
       "id": 106,
@@ -87,13 +93,17 @@
       "contrasena": "aleeee",
       "cedula": "1234567",
       "fecha_nacimiento": "2002-12-07",
-      "telefonos": ["8112821", "1234565"],
+      "telefonos": [
+        "8112821",
+        "1234565"
+      ],
       "direccion": {
         "provincia": "alajuela",
         "canton": "poas",
         "distrito": "san pedro"
       },
-      "Rol": null
+      "Rol": null,
+      "NumPedidos": 7
     },
     {
       "id": 107,
@@ -104,13 +114,17 @@
       "contrasena": "securepassword",
       "cedula": "123456789",
       "fecha_nacimiento": "1990-01-01",
-      "telefonos": ["1234567890", "0987654321"],
+      "telefonos": [
+        "1234567890",
+        "0987654321"
+      ],
       "direccion": {
         "provincia": "San Jose",
         "canton": "San Jose",
         "distrito": "San Jose"
       },
-      "Rol": "cliente"
+      "Rol": "cliente",
+      "NumPedidos": 0
     }
   ]
 }

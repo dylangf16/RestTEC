@@ -1,7 +1,15 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert, ScrollView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-
+import React, {useState} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Button,
+  Alert,
+  ScrollView,
+  ImageBackground,
+} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 const RegisterScreen = () => {
   const [firstName, setFirstName] = useState('');
@@ -19,7 +27,19 @@ const RegisterScreen = () => {
 
   const handleRegister = () => {
     // Check if all required fields are filled
-    if (!firstName || !firstLastName || !secondLastName || !email || !password || !idNumber || !birthDate || !province || !canton || !district || phoneNumbers.some(number => !number.trim())) {
+    if (
+      !firstName ||
+      !firstLastName ||
+      !secondLastName ||
+      !email ||
+      !password ||
+      !idNumber ||
+      !birthDate ||
+      !province ||
+      !canton ||
+      !district ||
+      phoneNumbers.some(number => !number.trim())
+    ) {
       Alert.alert('Error', 'Todos los campos son obligatorios.');
       return;
     }
@@ -38,7 +58,7 @@ const RegisterScreen = () => {
         provincia: province,
         canton: canton,
         distrito: district,
-      }
+      },
     };
 
     // Send POST request to Flask server
@@ -51,16 +71,21 @@ const RegisterScreen = () => {
     })
       .then(response => {
         if (response.ok) {
-          Alert.alert('Registro exitoso', '¡Tu cuenta ha sido creada exitosamente!');
+          Alert.alert(
+            'Registro exitoso',
+            '¡Tu cuenta ha sido creada exitosamente!',
+          );
           navigation.navigate('LoginScreen');
-
         } else {
           Alert.alert('Error', 'El correo electrónico ya está registrado.');
         }
       })
       .catch(error => {
         console.error('Error:', error);
-        Alert.alert('Error', 'Hubo un problema al intentar registrar la cuenta.');
+        Alert.alert(
+          'Error',
+          'Hubo un problema al intentar registrar la cuenta.',
+        );
       });
   };
 
@@ -75,114 +100,157 @@ const RegisterScreen = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Registro</Text>
-      <View style={styles.formContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Nombre"
-          onChangeText={(text) => setFirstName(text)}
-          value={firstName}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Primer apellido"
-          onChangeText={(text) => setFirstLastName(text)}
-          value={firstLastName}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Segundo apellido"
-          onChangeText={(text) => setSecondLastName(text)}
-          value={secondLastName}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Correo electrónico"
-          onChangeText={(text) => setEmail(text)}
-          value={email}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Contraseña"
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-          secureTextEntry={true}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Número de cédula"
-          onChangeText={(text) => setIdNumber(text)}
-          value={idNumber}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Fecha de nacimiento (YYYY-MM-DD)"
-          onChangeText={(text) => setBirthDate(text)}
-          value={birthDate}
-        />
-        {phoneNumbers.map((phoneNumber, index) => (
+    <ImageBackground
+      source={require('../Images/foodWallpaper.jpg')}
+      style={styles.background}
+      resizeMode="cover">
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.formContainer}>
+          <Text style={styles.title}>Registro</Text>
           <TextInput
-            key={index}
             style={styles.input}
-            placeholder="Teléfono"
-            onChangeText={(text) => handlePhoneNumberChange(text, index)}
-            value={phoneNumber}
+            placeholder="Nombre"
+            onChangeText={text => setFirstName(text)}
+            value={firstName}
+            placeholderTextColor="#666"
           />
-        ))}
-        <View style={styles.buttonContainer}>
-          <Button title="Agregar teléfono" onPress={addPhoneNumber} />
+          <TextInput
+            style={styles.input}
+            placeholder="Primer apellido"
+            onChangeText={text => setFirstLastName(text)}
+            value={firstLastName}
+            placeholderTextColor="#666"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Segundo apellido"
+            onChangeText={text => setSecondLastName(text)}
+            value={secondLastName}
+            placeholderTextColor="#666"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Correo electrónico"
+            onChangeText={text => setEmail(text)}
+            value={email}
+            placeholderTextColor="#666"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Contraseña"
+            onChangeText={text => setPassword(text)}
+            value={password}
+            secureTextEntry={true}
+            placeholderTextColor="#666"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Número de cédula"
+            onChangeText={text => setIdNumber(text)}
+            value={idNumber}
+            placeholderTextColor="#666"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Fecha de nacimiento (YYYY-MM-DD)"
+            onChangeText={text => setBirthDate(text)}
+            value={birthDate}
+            placeholderTextColor="#666"
+          />
+          {phoneNumbers.map((phoneNumber, index) => (
+            <TextInput
+              key={index}
+              style={styles.input}
+              placeholder="Teléfono"
+              onChangeText={text => handlePhoneNumberChange(text, index)}
+              value={phoneNumber}
+              placeholderTextColor="#666"
+            />
+          ))}
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Agregar teléfono"
+              onPress={addPhoneNumber}
+              color="#841584"
+            />
+          </View>
+          <TextInput
+            style={styles.input}
+            placeholder="Provincia"
+            onChangeText={text => setProvince(text)}
+            value={province}
+            placeholderTextColor="#666"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Cantón"
+            onChangeText={text => setCanton(text)}
+            value={canton}
+            placeholderTextColor="#666"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Distrito"
+            onChangeText={text => setDistrict(text)}
+            value={district}
+            placeholderTextColor="#666"
+          />
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Registrarse"
+              onPress={handleRegister}
+              color="#841584"
+            />
+          </View>
         </View>
-        <TextInput
-          style={styles.input}
-          placeholder="Provincia"
-          onChangeText={(text) => setProvince(text)}
-          value={province}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Cantón"
-          onChangeText={(text) => setCanton(text)}
-          value={canton}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Distrito"
-          onChangeText={(text) => setDistrict(text)}
-          value={district}
-        />
-        <View style={styles.buttonContainer}>
-          <Button title="Registrarse" onPress={handleRegister} />
-        </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </ImageBackground>
   );
-}
+};
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
   },
   title: {
-    fontSize: 24,
-    marginBottom: 20,
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#fff',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10,
   },
   formContainer: {
     width: '80%',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    padding: 20,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#ddd',
   },
   input: {
     height: 40,
-    borderColor: 'gray',
+    borderColor: '#ccc',
     borderWidth: 1,
     marginBottom: 20,
     paddingHorizontal: 10,
+    borderRadius: 5,
+    backgroundColor: '#fff',
+    width: '100%',
   },
   buttonContainer: {
     marginTop: 10,
-    marginBottom: 10,
+    marginBottom: 20,
+    width: '100%',
   },
 });
 

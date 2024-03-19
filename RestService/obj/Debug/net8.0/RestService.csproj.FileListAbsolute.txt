@@ -36,3 +36,5 @@ C:\Users\maest\Documents\TEC\github\BD\RestTEC\RestService\bin\Debug\net8.0\db\u
 C:\Users\maest\Documents\TEC\github\BD\RestTEC\RestService\bin\Debug\net8.0\db\menu.json
 C:\Users\maest\Documents\TEC\github\BD\RestTEC\RestService\bin\Debug\net8.0\db\pedidos.json
 C:\Users\maest\Documents\TEC\github\BD\RestTEC\RestService\bin\Debug\net8.0\db\platos.json
+C:\Users\maest\Documents\TEC\github\BD\RestTEC\RestService\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\maest\Documents\TEC\github\BD\RestTEC\RestService\bin\Debug\net8.0\pedidos.json

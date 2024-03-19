@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 
-const CustomProgressBar = ({ progress }) => {
+const CustomProgressBar = ({progress}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Progreso: {progress.toFixed(0)}%</Text>
       <View style={styles.progressBar}>
-        <View style={[styles.progressFill, { width: `${progress}%` }]} />
+        <View style={[styles.progressFill, {width: `${progress}%`}]} />
       </View>
     </View>
   );
@@ -24,11 +24,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#ddd',
     borderRadius: 5,
     overflow: 'hidden',
-    width: 300,
+    width: 235,
   },
   progressFill: {
     height: '100%',
-    backgroundColor: 'blue', // Change color as needed
+    backgroundColor: '#800080', // Purple, // Change color as needed
   },
 });
 

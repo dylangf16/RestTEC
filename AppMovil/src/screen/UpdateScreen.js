@@ -1,7 +1,16 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert, ScrollView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { getClientId } from '../globalVariables/clientID';
+import React, {useState} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Button,
+  ImageBackground,
+  Alert,
+  ScrollView,
+} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {getClientId} from '../globalVariables/clientID';
 
 const UpdateScreen = () => {
   const [firstName, setFirstName] = useState('');
@@ -21,14 +30,26 @@ const UpdateScreen = () => {
 
   const handleUpdate = () => {
     // Check if all required fields are filled
-    if (!firstName || !firstLastName || !secondLastName || !email || !password || !idNumber || !birthDate || !province || !canton || !district || phoneNumbers.some(number => !number.trim())) {
+    if (
+      !firstName ||
+      !firstLastName ||
+      !secondLastName ||
+      !email ||
+      !password ||
+      !idNumber ||
+      !birthDate ||
+      !province ||
+      !canton ||
+      !district ||
+      phoneNumbers.some(number => !number.trim())
+    ) {
       Alert.alert('Error', 'Todos los campos son obligatorios.');
       return;
     }
 
     // Create user data object
     const userData = {
-        userId: userId,
+      userId: userId,
       nombre: firstName,
       apellido1: firstLastName,
       apellido2: secondLastName,
@@ -41,7 +62,7 @@ const UpdateScreen = () => {
         provincia: province,
         canton: canton,
         distrito: district,
-      }
+      },
     };
 
     // Send PUT request to update user information
@@ -54,15 +75,24 @@ const UpdateScreen = () => {
     })
       .then(response => {
         if (response.ok) {
-          Alert.alert('Actualización exitosa', '¡Tu información ha sido actualizada exitosamente!');
+          Alert.alert(
+            'Actualización exitosa',
+            '¡Tu información ha sido actualizada exitosamente!',
+          );
           navigation.navigate('HomeScreen'); // Navigate to the profile screen
         } else {
-          Alert.alert('Error', 'Hubo un problema al intentar actualizar la información.');
+          Alert.alert(
+            'Error',
+            'Hubo un problema al intentar actualizar la información.',
+          );
         }
       })
       .catch(error => {
         console.error('Error:', error);
-        Alert.alert('Error', 'Hubo un problema al intentar actualizar la información.');
+        Alert.alert(
+          'Error',
+          'Hubo un problema al intentar actualizar la información.',
+        );
       });
   };
 
@@ -87,9 +117,9 @@ const UpdateScreen = () => {
           onPress: () => console.log('Cancelado'),
           style: 'cancel',
         },
-        { text: 'Eliminar', onPress: deleteAccount },
+        {text: 'Eliminar', onPress: deleteAccount},
       ],
-      { cancelable: false }
+      {cancelable: false},
     );
   };
 
@@ -100,119 +130,155 @@ const UpdateScreen = () => {
     })
       .then(response => {
         if (response.ok) {
-          Alert.alert('Cuenta eliminada', 'Tu cuenta ha sido eliminada exitosamente.');
+          Alert.alert(
+            'Cuenta eliminada',
+            'Tu cuenta ha sido eliminada exitosamente.',
+          );
           navigation.navigate('LoginScreen'); // Navigate to the home screen
         } else {
-          Alert.alert('Error', 'Hubo un problema al intentar eliminar la cuenta.');
+          Alert.alert(
+            'Error',
+            'Hubo un problema al intentar eliminar la cuenta.',
+          );
         }
       })
       .catch(error => {
         console.error('Error:', error);
-        Alert.alert('Error', 'Hubo un problema al intentar eliminar la cuenta.');
+        Alert.alert(
+          'Error',
+          'Hubo un problema al intentar eliminar la cuenta.',
+        );
       });
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Actualizar Información</Text>
-      <View style={styles.formContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Nombre"
-          onChangeText={(text) => setFirstName(text)}
-          value={firstName}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Primer apellido"
-          onChangeText={(text) => setFirstLastName(text)}
-          value={firstLastName}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Segundo apellido"
-          onChangeText={(text) => setSecondLastName(text)}
-          value={secondLastName}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Correo electrónico"
-          onChangeText={(text) => setEmail(text)}
-          value={email}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Contraseña"
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-          secureTextEntry={true}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Número de cédula"
-          onChangeText={(text) => setIdNumber(text)}
-          value={idNumber}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Fecha de nacimiento (YYYY-MM-DD)"
-          onChangeText={(text) => setBirthDate(text)}
-          value={birthDate}
-        />
-        {phoneNumbers.map((phoneNumber, index) => (
+    <ImageBackground
+      source={require('../Images/foodWallpaper.jpg')}
+      style={styles.background}
+      resizeMode="cover">
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.title}>Actualizar Información</Text>
+        <View style={styles.formContainer}>
           <TextInput
-            key={index}
             style={styles.input}
-            placeholder="Teléfono"
-            onChangeText={(text) => handlePhoneNumberChange(text, index)}
-            value={phoneNumber}
+            placeholder="Nombre"
+            onChangeText={text => setFirstName(text)}
+            value={firstName}
           />
-        ))}
-        <View style={styles.buttonContainer}>
-          <Button title="Agregar teléfono" onPress={addPhoneNumber} />
+          <TextInput
+            style={styles.input}
+            placeholder="Primer apellido"
+            onChangeText={text => setFirstLastName(text)}
+            value={firstLastName}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Segundo apellido"
+            onChangeText={text => setSecondLastName(text)}
+            value={secondLastName}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Correo electrónico"
+            onChangeText={text => setEmail(text)}
+            value={email}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Contraseña"
+            onChangeText={text => setPassword(text)}
+            value={password}
+            secureTextEntry={true}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Número de cédula"
+            onChangeText={text => setIdNumber(text)}
+            value={idNumber}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Fecha de nacimiento (YYYY-MM-DD)"
+            onChangeText={text => setBirthDate(text)}
+            value={birthDate}
+          />
+          {phoneNumbers.map((phoneNumber, index) => (
+            <TextInput
+              key={index}
+              style={styles.input}
+              placeholder="Teléfono"
+              onChangeText={text => handlePhoneNumberChange(text, index)}
+              value={phoneNumber}
+            />
+          ))}
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Agregar teléfono"
+              onPress={addPhoneNumber}
+              color="#800080"
+            />
+          </View>
+          <TextInput
+            style={styles.input}
+            placeholder="Provincia"
+            onChangeText={text => setProvince(text)}
+            value={province}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Cantón"
+            onChangeText={text => setCanton(text)}
+            value={canton}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Distrito"
+            onChangeText={text => setDistrict(text)}
+            value={district}
+          />
+          <View style={styles.buttonContainer}>
+            <Button title="Actualizar" onPress={handleUpdate} color="#800080" />
+          </View>
         </View>
-        <TextInput
-          style={styles.input}
-          placeholder="Provincia"
-          onChangeText={(text) => setProvince(text)}
-          value={province}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Cantón"
-          onChangeText={(text) => setCanton(text)}
-          value={canton}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Distrito"
-          onChangeText={(text) => setDistrict(text)}
-          value={district}
-        />
         <View style={styles.buttonContainer}>
-          <Button title="Actualizar" onPress={handleUpdate} />
+          <Button
+            title="Eliminar cuenta"
+            onPress={handleDeleteAccount}
+            color="#800080" // Purple
+          />
         </View>
-      </View>
-      <View style={styles.buttonContainer}>
-        <Button title="Eliminar cuenta" onPress={handleDeleteAccount} color="red" />
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </ImageBackground>
   );
-}
+};
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)', // Slightly transparent
   },
   title: {
-    fontSize: 24,
+    fontSize: 30,
+    fontWeight: 'bold',
     marginBottom: 20,
+    color: '#fff',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10,
   },
   formContainer: {
     width: '80%',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)', // Slightly transparent
+    padding: 20,
+    borderRadius: 10,
   },
   input: {
     height: 40,
@@ -223,7 +289,8 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginTop: 10,
-    marginBottom: 10,
+    marginBottom: 20,
+    width: '100%',
   },
 });
 
