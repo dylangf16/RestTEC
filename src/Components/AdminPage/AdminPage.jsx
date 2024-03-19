@@ -10,17 +10,22 @@ import ModalCreateMenu from "./ModalCreateMenu";
 import ModalEditMenu from "./ModalEditMenu";
 import { BsFillPencilFill } from "react-icons/bs";
 import { BsFillTrash3Fill } from "react-icons/bs";
-import usuariosData from "../Assets/usuarios.json";
+import usuariosData from "../Assets/usuariosAdmin.json";
+import menuData from "../Assets/menu.json";
+import platosData from "../Assets/platos.json";
+import pedidosData from "../Assets/pedidos.json";
+import { FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
+
 import { calcularTiempoRestante } from "../helpers/timeHelpers";
 
 const AdminPage = () => {
   const location = useLocation();
   const { usuario } = location.state || {};
   const [activeTab, setActiveTab] = useState("pedidos-actuales");
-
-  const [pedidos, setPedidos] = useState(usuariosData.pedidos || []);
-  const [platos, setPlatos] = useState(usuariosData.platos || []);
-  const [menu, setMenu] = useState(usuariosData.menu || []);
+  const [orden, setOrden] = useState(null);
+  const [pedidos, setPedidos] = useState(pedidosData.pedidos || []);
+  const [platos, setPlatos] = useState(platosData.platos || []);
+  const [menu, setMenu] = useState(menuData.menu || []);
   const [showModal, setShowModal] = useState(false);
   const [showEditMenuModal, setShowEditMenuModal] = useState(false);
   const [editedPlato, setEditedPlato] = useState({});
@@ -40,6 +45,62 @@ const AdminPage = () => {
     calorias: 0,
     tipo: "",
   });
+
+  const obtenerInfoPlato = (nombrePlato) => {
+    return platos.find((platoO) => platoO.nombre === nombrePlato);
+  };
+
+  const generarFilasTabla = () => {
+    let datosOrdenados = [...menu];
+    if (orden === "vendidos") {
+      datosOrdenados.sort(
+        (a, b) =>
+          obtenerInfoPlato(b.nombre_plato).vendidos -
+          obtenerInfoPlato(a.nombre_plato).vendidos
+      );
+    } else if (orden === "ganancia") {
+      datosOrdenados.sort((a, b) => {
+        const gananciaA = a.precio * obtenerInfoPlato(a.nombre_plato).vendidos;
+        const gananciaB = b.precio * obtenerInfoPlato(b.nombre_plato).vendidos;
+        return gananciaB - gananciaA;
+      });
+    } else if (orden === "feedback") {
+      datosOrdenados.sort(
+        (a, b) =>
+          obtenerInfoPlato(b.nombre_plato).feedback -
+          obtenerInfoPlato(a.nombre_plato).feedback
+      );
+    }
+    return datosOrdenados.map((item) => {
+      const platoInfo = obtenerInfoPlato(item.nombre_plato);
+      return (
+        <tr key={item.nombre_plato}>
+          <td>{item.nombre_plato}</td>
+          <td>{platoInfo.vendidos}</td>
+          <td>{item.precio * platoInfo.vendidos}</td>
+          <td>{platoInfo.feedback}</td>
+        </tr>
+      );
+    });
+  };
+
+  const cambiarOrden = (tipoOrden) => {
+    if (orden === tipoOrden) {
+      setOrden(null);
+    } else {
+      setOrden(tipoOrden);
+    }
+  };
+
+  const obtenerIconoOrden = (tipoColumna) => {
+    if (orden === tipoColumna) {
+      return <FaSortUp />;
+    } else if (orden === `-${tipoColumna}`) {
+      return <FaSortDown />;
+    } else {
+      return <FaSort />;
+    }
+  };
 
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
@@ -317,8 +378,41 @@ const AdminPage = () => {
               setEditedMenu={setEditedMenu}
             />
           </Tab>
-          <Tab eventKey="tab-4" title="Vista De Reportes"></Tab>
-          <Tab eventKey="tab-5" title="Top 10 X Cosa"></Tab>
+          <Tab eventKey="tab-5" title="Reportes de platos">
+            <div className="table-wrapper">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Plato</th>
+                    <th
+                      onClick={() => cambiarOrden("vendidos")}
+                      style={{ cursor: "pointer" }}
+                      expand
+                    >
+                      Cantidad de Vendidos
+                      {obtenerIconoOrden("vendidos")}
+                    </th>
+                    <th
+                      onClick={() => cambiarOrden("ganancia")}
+                      style={{ cursor: "pointer" }}
+                    >
+                      Ganancia Generada
+                      {obtenerIconoOrden("ganancia")}
+                    </th>
+                    <th
+                      onClick={() => cambiarOrden("feedback")}
+                      style={{ cursor: "pointer" }}
+                      className="expand"
+                    >
+                      Feedback
+                      {obtenerIconoOrden("feedback")}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>{generarFilasTabla()}</tbody>
+              </table>
+            </div>
+          </Tab>
           <Tab eventKey="tab-6" title="Top 10 X Cosa"></Tab>
         </Tabs>
       </Row>

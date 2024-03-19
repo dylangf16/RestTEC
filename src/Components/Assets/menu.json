@@ -1,0 +1,28 @@
+{
+    "menu": [
+        {
+            "nombre_plato": "Pizza Margarita",
+            "precio": 8500,
+            "calorias": 800,
+            "tipo": "Pizza"
+        },
+        {
+            "nombre_plato": "Ensalada César",
+            "precio": 4000,
+            "calorias": 350,
+            "tipo": "Ensalada"
+        },
+        {
+            "nombre_plato": "Sushi Variado",
+            "precio": 10000,
+            "calorias": 600,
+            "tipo": "Sushi"
+        },
+        {
+            "nombre_plato": "Hamburguesa Clásica",
+            "precio": 4000,
+            "calorias": 1000,
+            "tipo": "Hamburguesa"
+        }
+    ]
+}
