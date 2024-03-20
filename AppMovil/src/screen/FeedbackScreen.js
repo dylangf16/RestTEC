@@ -1,5 +1,14 @@
-import React, {useState} from 'react';
-import {View, Text, Button, StyleSheet} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ActivityIndicator,
+  Button,
+  ImageBackground,
+  Alert,
+} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import StarRating from 'react-native-star-rating';
 
 const FeedbackScreen = ({route}) => {
@@ -50,35 +59,70 @@ const FeedbackScreen = ({route}) => {
   };
 
   return (
-    <View style={styles.container}>
-      {order.platos.map((plato, index) => (
-        <View key={plato.id_plato} style={styles.ratingContainer}>
-          <Text>{plato.nombre_plato}</Text>
-          <StarRating
-            disabled={false}
-            maxStars={5}
-            rating={ratings[index]}
-            selectedStar={rating => handleStarRatingPress(rating, index)}
-            fullStarColor={'gold'}
-          />
-        </View>
-      ))}
-      <Button title="Enviar comentarios" onPress={handleSendFeedback} />
-    </View>
+    <ImageBackground
+      source={require('../Images/foodWallpaper.jpg')}
+      style={styles.background}
+      resizeMode="cover">
+      <View style={styles.container}>
+        {order.platos.map((plato, index) => (
+            <View key={plato.id_plato} style={styles.ratingContainer}>
+                <Text>{plato.nombre_plato}</Text>
+                <StarRating
+                    disabled={false}
+                    maxStars={5}
+                    rating={ratings[index]}
+                    selectedStar={rating => handleStarRatingPress(rating, index)}
+                    fullStarColor={'gold'}
+                />
+            </View>
+        ))}
+        <Button title="Enviar comentarios" onPress={handleSendFeedback} />
+      </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   ratingContainer: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
+    width: '100%',
+    paddingHorizontal: 10,
+    paddingVertical: 20,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+  },
+  platoHeader: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    marginTop: 20,
+    color: '#800080', // Purple
+  },
+  platoText: {
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  totalText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: 20,
+    color: '#800080', // Purple
+  },
+  buttonContainer: {
+    width: '100%',
+    marginVertical: 10,
   },
 });
 

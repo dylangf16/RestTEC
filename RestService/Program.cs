@@ -607,9 +607,9 @@ app.MapPost(
                 System.Text.Json.JsonSerializer.Serialize(platos)
             );
 
-            // Return a 200 OK response
+            // Return a 200 OK response with a JSON body
             context.Response.StatusCode = StatusCodes.Status200OK;
-            await context.Response.WriteAsync("Feedback received");
+            await context.Response.WriteAsJsonAsync(new { message = "Feedback received" });
         }
         catch (Exception ex)
         {
@@ -617,7 +617,7 @@ app.MapPost(
             Console.WriteLine($"Error receiving feedback: {ex.Message}");
             Console.WriteLine($"Stack trace: {ex.StackTrace}");
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-            await context.Response.WriteAsync("Error receiving feedback");
+            await context.Response.WriteAsJsonAsync(new { message = "Error receiving feedback" });
         }
     }
 );
