@@ -1,32 +1,165 @@
 {
     "platos": [
-        {
-            "nombre": "Pizza Margarita",
-            "descripcion": "Deliciosa pizza con salsa de tomate, mozzarella fresca y albahaca.",
-            "vendidos": 45,
-            "feedback": 4.9,
-            "tiempoEstimado": 30
-        },
-        {
-            "nombre": "Ensalada César",
-            "descripcion": "Ensalada fresca con lechuga romana, pollo a la parrilla, crutones, queso parmesano y aderezo César.",
-            "vendidos": 27,
-            "feedback": 4.6,
-            "tiempoEstimado": 5
-        },
-        {
-            "nombre": "Sushi Variado",
-            "descripcion": "Selección de sushi fresco y variado, incluyendo nigiri, sashimi y rollos.",
-            "vendidos": 31,
-            "feedback": 4.8,
-            "tiempoEstimado": 20
-        },
-        {
-            "nombre": "Hamburguesa Clásica",
-            "descripcion": "Jugosa hamburguesa de carne de res con queso cheddar, lechuga, tomate, cebolla y salsa especial.",
-            "vendidos": 53,
-            "feedback": 4.5,
-            "tiempoEstimado": 10
-        }
+      {
+        "id_plato": 100,
+        "nombre": "Hamburguesa cl\u00E1sica",
+        "descripcion": "Deliciosa hamburguesa de carne de res con queso y vegetales frescos",
+        "vendidos": 153,
+        "feedback": 4.4375,
+        "tiempoEstimado": 20
+      },
+      {
+        "id_plato": 101,
+        "nombre": "Pizza margarita",
+        "descripcion": "Pizza tradicional con salsa de tomate, mozzarella y albahaca fresca",
+        "vendidos": 122,
+        "feedback": 4.85,
+        "tiempoEstimado": 25
+      },
+      {
+        "id_plato": 102,
+        "nombre": "Ensalada C\u00E9sar",
+        "descripcion": "Mezcla de lechugas frescas con aderezo C\u00E9sar y crutones crujientes",
+        "vendidos": 91,
+        "feedback": 4.48046875,
+        "tiempoEstimado": 15
+      },
+      {
+        "id_plato": 103,
+        "nombre": "Sopa de tomate",
+        "descripcion": "Sopa caliente de tomate con hierbas frescas y un toque de crema",
+        "vendidos": 80,
+        "feedback": 4.8375,
+        "tiempoEstimado": 15
+      },
+      {
+        "id_plato": 104,
+        "nombre": "Filete de salm\u00F3n",
+        "descripcion": "Filete de salm\u00F3n a la parrilla con lim\u00F3n y hierbas arom\u00E1ticas",
+        "vendidos": 100,
+        "feedback": 4.3,
+        "tiempoEstimado": 30
+      },
+      {
+        "id_plato": 105,
+        "nombre": "Pasta Alfredo",
+        "descripcion": "Pasta cocida al dente con salsa Alfredo cremosa y parmesano rallado",
+        "vendidos": 110,
+        "feedback": 4.1,
+        "tiempoEstimado": 20
+      },
+      {
+        "id_plato": 106,
+        "nombre": "Tacos de carne",
+        "descripcion": "Tortillas de ma\u00EDz rellenas de carne sazonada con guarniciones frescas",
+        "vendidos": 130,
+        "feedback": 3.7,
+        "tiempoEstimado": 25
+      },
+      {
+        "id_plato": 107,
+        "nombre": "Sushi variado",
+        "descripcion": "Variedad de sushi fresco, incluyendo nigiri, sashimi y rollos especiales",
+        "vendidos": 160,
+        "feedback": 4.6,
+        "tiempoEstimado": 35
+      },
+      {
+        "id_plato": 108,
+        "nombre": "Bruschetta",
+        "descripcion": "Rebanadas de pan tostado con tomate fresco, albahaca y aceite de oliva",
+        "vendidos": 70,
+        "feedback": 3.7,
+        "tiempoEstimado": 15
+      },
+      {
+        "id_plato": 109,
+        "nombre": "Pollo asado",
+        "descripcion": "Pollo entero asado lentamente con especias mediterr\u00E1neas",
+        "vendidos": 140,
+        "feedback": 4.2,
+        "tiempoEstimado": 30
+      },
+      {
+        "id_plato": 110,
+        "nombre": "Lasagna",
+        "descripcion": "Capas de pasta intercaladas con salsa de carne y queso derretido",
+        "vendidos": 100,
+        "feedback": 4,
+        "tiempoEstimado": 35
+      },
+      {
+        "id_plato": 111,
+        "nombre": "Rollitos primavera",
+        "descripcion": "Rollitos de primavera rellenos de vegetales frescos y carne picada",
+        "vendidos": 120,
+        "feedback": 4.3,
+        "tiempoEstimado": 20
+      },
+      {
+        "id_plato": 112,
+        "nombre": "Sopa de pollo",
+        "descripcion": "Caldo caliente de pollo con verduras y fideos finos",
+        "vendidos": 80,
+        "feedback": 3.8,
+        "tiempoEstimado": 15
+      },
+      {
+        "id_plato": 113,
+        "nombre": "Hummus con crudit\u00E9s",
+        "descripcion": "Pur\u00E9 de garbanzos con tahini, ajo y lim\u00F3n, servido con vegetales crudos",
+        "vendidos": 90,
+        "feedback": 3.9,
+        "tiempoEstimado": 15
+      },
+      {
+        "id_plato": 114,
+        "nombre": "Parrillada mixta",
+        "descripcion": "Selecci\u00F3n de carnes a la parrilla con vegetales asados y salsa barbacoa",
+        "vendidos": 150,
+        "feedback": 4.5,
+        "tiempoEstimado": 40
+      },
+      {
+        "id_plato": 115,
+        "nombre": "Papas fritas",
+        "descripcion": "Papas fritas crujientes y doradas, acompa\u00F1adas de salsa de tomate",
+        "vendidos": 200,
+        "feedback": 4.7,
+        "tiempoEstimado": 15
+      },
+      {
+        "id_plato": 116,
+        "nombre": "Tarta de queso",
+        "descripcion": "Tarta cremosa de queso horneada sobre una base de galleta",
+        "vendidos": 180,
+        "feedback": 4.6,
+        "tiempoEstimado": 25
+      },
+      {
+        "id_plato": 117,
+        "nombre": "Helado de vainilla",
+        "descripcion": "Helado suave de vainilla con trozos de vaina de vainilla real",
+        "vendidos": 250,
+        "feedback": 4.9,
+        "tiempoEstimado": 10
+      },
+      {
+        "id_plato": 118,
+        "nombre": "Tiramis\u00FA",
+        "descripcion": "Postre italiano de capas de bizcocho empapado en caf\u00E9 y crema de mascarpone",
+        "vendidos": 220,
+        "feedback": 4.9,
+        "tiempoEstimado": 20
+      },
+      {
+        "id_plato": 119,
+        "nombre": "Frutas frescas",
+        "descripcion": "Selecci\u00F3n de frutas frescas de temporada cortadas en trozos peque\u00F1os",
+        "vendidos": 120,
+        "feedback": 4.2,
+        "tiempoEstimado": 10
+      }
     ]
-}
+  }
+  

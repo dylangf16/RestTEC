@@ -11,20 +11,20 @@ const ModalEditMenu = ({
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Editar Plato</Modal.Title>
+        <Modal.Title>Editar Menu</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
           <Form.Group controlId="formNombre">
-            <Form.Label>Nombre del Plato</Form.Label>
+            <Form.Label>Nombre del Menu</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Nombre del plato"
-              value={editedMenu.nombre_plato}
+              placeholder="Nombre del Menu"
+              value={editedMenu.nombre_menu}
               onChange={(e) =>
                 setEditedMenu((prevState) => ({
                   ...prevState,
-                  nombre_plato: e.target.value,
+                  nombre_menu: e.target.value,
                 }))
               }
             />
@@ -33,12 +33,12 @@ const ModalEditMenu = ({
             <Form.Label>Precio</Form.Label>
             <Form.Control
               type="number"
-              placeholder="Precio del plato"
-              value={editedMenu.precio}
+              placeholder="Precio del Menu"
+              value={editedMenu.precio_colones}
               onChange={(e) =>
                 setEditedMenu({
                   ...editedMenu,
-                  precio: e.target.value,
+                  precio_colones: e.target.value,
                 })
               }
             />
@@ -47,7 +47,7 @@ const ModalEditMenu = ({
             <Form.Label>Calorías</Form.Label>
             <Form.Control
               type="number"
-              placeholder="Calorías del plato"
+              placeholder="Calorías del Menu"
               value={editedMenu.calorias}
               onChange={(e) =>
                 setEditedMenu({
@@ -61,7 +61,7 @@ const ModalEditMenu = ({
             <Form.Label>Tipo</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Tipo de plato"
+              placeholder="Tipo de Menu"
               value={editedMenu.tipo}
               onChange={(e) =>
                 setEditedMenu({

@@ -17,14 +17,14 @@ const ModalCreateMenu = ({
       <Modal.Body>
         <Form>
           <Form.Group controlId="formNombre">
-            <Form.Label>Nombre del Plato</Form.Label>
+            <Form.Label>Nombre del Menu</Form.Label>
             <Form.Control
               required
               type="text"
-              placeholder="Nombre del plato"
-              value={newMenu.nombre_plato}
+              placeholder="Nombre del Menu"
+              value={newMenu.nombre_menu}
               onChange={(e) =>
-                setNewMenu({ ...newMenu, nombre_plato: e.target.value })
+                setNewMenu({ ...newMenu, nombre_menu: e.target.value })
               }
             />
           </Form.Group>
@@ -33,12 +33,12 @@ const ModalCreateMenu = ({
             <Form.Control
               required
               type="number"
-              placeholder="Precio del plato"
-              value={newMenu.precio}
+              placeholder="Precio del Menu"
+              value={newMenu.precio_colones}
               onChange={(e) =>
                 setNewMenu({
                   ...newMenu,
-                  precio: e.target.value,
+                  precio_colones: e.target.value,
                 })
               }
             />
@@ -48,7 +48,7 @@ const ModalCreateMenu = ({
             <Form.Control
               required
               type="number"
-              placeholder="Calorías del plato"
+              placeholder="Calorías del Menu"
               value={newMenu.calorias}
               onChange={(e) =>
                 setNewMenu({
@@ -63,7 +63,7 @@ const ModalCreateMenu = ({
             <Form.Control
               required
               type="text"
-              placeholder="Tipo de plato"
+              placeholder="Tipo de Menu"
               value={newMenu.tipo}
               onChange={(e) =>
                 setNewMenu({

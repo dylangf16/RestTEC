@@ -1,270 +1,66 @@
 {
     "usuarios": [
       {
-        "nombre": "pepito ramirez",    
-        "correo": "pepito@chef.com",
-        "contrasena": "chef123",
-        "rol": "chef",
-        "id": 100
+        "id": 106,
+        "nombre": "Ale",
+        "apellido1": "Rodriguez",
+        "apellido2": "castro",
+        "correo": "alerod@hotmail.com",
+        "contrasena": "aleeee",
+        "cedula": "1234567",
+        "fecha_nacimiento": "2002-12-07",
+        "telefonos": [
+          "8112821",
+          "1234565"
+        ],
+        "direccion": {
+          "provincia": "alajuela",
+          "canton": "poas",
+          "distrito": "san pedro"
         },
-        {
-        "nombre": "juanita ramirez", 
-        "correo": "juana@chef.com",
-        "contrasena": "chef321",
-        "rol": "chef",
-        "id": 101
+        "Rol": "cliente",
+        "NumPedidos": 7
+      },
+      {
+        "id": 107,
+        "nombre": "John",
+        "apellido1": "Doe",
+        "apellido2": "Smith",
+        "correo": "pepe.doe@example.com",
+        "contrasena": "securepassword",
+        "cedula": "123456789",
+        "fecha_nacimiento": "1990-01-01",
+        "telefonos": [
+          "1234567890",
+          "0987654321"
+        ],
+        "direccion": {
+          "provincia": "San Jose",
+          "canton": "San Jose",
+          "distrito": "San Jose"
         },
-        {
-        "nombre": "pepito rodriguez", 
-        "correo": "pepito@admin.com",
-        "contrasena": "admin123",
-        "rol": "administrador",
-        "id": 102
+        "Rol": "cliente",
+        "NumPedidos": 4
+      },
+      {
+        "id": 108,
+        "nombre": "Dylan",
+        "apellido1": "Garbanzo",
+        "apellido2": "Fallas",
+        "correo": "dgarbanzof@estudiantec.cr",
+        "contrasena": "dylan12",
+        "cedula": "118650414",
+        "fecha_nacimiento": "2003/01/16",
+        "telefonos": [
+          "83164704"
+        ],
+        "direccion": {
+          "provincia": "Cartago",
+          "canton": "Corralillo",
+          "distrito": "San Juan Sur"
         },
-        {
-        "nombre": "juanita rodriguez", 
-        "correo": "juana@admin.com",
-        "contrasena": "admin321",
-        "rol": "administrador",
-        "id": 103
-        }
-
-    ], 
-
-    "platos": [
-        {
-            "nombre": "Pizza Margarita",
-            "descripcion": "Deliciosa pizza con salsa de tomate, mozzarella fresca y albahaca.",
-            "vendidos": 45,
-            "feedback": 4.9,
-            "tiempoEstimado": 30
-        },
-        {
-            "nombre": "Ensalada César",
-            "descripcion": "Ensalada fresca con lechuga romana, pollo a la parrilla, crutones, queso parmesano y aderezo César.",
-            "vendidos": 27,
-            "feedback": 4.6,
-            "tiempoEstimado": 5
-        },
-        {
-            "nombre": "Sushi Variado",
-            "descripcion": "Selección de sushi fresco y variado, incluyendo nigiri, sashimi y rollos.",
-            "vendidos": 31,
-            "feedback": 4.8,
-            "tiempoEstimado": 20
-        },
-        {
-            "nombre": "Hamburguesa Clásica",
-            "descripcion": "Jugosa hamburguesa de carne de res con queso cheddar, lechuga, tomate, cebolla y salsa especial.",
-            "vendidos": 53,
-            "feedback": 4.5,
-            "tiempoEstimado": 10
-        }
-    ],
-
-    "menu": [
-        {
-            "nombre_plato": "Pizza Margarita",
-            "precio": 8500,
-            "calorias": 800,
-            "tipo": "Pizza"
-        },
-        {
-            "nombre_plato": "Ensalada César",
-            "precio": 4000,
-            "calorias": 350,
-            "tipo": "Ensalada"
-        },
-        {
-            "nombre_plato": "Sushi Variado",
-            "precio": 10000,
-            "calorias": 600,
-            "tipo": "Sushi"
-        },
-        {
-            "nombre_plato": "Hamburguesa Clásica",
-            "precio": 4000,
-            "calorias": 1000,
-            "tipo": "Hamburguesa"
-        }
-    ],
-    "pedidos": [
-        {
-          "id_pedido": 1,
-          "id_cliente": 106,
-          "chef_id" : 100,
-          "platos": [
-            {
-              "nombre_plato": "Pizza Margarita",
-              "descripcion": null,
-              "precio": 10.99,
-              "calorias": 0,
-              "tipo": null,
-              "id_plato": 100,
-              "duracionEstMin": 15,
-              "vendidos": 0,
-              "cantidad": 1
-            },
-            {
-              "nombre_plato": "Ensalada C\u00C3\u00A9sar",
-              "descripcion": null,
-              "precio": 8.5,
-              "calorias": 0,
-              "tipo": null,
-              "id_plato": 101,
-              "duracionEstMin": 15,
-              "vendidos": 0,
-              "cantidad": 2
-            }
-          ],
-          "fecha_hora": "2024-03-16T07:29:14Z",
-          "estado": "Recibido por el restaurante"
-        },
-        {
-          "id_pedido": 2,
-          "id_cliente": 106,
-          "chef_id" : 100,
-          "platos": [
-            {
-              "nombre_plato": "Sushi Variado",
-              "descripcion": null,
-              "precio": 15.99,
-              "calorias": 0,
-              "tipo": null,
-              "id_plato": 102,
-              "duracionEstMin": 15,
-              "vendidos": 0,
-              "cantidad": 1
-            },
-            {
-              "nombre_plato": "Hamburguesa Cl\u00C3\u00A1sica",
-              "descripcion": null,
-              "precio": 12.99,
-              "calorias": 0,
-              "tipo": null,
-              "id_plato": 103,
-              "duracionEstMin": 15,
-              "vendidos": 0,
-              "cantidad": 1
-            }
-          ],
-          "fecha_hora": "2024-03-16T07:30:54Z",
-          "estado": "Recibido por el restaurante"
-        },
-        {
-          "id_pedido": 3,
-          "id_cliente": 106,
-          "chef_id" : 0,
-          "platos": [
-            {
-              "nombre_plato": "Pizza Margarita",
-              "descripcion": null,
-              "precio": 10.99,
-              "calorias": 0,
-              "tipo": null,
-              "id_plato": 100,
-              "duracionEstMin": 15,
-              "vendidos": 0,
-              "cantidad": 1
-            },
-            {
-              "nombre_plato": "Ensalada C\u00C3\u00A9sar",
-              "descripcion": null,
-              "precio": 8.5,
-              "calorias": 0,
-              "tipo": null,
-              "id_plato": 101,
-              "duracionEstMin": 15,
-              "vendidos": 0,
-              "cantidad": 2
-            },
-            {
-              "nombre_plato": "Sushi Variado",
-              "descripcion": null,
-              "precio": 15.99,
-              "calorias": 0,
-              "tipo": null,
-              "id_plato": 102,
-              "duracionEstMin": 15,
-              "vendidos": 0,
-              "cantidad": 1
-            }
-          ],
-          "fecha_hora": "2024-03-16T07:32:21Z",
-          "estado": "Recibido por el restaurante"
-        },
-        {
-          "id_pedido": 4,
-          "id_cliente": 106,
-          "chef_id" : 101,
-          "platos": [
-            {
-              "nombre_plato": "Ensalada C\u00C3\u00A9sar",
-              "descripcion": null,
-              "precio": 8.5,
-              "calorias": 0,
-              "tipo": null,
-              "id_plato": 101,
-              "duracionEstMin": 0,
-              "vendidos": 0,
-              "cantidad": 3
-            },
-            {
-              "nombre_plato": "Sushi Variado",
-              "descripcion": null,
-              "precio": 15.99,
-              "calorias": 0,
-              "tipo": null,
-              "id_plato": 102,
-              "duracionEstMin": 0,
-              "vendidos": 0,
-              "cantidad": 4
-            }
-          ],
-          "fecha_hora": "2024-03-16T22:50:30.6407335Z",
-          "estado": "Recibido por el restaurante"
-        },
-        {
-          "id_pedido": 5,
-          "id_cliente": 108,
-          "chef_id" : 101,
-          "platos": [
-            {
-              "nombre_plato": "Pizza Margarita",
-              "descripcion": null,
-              "precio": 10.99,
-              "calorias": 0,
-              "tipo": null,
-              "id_plato": 100,
-              "duracionEstMin": 0,
-              "vendidos": 0,
-              "cantidad": 2
-            },
-            {
-              "nombre_plato": "Ensalada C\u00C3\u00A9sar",
-              "descripcion": null,
-              "precio": 8.5,
-              "calorias": 0,
-              "tipo": null,
-              "id_plato": 101,
-              "duracionEstMin": 0,
-              "vendidos": 0,
-              "cantidad": 1
-            },
-            {
-              "nombre_plato": "Sushi Variado",
-              "descripcion": null,
-              "precio": 15.99,
-              "calorias": 0,
-              "tipo": null,
-              "id_plato": 102,
-              "duracionEstMin": 0,
-              "vendidos": 0,
-              "cantidad": 5
-            }
-          ],
-          "fecha_hora": "2024-03-16T22:57:05.5799857Z",
-          "estado": "Recibido por el restaurante"
-        }
-      ]
-}
+        "Rol": "cliente",
+        "NumPedidos": 10
+      }
+    ]
+  }

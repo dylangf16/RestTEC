@@ -23,59 +23,59 @@ const ChefPage = () => {
 
   const eliminarOrden = (orderId) => {
     const updatedPedidos = pedidosData.pedidos.filter(
-      (pedido) => pedido.id_pedido !== orderId
+      (pedido) => pedido.id_orden !== orderId
     );
     pedidosData.pedidos = updatedPedidos;
     setChefData((prevData) => ({
       ...prevData,
-      pedidos: updatedPedidos.filter((pedido) => pedido.chef_id === usuario.id),
+      pedidos: updatedPedidos.filter((pedido) => pedido.id_chef === usuario.id),
     }));
   };
 
   const reasignarOrden = (orderId) => {
     const updatedPedidos = pedidosData.pedidos.map((pedido) => {
-      if (pedido.id_pedido === orderId) {
-        return { ...pedido, chef_id: usuario.id };
+      if (pedido.id_orden === orderId) {
+        return { ...pedido, id_chef: usuario.id };
       }
       return pedido;
     });
     pedidosData.pedidos = updatedPedidos;
     setChefData((prevData) => ({
       ...prevData,
-      pedidos: updatedPedidos.filter((pedido) => pedido.chef_id === usuario.id),
+      pedidos: updatedPedidos.filter((pedido) => pedido.id_chef === usuario.id),
     }));
   };
 
   const prepararOrden = (orderId) => {
-    // Cambiar el chef_id al id del chef actual
+    // Cambiar el id_chef al id del chef actual
     const updatedPedidos = pedidosData.pedidos.map((pedido) => {
-      if (pedido.id_pedido === orderId) {
-        return { ...pedido, chef_id: usuario.id };
+      if (pedido.id_orden === orderId) {
+        return { ...pedido, id_chef: usuario.id };
       }
       return pedido;
     });
     pedidosData.pedidos = updatedPedidos;
 
     // Actualizar la lista de pedidos no tomados
-    const noTomados = updatedPedidos.filter((pedido) => pedido.chef_id === 0);
+    const noTomados = updatedPedidos.filter((pedido) => pedido.id_chef === 0);
     setPedidosNoTomados(noTomados);
 
     // Actualizar el estado de chefData
     setChefData((prevData) => ({
       ...prevData,
-      pedidos: updatedPedidos.filter((pedido) => pedido.chef_id === usuario.id),
+      pedidos: updatedPedidos.filter((pedido) => pedido.id_chef === usuario.id),
     }));
   };
 
   const pedidos_actuales = [
     {
       name: "n° de orden",
-      selector: (row) => row.id_pedido,
+      selector: (row) => row.id_orden,
       width: "15%",
     },
     {
       name: "ID del Chef",
-      selector: (row) => row.chef_id,
+      selector: (row) => row.id_chef,
       width: "15%",
     },
     {
@@ -100,7 +100,17 @@ const ChefPage = () => {
     },
     {
       name: "Tiempo limite",
-      selector: (row) => calcularTiempoRestante(row.fecha_hora),
+      selector: (row) => {
+        const tiempoTotal = row.platos.reduce(
+          (total, plato) => total + plato.tiempoEstimado,
+          0
+        );
+
+        const tiempoLimite = new Date(row.OrderTakenAt);
+        tiempoLimite.setMinutes(tiempoLimite.getMinutes() + tiempoTotal);
+
+        return calcularTiempoRestante(tiempoLimite.toISOString(), 0);
+      },
       width: "32%",
     },
     {
@@ -109,7 +119,7 @@ const ChefPage = () => {
       cell: (row) => (
         <button
           className="btn btn-info"
-          onClick={() => eliminarOrden(row.id_pedido)}
+          onClick={() => eliminarOrden(row.id_orden)}
         >
           Orden Preparada
         </button>
@@ -120,12 +130,12 @@ const ChefPage = () => {
   const pedidos_de_otros_chef = [
     {
       name: "n° de orden",
-      selector: (row) => row.id_pedido,
+      selector: (row) => row.id_orden,
       width: "15%",
     },
     {
       name: "ID del chef encargado",
-      selector: (row) => row.chef_id,
+      selector: (row) => row.id_chef,
       width: "15%",
     },
     {
@@ -154,9 +164,19 @@ const ChefPage = () => {
       },
     },
     {
-      width: "32%",
       name: "Tiempo limite",
-      selector: (row) => calcularTiempoRestante(row.fecha_hora),
+      selector: (row) => {
+        const tiempoTotal = row.platos.reduce(
+          (total, plato) => total + plato.tiempoEstimado,
+          0
+        );
+
+        const tiempoLimite = new Date(row.OrderTakenAt);
+        tiempoLimite.setMinutes(tiempoLimite.getMinutes() + tiempoTotal);
+
+        return calcularTiempoRestante(tiempoLimite.toISOString(), 0);
+      },
+      width: "32%",
     },
     {
       name: "",
@@ -164,7 +184,7 @@ const ChefPage = () => {
       cell: (row) => (
         <button
           className="btn btn-success"
-          onClick={() => reasignarOrden(row.id_pedido)}
+          onClick={() => reasignarOrden(row.id_orden)}
         >
           Reasignar orden
         </button>
@@ -175,7 +195,7 @@ const ChefPage = () => {
   const pedidos_no_tomados = [
     {
       name: "n° de orden",
-      selector: (row) => row.id_pedido,
+      selector: (row) => row.id_orden,
     },
     {
       name: "Descripción",
@@ -203,14 +223,25 @@ const ChefPage = () => {
     },
     {
       name: "Tiempo limite",
-      selector: (row) => calcularTiempoRestante(row.fecha_hora),
+      selector: (row) => {
+        const tiempoTotal = row.platos.reduce(
+          (total, plato) => total + plato.tiempoEstimado,
+          0
+        );
+
+        const tiempoLimite = new Date(row.OrderTakenAt);
+        tiempoLimite.setMinutes(tiempoLimite.getMinutes() + tiempoTotal);
+
+        return calcularTiempoRestante(tiempoLimite.toISOString(), 0);
+      },
+      width: "32%",
     },
     {
       name: "",
       cell: (row) => (
         <button
           className="btn btn-warning"
-          onClick={() => prepararOrden(row.id_pedido)}
+          onClick={() => prepararOrden(row.id_orden)}
         >
           Preparar orden
         </button>
@@ -221,12 +252,12 @@ const ChefPage = () => {
   useEffect(() => {
     if (usuario) {
       const chefOrders = pedidosData.pedidos.filter(
-        (pedido) => pedido.chef_id === usuario.id
+        (pedido) => pedido.id_chef === usuario.id
       );
       setChefData({ usuario: usuario, pedidos: chefOrders });
 
       const noTomados = pedidosData.pedidos.filter(
-        (pedido) => pedido.chef_id === 0
+        (pedido) => pedido.id_chef === 0
       );
       setPedidosNoTomados(noTomados);
     }
@@ -260,7 +291,7 @@ const ChefPage = () => {
               columns={pedidos_de_otros_chef}
               data={pedidosData.pedidos.filter(
                 (pedido) =>
-                  pedido.chef_id !== usuario.id && pedido.chef_id !== 0
+                  pedido.id_chef !== usuario.id && pedido.id_chef !== 0
               )}
             />
           </Tab>

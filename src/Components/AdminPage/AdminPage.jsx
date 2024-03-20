@@ -14,6 +14,7 @@ import usuariosData from "../Assets/usuariosAdmin.json";
 import menuData from "../Assets/menu.json";
 import platosData from "../Assets/platos.json";
 import pedidosData from "../Assets/pedidos.json";
+import clientesData from "../Assets/usuarios.json";
 import { FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
 
 import { calcularTiempoRestante } from "../helpers/timeHelpers";
@@ -23,6 +24,8 @@ const AdminPage = () => {
   const { usuario } = location.state || {};
   const [activeTab, setActiveTab] = useState("pedidos-actuales");
   const [orden, setOrden] = useState(null);
+  const [clientes, setClientes] = useState(clientesData || []);
+  console.log("valor de clientes: ", clientes);
   const [pedidos, setPedidos] = useState(pedidosData.pedidos || []);
   const [platos, setPlatos] = useState(platosData.platos || []);
   const [menu, setMenu] = useState(menuData.menu || []);
@@ -39,9 +42,10 @@ const AdminPage = () => {
     vendidos: 0,
     feedback: 0,
   });
+
   const [newMenu, setNewMenu] = useState({
     nombre_plato: "",
-    precio: 0,
+    precio_colones: 0,
     calorias: 0,
     tipo: "",
   });
@@ -60,8 +64,10 @@ const AdminPage = () => {
       );
     } else if (orden === "ganancia") {
       datosOrdenados.sort((a, b) => {
-        const gananciaA = a.precio * obtenerInfoPlato(a.nombre_plato).vendidos;
-        const gananciaB = b.precio * obtenerInfoPlato(b.nombre_plato).vendidos;
+        const gananciaA =
+          a.precio_colones * obtenerInfoPlato(a.nombre_plato).vendidos;
+        const gananciaB =
+          b.precio_colones * obtenerInfoPlato(b.nombre_plato).vendidos;
         return gananciaB - gananciaA;
       });
     } else if (orden === "feedback") {
@@ -71,13 +77,14 @@ const AdminPage = () => {
           obtenerInfoPlato(a.nombre_plato).feedback
       );
     }
+    datosOrdenados = datosOrdenados.slice(0, 10);
     return datosOrdenados.map((item) => {
       const platoInfo = obtenerInfoPlato(item.nombre_plato);
       return (
         <tr key={item.nombre_plato}>
           <td>{item.nombre_plato}</td>
           <td>{platoInfo.vendidos}</td>
-          <td>{item.precio * platoInfo.vendidos}</td>
+          <td>{item.precio_colones * platoInfo.vendidos}</td>
           <td>{platoInfo.feedback}</td>
         </tr>
       );
@@ -108,13 +115,19 @@ const AdminPage = () => {
 
   const deletePlato = (idx) => {
     const updatedPlatos = [...platos];
+    const updatedMenu = [...menu];
+    updatedMenu.splice(idx, 1);
     updatedPlatos.splice(idx, 1);
     setPlatos(updatedPlatos);
+    setMenu(updatedMenu);
   };
 
   const deleteMenu = (idx) => {
+    const updatedPlatos = [...platos];
     const updatedMenu = [...menu];
     updatedMenu.splice(idx, 1);
+    updatedPlatos.splice(idx, 1);
+    setPlatos(updatedPlatos);
     setMenu(updatedMenu);
   };
 
@@ -134,7 +147,7 @@ const AdminPage = () => {
     const menuToEdit = menu[idx];
     setEditedMenu({
       nombre_plato: menuToEdit.nombre_plato,
-      precio: menuToEdit.precio,
+      precio_colones: menuToEdit.precio_colones,
       calorias: menuToEdit.calorias,
       tipo: menuToEdit.tipo,
     });
@@ -198,7 +211,7 @@ const AdminPage = () => {
   const resetCreateMenuModal = () => {
     setNewMenu({
       nombre_plato: "",
-      precio: 0,
+      precio_colones: 0,
       calorias: 0,
       tipo: "",
     });
@@ -217,6 +230,10 @@ const AdminPage = () => {
     setMenu(updatedMenu);
     closeCreateMenuModal();
   };
+
+  const sortedClientes = clientes.usuarios
+    .sort((a, b) => b.NumPedidos - a.NumPedidos)
+    .slice(0, 10);
 
   return (
     <Container className="py-4">
@@ -240,20 +257,27 @@ const AdminPage = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {pedidos.map((pedidos, idx) => (
+                  {pedidos.map((pedido, idx) => (
                     <tr key={idx}>
-                      <td>{pedidos.id_pedido}</td>
+                      <td>{pedido.id_orden}</td>
                       <td>
-                        {" "}
-                        {pedidos.platos.map((platosss, idx) => (
+                        {pedido.platos.map((plato, idx) => (
                           <span key={idx}>
-                            {platosss.cantidad} {platosss.nombre_plato}
+                            {plato.cantidad} {plato.nombre_plato}
                             <br />
                           </span>
                         ))}
                       </td>
-                      <td>{calcularTiempoRestante(pedidos.fecha_hora)}</td>
-                      <td>{pedidos.chef_id}</td>
+                      <td>
+                        {calcularTiempoRestante(
+                          pedido.OrderTakenAt,
+                          pedido.platos.reduce(
+                            (total, plato) => total + plato.tiempoEstimado,
+                            0
+                          )
+                        )}
+                      </td>
+                      <td>{pedido.id_chef}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -304,6 +328,13 @@ const AdminPage = () => {
             >
               <Button onClick={() => setShowCreateModal(true)}>Crear</Button>
             </div>
+            <div
+              className="d-flex justify-content-center mt-3"
+              style={{ marginTop: "10px" }}
+            >
+              {" "}
+              <Button>Guardar cambios</Button>
+            </div>
             <ModalCreatePlato
               show={showCreateModal}
               handleClose={() => setShowCreateModal(false)}
@@ -336,7 +367,7 @@ const AdminPage = () => {
                   {menu.map((menu, idx) => (
                     <tr key={idx}>
                       <td>{menu.nombre_plato}</td>
-                      <td>{menu.precio}</td>
+                      <td>{menu.precio_colones}</td>
                       <td>{menu.calorias}</td>
                       <td>{menu.tipo}</td>
                       <td className="fit">
@@ -361,6 +392,13 @@ const AdminPage = () => {
               style={{ marginTop: "10px" }}
             >
               <Button onClick={openCreateMenuModal}>Crear</Button>
+            </div>
+            <div
+              className="d-flex justify-content-center mt-3"
+              style={{ marginTop: "10px" }}
+            >
+              {" "}
+              <Button>Guardar cambios</Button>
             </div>
             <ModalCreateMenu
               show={showCreateMenuModal}
@@ -413,7 +451,34 @@ const AdminPage = () => {
               </table>
             </div>
           </Tab>
-          <Tab eventKey="tab-6" title="Top 10 X Cosa"></Tab>
+          <Tab eventKey="tab-6" title="Top 10 Clientes">
+            <div className="table-wrapper">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Id Cliente</th>
+                    <th>Nombre</th>
+                    <th>Apellido 1</th>
+                    <th>Apellido 2</th>
+                    <th className="expand">Correo</th>
+                    <th>Cantidad de Pedidos</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sortedClientes.map((cliente, idx) => (
+                    <tr key={idx}>
+                      <td>{cliente.id}</td>
+                      <td>{cliente.nombre}</td>
+                      <td>{cliente.apellido1}</td>
+                      <td>{cliente.apellido2}</td>
+                      <td>{cliente.correo}</td>
+                      <td>{cliente.NumPedidos}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </Tab>
         </Tabs>
       </Row>
     </Container>
