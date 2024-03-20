@@ -126,6 +126,119 @@
       "total": 10089,
       "id_chef": 0,
       "OrderTakenAt": "2024-03-18T22:42:17.7400409"
+    },
+    {
+      "id_orden": 661577,
+      "id_cliente": 106,
+      "platos": [
+        {
+          "id_plato": 102,
+          "nombre_plato": "Ensalada C\u00E9sar",
+          "precio": 4588,
+          "cantidad": 1,
+          "tiempoEstimado": 15
+        },
+        {
+          "id_plato": 103,
+          "nombre_plato": "Sopa de tomate",
+          "precio": 3670,
+          "cantidad": 1,
+          "tiempoEstimado": 15
+        }
+      ],
+      "total": 8258,
+      "id_chef": 0,
+      "OrderTakenAt": "2024-03-18T22:56:54.4600199"
+    },
+    {
+      "id_orden": 544374,
+      "id_cliente": 108,
+      "platos": [
+        {
+          "id_plato": 107,
+          "nombre_plato": "Sushi variado",
+          "precio": 9188,
+          "cantidad": 3,
+          "tiempoEstimado": 35
+        },
+        {
+          "id_plato": 108,
+          "nombre_plato": "Bruschetta",
+          "precio": 3977,
+          "cantidad": 2,
+          "tiempoEstimado": 15
+        },
+        {
+          "id_plato": 109,
+          "nombre_plato": "Pollo asado",
+          "precio": 5808,
+          "cantidad": 1,
+          "tiempoEstimado": 30
+        }
+      ],
+      "total": 41326,
+      "id_chef": 0,
+      "OrderTakenAt": "2024-03-19T17:14:59.9876817"
+    },
+    {
+      "id_orden": 558366,
+      "id_cliente": 108,
+      "platos": [
+        {
+          "id_plato": 100,
+          "nombre_plato": "Hamburguesa cl\u00E1sica",
+          "precio": 5510,
+          "cantidad": 3,
+          "tiempoEstimado": 20
+        },
+        {
+          "id_plato": 101,
+          "nombre_plato": "Pizza margarita",
+          "precio": 6736,
+          "cantidad": 2,
+          "tiempoEstimado": 25
+        },
+        {
+          "id_plato": 102,
+          "nombre_plato": "Ensalada C\u00E9sar",
+          "precio": 4588,
+          "cantidad": 1,
+          "tiempoEstimado": 15
+        }
+      ],
+      "total": 34590,
+      "id_chef": 0,
+      "OrderTakenAt": "2024-03-19T17:25:01.2490947"
+    },
+    {
+      "id_orden": 840244,
+      "id_cliente": 108,
+      "platos": [
+        {
+          "id_plato": 100,
+          "nombre_plato": "Hamburguesa cl\u00E1sica",
+          "precio": 5510,
+          "cantidad": 3,
+          "tiempoEstimado": 20
+        },
+        {
+          "id_plato": 101,
+          "nombre_plato": "Pizza margarita",
+          "precio": 6736,
+          "cantidad": 2,
+          "tiempoEstimado": 25
+        },
+        {
+          "id_plato": 102,
+          "nombre_plato": "Ensalada C\u00E9sar",
+          "precio": 4588,
+          "cantidad": 1,
+          "tiempoEstimado": 15
+        }
+      ],
+      "total": 34590,
+      "id_chef": 0,
+      "OrderTakenAt": "2024-03-19T17:27:22.3906392"
     }
   ]
 }

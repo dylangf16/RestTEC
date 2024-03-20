@@ -10,6 +10,7 @@ import ReceiptScreen from './src/screen/ReceiptScreen';
 import ActiveOrdersScreen from './src/screen/ActiveOrdersScreen';
 import HomeScreen from './src/screen/HomeScreen';
 import UpdateScreen from './src/screen/UpdateScreen';
+import FeedbackScreen from './src/screen/FeedbackScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +26,7 @@ export default function App(): JSX.Element {
         <Stack.Screen name = "ReceiptScreen" component = {ReceiptScreen} options = {{}} />
         <Stack.Screen name = "ActiveOrdersScreen" component = {ActiveOrdersScreen} options = {{}} />
         <Stack.Screen name = "UpdateScreen" component = {UpdateScreen} options = {{}} />
+        <Stack.Screen name = "FeedbackScreen" component = {FeedbackScreen} options = {{}} />
       </Stack.Navigator>
 
     </NavigationContainer>

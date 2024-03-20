@@ -44,12 +44,16 @@ const StateScreen = () => {
   };
 
   const calculateProgress = order => {
-    const currentTime = new Date().getTime() - (3600000 * 6); // Adjust to CST (UTC-6)
+    const currentTime = new Date().getTime(); // No need to adjust to CST
     const startTime = new Date(order.OrderTakenAt).getTime();
 
     // Calculate total duration by summing tiempoEstimado of each plato
     // Convert tiempoEstimado from minutes to milliseconds
-    const totalDuration = order.platos.reduce((total, plato) => total + plato.tiempoEstimado * 60, 0) * 1000;
+    const totalDuration =
+      order.platos.reduce(
+        (total, plato) => total + plato.tiempoEstimado * 60,
+        0,
+      ) * 1000;
 
     const elapsedTime = currentTime - startTime;
 
@@ -65,7 +69,11 @@ const StateScreen = () => {
 
     // Calculate total duration by summing tiempoEstimado of each plato
     // Convert tiempoEstimado from minutes to milliseconds
-    const totalDuration = order.platos.reduce((total, plato) => total + plato.tiempoEstimado * 60, 0) * 1000;
+    const totalDuration =
+      order.platos.reduce(
+        (total, plato) => total + plato.tiempoEstimado * 60,
+        0,
+      ) * 1000;
 
     const endTime = startTime + totalDuration;
 
@@ -88,28 +96,41 @@ const StateScreen = () => {
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>Pedidos Activos</Text>
         <View style={styles.formContainer}>
-          {activeOrders.map(order => (
-            <View key={order.id_pedido} style={styles.orderContainer}>
-              <Text style={styles.orderText}>
-                ID del pedido: {order.id_orden}
-              </Text>
-              <Text style={styles.orderText}>
-                Fecha de realización del pedido: {formatDate(order.OrderTakenAt)}
-              </Text>
-              <Text style={styles.orderText}>
-                Hora estimada de finalización:{' '}
-                {new Date(calculateEndTime(order)).toLocaleTimeString()}
-              </Text>
-              <Text style={styles.orderText}>Platos:</Text>
-              {order.platos.map((plato, index) => (
-                <Text key={index} style={styles.orderText}>
-                  {' '}
-                  {plato.cantidad} x {plato.nombre_plato}
+          {activeOrders.map(order => {
+            const progress = calculateProgress(order);
+            return (
+              <View key={order.id_pedido} style={styles.orderContainer}>
+                <Text style={styles.orderText}>
+                  ID del pedido: {order.id_orden}
                 </Text>
-              ))}
-              <CustomProgressBar progress={calculateProgress(order)} />
-            </View>
-          ))}
+                <Text style={styles.orderText}>
+                  Fecha de realización del pedido:{' '}
+                  {formatDate(order.OrderTakenAt)}
+                </Text>
+                <Text style={styles.orderText}>
+                  Hora estimada de finalización:{' '}
+                  {new Date(calculateEndTime(order)).toLocaleTimeString()}
+                </Text>
+                <Text style={styles.orderText}>Platos:</Text>
+                {order.platos.map((plato, index) => (
+                  <Text key={index} style={styles.orderText}>
+                    {' '}
+                    {plato.cantidad} x {plato.nombre_plato}
+                  </Text>
+                ))}
+                <CustomProgressBar progress={progress} />
+                {progress === 100 && (
+                  <Button
+                    title="Qué te pareció tu pedido!"
+                    onPress={() =>
+                      navigation.navigate('FeedbackScreen', {order})
+                    }
+                    color="#800080" // Purple
+                  />
+                )}
+              </View>
+            );
+          })}
         </View>
         <View style={styles.buttonContainer}>
           <Button

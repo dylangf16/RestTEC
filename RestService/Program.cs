@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json; // Add this import statement
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
@@ -33,9 +32,9 @@ app.MapPost(
         Console.WriteLine($"Usuarios JSON Path: {usuariosJsonPath}"); // Debugging output
 
         var usuariosJson = await File.ReadAllTextAsync(usuariosJsonPath);
-        var usuariosObject = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Usuario>>>(
-            usuariosJson
-        );
+        var usuariosObject = System.Text.Json.JsonSerializer.Deserialize<
+            Dictionary<string, List<Usuario>>
+        >(usuariosJson);
 
         // Check if the username and password match
         if (usuariosObject != null && usuariosObject.ContainsKey("usuarios"))
@@ -92,9 +91,9 @@ app.MapPost(
         try
         {
             var usuariosJson = await File.ReadAllTextAsync(usuariosJsonPath);
-            usuariosObject = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Usuario>>>(
-                usuariosJson
-            );
+            usuariosObject = System.Text.Json.JsonSerializer.Deserialize<
+                Dictionary<string, List<Usuario>>
+            >(usuariosJson);
         }
         catch (Exception ex)
         {
@@ -216,9 +215,8 @@ app.MapPost(
 
             // Deserialize the request body to an Order object
             var order = System.Text.Json.JsonSerializer.Deserialize<Order>(requestBody);
-             order.id_chef = 0;
+            order.id_chef = 0;
 
-            // Set the time when the order was taken
             // Set the time when the order was taken
             DateTime utcNow = DateTime.UtcNow;
             TimeZoneInfo cstZone = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time");
@@ -231,7 +229,9 @@ app.MapPost(
 
             // Read existing plates from platos.json
             var json = await System.IO.File.ReadAllTextAsync("db\\platos.json");
-            var platosData = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Plato>>>(json);
+            var platosData = System.Text.Json.JsonSerializer.Deserialize<
+                Dictionary<string, List<Plato>>
+            >(json);
             var platos = platosData["platos"];
 
             // Add the tiempoEstimado to each plate in the order
@@ -244,20 +244,44 @@ app.MapPost(
                 }
             }
 
+            foreach (var plate in order.platos)
+            {
+                var plato = platos.Find(p => p.id_plato == plate.id_plato);
+                if (plato != null)
+                {
+                    plate.tiempoEstimado = plato.tiempoEstimado;
+                    plato.vendidos += plate.cantidad; // increment vendidos by the cantidad of each plate
+                }
+            }
+            // Write the updated plates back to platos.json
+            platosData["platos"] = platos;
+            var platosJson = System.Text.Json.JsonSerializer.Serialize(
+                platosData,
+                new JsonSerializerOptions { WriteIndented = true }
+            );
+            await System.IO.File.WriteAllTextAsync("db\\platos.json", platosJson);
+
             // Read existing orders from pedidos.json
             json = await System.IO.File.ReadAllTextAsync("db\\pedidos.json");
-            var pedidos = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Order>>>(json);
+            var pedidos = System.Text.Json.JsonSerializer.Deserialize<
+                Dictionary<string, List<Order>>
+            >(json);
 
             // Add the new order to the list
             pedidos["pedidos"].Add(order);
 
             // Write the updated list back to pedidos.json
-            json = System.Text.Json.JsonSerializer.Serialize(pedidos, new JsonSerializerOptions { WriteIndented = true });
+            json = System.Text.Json.JsonSerializer.Serialize(
+                pedidos,
+                new JsonSerializerOptions { WriteIndented = true }
+            );
             await System.IO.File.WriteAllTextAsync("db\\pedidos.json", json);
 
             // Read existing users from usuarios.json
             json = await System.IO.File.ReadAllTextAsync("db\\usuarios.json");
-            var usuariosData = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Usuario>>>(json);
+            var usuariosData = System.Text.Json.JsonSerializer.Deserialize<
+                Dictionary<string, List<Usuario>>
+            >(json);
             var usuarios = usuariosData["usuarios"];
 
             // Find the user with the matching id_cliente
@@ -267,7 +291,10 @@ app.MapPost(
                 var usuario = usuarios[usuarioIndex];
 
                 // Create a new Usuario object with the incremented NumPedidos
-                var updatedUsuario = usuario with { NumPedidos = usuario.NumPedidos + 1 };
+                var updatedUsuario = usuario with
+                {
+                    NumPedidos = usuario.NumPedidos + 1
+                };
 
                 // Replace the existing user in the list with the new one
                 usuarios[usuarioIndex] = updatedUsuario;
@@ -275,7 +302,10 @@ app.MapPost(
 
             // Write the updated users back to usuarios.json
             usuariosData["usuarios"] = usuarios;
-            json = System.Text.Json.JsonSerializer.Serialize(usuariosData, new JsonSerializerOptions { WriteIndented = true });
+            json = System.Text.Json.JsonSerializer.Serialize(
+                usuariosData,
+                new JsonSerializerOptions { WriteIndented = true }
+            );
             await System.IO.File.WriteAllTextAsync("db\\usuarios.json", json);
             // Return a success response
             context.Response.ContentType = "application/json";
@@ -293,6 +323,7 @@ app.MapPost(
     }
 );
 
+//Map route to handle getting order with orderID
 app.MapGet(
     "/order/{orderId}",
     async (HttpContext context, int orderId) =>
@@ -301,7 +332,9 @@ app.MapGet(
         {
             // Read existing orders from pedidos.json
             var json = await System.IO.File.ReadAllTextAsync("db\\pedidos.json");
-            var pedidos = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Order>>>(json);
+            var pedidos = System.Text.Json.JsonSerializer.Deserialize<
+                Dictionary<string, List<Order>>
+            >(json);
 
             // Find the order with the matching id_orden
             var order = pedidos["pedidos"].Find(o => o.id_orden == orderId);
@@ -330,6 +363,7 @@ app.MapGet(
     }
 );
 
+//Map route to handle getting order with clientID
 app.MapGet(
     "/orders/{clientId}",
     async (HttpContext context, int clientId) =>
@@ -338,7 +372,9 @@ app.MapGet(
         {
             // Read existing orders from pedidos.json
             var json = await System.IO.File.ReadAllTextAsync("db\\pedidos.json");
-            var pedidos = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Order>>>(json);
+            var pedidos = System.Text.Json.JsonSerializer.Deserialize<
+                Dictionary<string, List<Order>>
+            >(json);
 
             // Find all orders with the matching id_cliente
             var clientOrders = pedidos["pedidos"].Where(o => o.id_cliente == clientId).ToList();
@@ -347,7 +383,9 @@ app.MapGet(
             {
                 // Return the orders
                 context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(clientOrders));
+                await context.Response.WriteAsync(
+                    System.Text.Json.JsonSerializer.Serialize(clientOrders)
+                );
                 Console.WriteLine(clientOrders);
             }
             else
@@ -367,6 +405,7 @@ app.MapGet(
         }
     }
 );
+
 // Map a route to retrieve the menu
 app.MapGet(
     "/menu",
@@ -427,9 +466,9 @@ app.MapPut(
         try
         {
             var usuariosJson = await File.ReadAllTextAsync(usuariosJsonPath);
-            var usuariosObject = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Usuario>>>(
-                usuariosJson
-            );
+            var usuariosObject = System.Text.Json.JsonSerializer.Deserialize<
+                Dictionary<string, List<Usuario>>
+            >(usuariosJson);
 
             // Find the user with the specified ID
             var userIndex = usuariosObject?["usuarios"]?.FindIndex(u => u.id == userId);
@@ -502,9 +541,9 @@ app.MapDelete(
         try
         {
             var usuariosJson = await File.ReadAllTextAsync(usuariosJsonPath);
-            var usuariosObject = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Usuario>>>(
-                usuariosJson
-            );
+            var usuariosObject = System.Text.Json.JsonSerializer.Deserialize<
+                Dictionary<string, List<Usuario>>
+            >(usuariosJson);
 
             // Find the index of the user with the specified ID
             var userIndex = usuariosObject?["usuarios"]?.FindIndex(u => u.id == userId);
@@ -538,6 +577,51 @@ app.MapDelete(
         }
     }
 );
+
+app.MapPost(
+    "/feedback",
+    async (HttpContext context) =>
+    {
+        try
+        {
+            // Read the request body
+            var requestBody = await new StreamReader(context.Request.Body).ReadToEndAsync();
+            var feedback = System.Text.Json.JsonSerializer.Deserialize<Feedback>(requestBody);
+
+            // Read existing platos from platos.json
+            var json = await System.IO.File.ReadAllTextAsync("db\\platos.json");
+            var platos = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Plato>>>(json);
+
+            // Find the plato for the given id_plato
+            var plato = platos["platos"].FirstOrDefault(p => p.id_plato == feedback.id_plato);
+
+            if (plato != null)
+            {
+                // Update the feedback
+                plato.feedback = (plato.feedback + feedback.rating) / 2;
+            }
+
+            // Write the updated platos back to platos.json
+            await System.IO.File.WriteAllTextAsync(
+                "db\\platos.json",
+                System.Text.Json.JsonSerializer.Serialize(platos)
+            );
+
+            // Return a 200 OK response
+            context.Response.StatusCode = StatusCodes.Status200OK;
+            await context.Response.WriteAsync("Feedback received");
+        }
+        catch (Exception ex)
+        {
+            // Handle exceptions
+            Console.WriteLine($"Error receiving feedback: {ex.Message}");
+            Console.WriteLine($"Stack trace: {ex.StackTrace}");
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            await context.Response.WriteAsync("Error receiving feedback");
+        }
+    }
+);
+
 
 app.Run();
 
@@ -606,8 +690,8 @@ public class Order
     public int id_chef { get; set; }
 
     public DateTime OrderTakenAt { get; set; }
-
 }
+
 public class Plato
 {
     public int id_plato { get; set; }
@@ -617,6 +701,7 @@ public class Plato
     public double feedback { get; set; }
     public int tiempoEstimado { get; set; }
 }
+
 public class Plate
 {
     public int id_plato { get; set; }
@@ -624,8 +709,8 @@ public class Plate
     public int precio { get; set; }
     public int cantidad { get; set; }
     public int tiempoEstimado { get; set; }
-
 }
+
 public record OrderData(
     int id_pedido,
     int id_cliente,
@@ -653,3 +738,14 @@ public record UpdateData(
 
 record Usuarios(List<Usuario> UsuariosList);
 
+public class Feedback
+{
+    public int id_plato { get; set; }
+    public double rating { get; set; } // Assuming the rating is a double
+}
+
+public class Rating
+{
+    public int id_plato { get; set; }
+    public double rating { get; set; } // Assuming the rating is a double
+}

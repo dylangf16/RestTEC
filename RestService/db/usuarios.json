@@ -125,6 +125,26 @@
       },
       "Rol": "cliente",
       "NumPedidos": 0
+    },
+    {
+      "id": 108,
+      "nombre": "Dylan",
+      "apellido1": "Garbanzo",
+      "apellido2": "Fallas",
+      "correo": "dgarbanzof@estudiantec.cr",
+      "contrasena": "dylan12",
+      "cedula": "118650414",
+      "fecha_nacimiento": "2003/01/16",
+      "telefonos": [
+        "83164704"
+      ],
+      "direccion": {
+        "provincia": "Cartago",
+        "canton": "Corralillo",
+        "distrito": "San Juan Sur"
+      },
+      "Rol": "cliente",
+      "NumPedidos": 3
     }
   ]
 }
