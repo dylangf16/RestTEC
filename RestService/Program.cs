@@ -7,9 +7,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json; // Add this import statement
+using System.Text.Json.Serialization;
+using RestService;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(); // Add this line to register CORS services
 
 var app = builder.Build();
 
@@ -48,10 +51,12 @@ app.MapPost(
             {
                 context.Response.StatusCode = StatusCodes.Status200OK; // Set status code before writing to response
                 var client_id = user.id; // Get the client ID
+                var role = user.Rol; // Get the user role
                 var responseData = new
                 {
                     message = "Inicio de sesión exitoso",
-                    client_id = client_id
+                    client_id = client_id,
+                    role = role
                 };
                 var jsonResponse = System.Text.Json.JsonSerializer.Serialize(responseData);
                 await context.Response.WriteAsync(jsonResponse);
@@ -420,10 +425,10 @@ app.MapGet(
             var dishesJson = await File.ReadAllTextAsync(dishesJsonPath);
             var menuObject = System.Text.Json.JsonSerializer.Deserialize<Menu>(dishesJson);
 
-            // Return the list of dishes
+            // Return the list of dishes wrapped in a data property
             context.Response.StatusCode = StatusCodes.Status200OK;
             context.Response.ContentType = "application/json";
-            await context.Response.WriteAsJsonAsync(new { dishes = menuObject.menu });
+            await context.Response.WriteAsJsonAsync(new { data = menuObject.menu });
         }
         catch (Exception ex)
         {
@@ -578,6 +583,7 @@ app.MapDelete(
     }
 );
 
+// Map a route to handle feedback
 app.MapPost(
     "/feedback",
     async (HttpContext context) =>
@@ -590,7 +596,9 @@ app.MapPost(
 
             // Read existing platos from platos.json
             var json = await System.IO.File.ReadAllTextAsync("db\\platos.json");
-            var platos = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, List<Plato>>>(json);
+            var platos = System.Text.Json.JsonSerializer.Deserialize<
+                Dictionary<string, List<Plato>>
+            >(json);
 
             // Find the plato for the given id_plato
             var plato = platos["platos"].FirstOrDefault(p => p.id_plato == feedback.id_plato);
@@ -622,6 +630,341 @@ app.MapPost(
     }
 );
 
+//Map a route to handle pedidos
+app.MapGet(
+    "/pedidos",
+    async context =>
+    {
+        // Access the JSON file to get the pedidos
+        var pedidosJsonPath = Path.Combine(Directory.GetCurrentDirectory(), "db", "pedidos.json");
+        Console.WriteLine($"Pedidos JSON Path: {pedidosJsonPath}"); // Debugging output
+
+        var pedidosJson = await File.ReadAllTextAsync(pedidosJsonPath);
+        var pedidosObject = System.Text.Json.JsonSerializer.Deserialize<
+            Dictionary<string, List<Order>>
+        >(pedidosJson);
+
+        // Check if the pedidos exist
+        if (pedidosObject != null && pedidosObject.ContainsKey("pedidos"))
+        {
+            var pedidos = pedidosObject["pedidos"];
+
+            context.Response.StatusCode = StatusCodes.Status200OK; // Set status code before writing to response
+            var jsonResponse = System.Text.Json.JsonSerializer.Serialize(pedidosObject);
+            await context.Response.WriteAsync(jsonResponse);
+        }
+        else
+        {
+            Console.WriteLine("Invalid JSON file format");
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError; // Set status code before writing to response
+            await context.Response.WriteAsync("Invalid JSON file format");
+        }
+    }
+);
+
+app.MapGet(
+    "/pedidos/admin",
+    async context =>
+    {
+        // Access the JSON file to get the pedidos
+        var pedidosJsonPath = Path.Combine(Directory.GetCurrentDirectory(), "db", "pedidos.json");
+        Console.WriteLine($"Pedidos JSON Path: {pedidosJsonPath}"); // Debugging output
+
+        var pedidosJson = await File.ReadAllTextAsync(pedidosJsonPath);
+        var pedidosObject = System.Text.Json.JsonSerializer.Deserialize<
+            Dictionary<string, List<Order>>
+        >(pedidosJson);
+
+        // Check if the pedidos exist
+        if (pedidosObject != null && pedidosObject.ContainsKey("pedidos"))
+        {
+            var pedidos = pedidosObject["pedidos"];
+
+            context.Response.StatusCode = StatusCodes.Status200OK; // Set status code before writing to response
+            await context.Response.WriteAsJsonAsync(new { data = pedidos });
+        }
+        else
+        {
+            Console.WriteLine("Invalid JSON file format");
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError; // Set status code before writing to response
+            await context.Response.WriteAsync("Invalid JSON file format");
+        }
+    }
+);
+
+app.MapGet(
+    "/usuarios",
+    async context =>
+    {
+        // Access the JSON file to get the pedidos
+        var pedidosJsonPath = Path.Combine(Directory.GetCurrentDirectory(), "db", "usuarios.json");
+        Console.WriteLine($"Usuarios JSON Path: {pedidosJsonPath}"); // Debugging output
+
+        var pedidosJson = await File.ReadAllTextAsync(pedidosJsonPath);
+        var pedidosObject = System.Text.Json.JsonSerializer.Deserialize<
+            Dictionary<string, List<Usuario>>
+        >(pedidosJson);
+
+        // Check if the pedidos exist
+        if (pedidosObject != null && pedidosObject.ContainsKey("usuarios"))
+        {
+            var pedidos = pedidosObject["usuarios"];
+
+            context.Response.StatusCode = StatusCodes.Status200OK; // Set status code before writing to response
+            await context.Response.WriteAsJsonAsync(new { data = pedidosObject });
+        }
+        else
+        {
+            Console.WriteLine("Invalid JSON file format");
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError; // Set status code before writing to response
+            await context.Response.WriteAsync("Invalid JSON file format");
+        }
+    }
+);
+
+app.MapGet(
+    "/platos",
+    async context =>
+    {
+        // Access the JSON file to get the pedidos
+        var pedidosJsonPath = Path.Combine(Directory.GetCurrentDirectory(), "db", "platos.json");
+        Console.WriteLine($"Platos JSON Path: {pedidosJsonPath}"); // Debugging output
+
+        var pedidosJson = await File.ReadAllTextAsync(pedidosJsonPath);
+        var pedidosObject = System.Text.Json.JsonSerializer.Deserialize<
+            Dictionary<string, List<Plato>>
+        >(pedidosJson);
+
+        // Check if the pedidos exist
+        if (pedidosObject != null && pedidosObject.ContainsKey("platos"))
+        {
+            var pedidos = pedidosObject["platos"];
+
+            context.Response.StatusCode = StatusCodes.Status200OK; // Set status code before writing to response
+            await context.Response.WriteAsJsonAsync(new { data = pedidos });
+        }
+        else
+        {
+            Console.WriteLine("Invalid JSON file format");
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError; // Set status code before writing to response
+            await context.Response.WriteAsync("Invalid JSON file format");
+        }
+    }
+);
+
+
+
+app.MapPost(
+    "/actualizar/jsons",
+    async (HttpContext context) =>
+    {
+        try
+        {
+            // Read the JSON body of the request
+            var requestBody = await new StreamReader(context.Request.Body).ReadToEndAsync();
+            Console.WriteLine("Request body: " + requestBody);
+
+            // Deserialization with IntConverter
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+            };
+            options.Converters.Add(new IntConverter());
+
+            var requestData = JsonSerializer.Deserialize<UpdateRequest>(requestBody, options);
+            Console.WriteLine("Request data: " + requestData);
+
+            // Create temporary lists
+            var newMenu = new List<MenuDish>();
+            var newPlatos = new List<Dish>();
+
+            int maxId = Math.Max(
+                requestData?.Menu?.Max(m => m.id_plato) ?? 0,
+                requestData?.Platos?.Max(p => p.id_plato) ?? 0
+            );
+
+            int newId = maxId + 1;
+
+            // Create a list to store id_plato of Menu
+            List<int> menuIds = new List<int>();
+
+            // Assign new id_plato to items without it
+            foreach (var item in requestData?.Menu ?? Enumerable.Empty<MenuDish>())
+            {
+                if (item.id_plato == 0)
+                {
+                    var newMenuDish = new MenuDish(
+                        newId,
+                        item.nombre_plato,
+                        item.precio_colones,
+                        item.calorias,
+                        item.tipo
+                    );
+                    newMenu.Add(newMenuDish);
+                    menuIds.Add(newId);  // Save newId
+                    newId++;  // Increment newId
+                }
+                else
+                {
+                    newMenu.Add(item);
+                    menuIds.Add(item.id_plato);  // Save id_plato
+                }
+            }
+
+            int index = 0;  // Index for menuIds
+            foreach (var item in requestData?.Platos ?? Enumerable.Empty<Dish>())
+            {
+                if (item.id_plato == 0 && index < menuIds.Count)
+                {
+                    var newDish = new Dish(
+                        menuIds[index],  // Use id_plato from Menu
+                        item.nombre,
+                        item.descripcion,
+                        item.vendidos,
+                        item.feedback,
+                        item.tiempoEstimado
+                    );
+                    newPlatos.Add(newDish);
+                }
+                else
+                {
+                    newPlatos.Add(item);
+                }
+
+                index++;  // Increment index
+            }
+
+            // Replace the original lists with the temporary lists
+            requestData.Menu = newMenu;
+            requestData.Platos = newPlatos;
+
+            // Update menu.json
+            var menuJson = System.Text.Json.JsonSerializer.Serialize(
+                new { menu = requestData?.Menu }
+            );
+            Console.WriteLine("menuJon" + menuJson);
+            await System.IO.File.WriteAllTextAsync("db\\menu.json", menuJson);
+
+            // Update platos.json
+            var platosJson = System.Text.Json.JsonSerializer.Serialize(
+                new { platos = requestData?.Platos }
+            );
+            Console.WriteLine("platosJson" + platosJson);
+            await System.IO.File.WriteAllTextAsync("db\\platos.json", platosJson);
+
+            // Return a 200 OK response
+            context.Response.StatusCode = StatusCodes.Status200OK;
+            await context.Response.WriteAsync("JSON files updated successfully");
+        }
+        catch (Exception ex)
+        {
+            // Handle exceptions
+            Console.WriteLine($"Error updating JSON files: {ex.Message}");
+            Console.WriteLine($"Stack trace: {ex.StackTrace}");
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            await context.Response.WriteAsync("Error updating JSON files");
+        }
+    }
+);
+
+
+//Map a route to handle change order chef
+app.MapPut(
+    "/update/{id_orden}/{id_chef}",
+    async (HttpContext context, int id_orden, int id_chef) =>
+    {
+        try
+        {
+            // Read existing orders from pedidos.json
+            var json = await System.IO.File.ReadAllTextAsync("db\\pedidos.json");
+            var pedidos = System.Text.Json.JsonSerializer.Deserialize<
+                Dictionary<string, List<Order>>
+            >(json);
+
+            // Find the order with the matching id_orden
+            var order = pedidos["pedidos"].Find(o => o.id_orden == id_orden);
+
+            if (order != null)
+            {
+                // Update the id_chef of the order
+                order.id_chef = id_chef;
+
+                // Serialize the updated orders back to json
+                var updatedJson = System.Text.Json.JsonSerializer.Serialize(pedidos);
+
+                // Write the updated orders back to pedidos.json
+                await System.IO.File.WriteAllTextAsync("db\\pedidos.json", updatedJson);
+
+                // Return a 200 OK response
+                context.Response.StatusCode = StatusCodes.Status200OK;
+                await context.Response.WriteAsync("Order updated successfully");
+            }
+            else
+            {
+                // Return a 404 Not Found response if the order was not found
+                context.Response.StatusCode = StatusCodes.Status404NotFound;
+                await context.Response.WriteAsync("Order not found");
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle exceptions
+            Console.WriteLine($"Error updating order: {ex.Message}");
+            Console.WriteLine($"Stack trace: {ex.StackTrace}");
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            await context.Response.WriteAsync("Error updating order");
+        }
+    }
+);
+
+//Map a route to handle delete order
+app.MapDelete(
+    "/eliminar/{id_orden}",
+    async (HttpContext context, int id_orden) =>
+    {
+        try
+        {
+            // Read existing orders from pedidos.json
+            var json = await System.IO.File.ReadAllTextAsync("db\\pedidos.json");
+            var pedidos = System.Text.Json.JsonSerializer.Deserialize<
+                Dictionary<string, List<Order>>
+            >(json);
+
+            // Find the order with the matching id_orden
+            var order = pedidos["pedidos"].Find(o => o.id_orden == id_orden);
+
+            if (order != null)
+            {
+                // Remove the order from the list
+                pedidos["pedidos"].Remove(order);
+
+                // Serialize the updated orders back to json
+                var updatedJson = System.Text.Json.JsonSerializer.Serialize(pedidos);
+
+                // Write the updated orders back to pedidos.json
+                await System.IO.File.WriteAllTextAsync("db\\pedidos.json", updatedJson);
+
+                // Return a 200 OK response
+                context.Response.StatusCode = StatusCodes.Status200OK;
+                await context.Response.WriteAsync("Order deleted successfully");
+            }
+            else
+            {
+                // Return a 404 Not Found response if the order was not found
+                context.Response.StatusCode = StatusCodes.Status404NotFound;
+                await context.Response.WriteAsync("Order not found");
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle exceptions
+            Console.WriteLine($"Error deleting order: {ex.Message}");
+            Console.WriteLine($"Stack trace: {ex.StackTrace}");
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            await context.Response.WriteAsync("Error deleting order");
+        }
+    }
+);
 
 app.Run();
 
@@ -744,8 +1087,8 @@ public class Feedback
     public double rating { get; set; } // Assuming the rating is a double
 }
 
-public class Rating
+public class UpdateRequest
 {
-    public int id_plato { get; set; }
-    public double rating { get; set; } // Assuming the rating is a double
+    public List<MenuDish>? Menu { get; set; }
+    public List<Dish>? Platos { get; set; }
 }

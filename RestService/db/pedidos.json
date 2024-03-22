@@ -27,38 +27,8 @@
         }
       ],
       "total": 22338,
-      "id_chef": 0,
+      "id_chef": 100,
       "OrderTakenAt": "0001-01-01T00:00:00"
-    },
-    {
-      "id_orden": 895487,
-      "id_cliente": 106,
-      "platos": [
-        {
-          "id_plato": 106,
-          "nombre_plato": "Tacos de carne",
-          "precio": 7036,
-          "cantidad": 1,
-          "tiempoEstimado": 25
-        },
-        {
-          "id_plato": 107,
-          "nombre_plato": "Sushi variado",
-          "precio": 9188,
-          "cantidad": 1,
-          "tiempoEstimado": 35
-        },
-        {
-          "id_plato": 105,
-          "nombre_plato": "Pasta Alfredo",
-          "precio": 6114,
-          "cantidad": 1,
-          "tiempoEstimado": 20
-        }
-      ],
-      "total": 22338,
-      "id_chef": 0,
-      "OrderTakenAt": "2024-03-18T22:27:51.2251251"
     },
     {
       "id_orden": 547597,
@@ -94,7 +64,7 @@
         }
       ],
       "total": 27848,
-      "id_chef": 0,
+      "id_chef": 100,
       "OrderTakenAt": "2024-03-18T22:34:00.8026554"
     },
     {
@@ -239,6 +209,29 @@
       "total": 34590,
       "id_chef": 0,
       "OrderTakenAt": "2024-03-19T17:27:22.3906392"
+    },
+    {
+      "id_orden": 566032,
+      "id_cliente": 108,
+      "platos": [
+        {
+          "id_plato": 100,
+          "nombre_plato": "Hamburguesa cl\u00E1sica",
+          "precio": 5510,
+          "cantidad": 1,
+          "tiempoEstimado": 20
+        },
+        {
+          "id_plato": 101,
+          "nombre_plato": "Pizza margarita",
+          "precio": 6736,
+          "cantidad": 2,
+          "tiempoEstimado": 25
+        }
+      ],
+      "total": 18982,
+      "id_chef": 0,
+      "OrderTakenAt": "2024-03-20T13:20:16.2569971"
     }
   ]
 }

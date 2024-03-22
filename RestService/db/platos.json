@@ -1,18 +1,18 @@
 {
   "platos": [
     {
-      "id_plato": 100,
+      "id_plato": 120,
       "nombre": "Hamburguesa cl\u00E1sica",
       "descripcion": "Deliciosa hamburguesa de carne de res con queso y vegetales frescos",
-      "vendidos": 153,
+      "vendidos": 154,
       "feedback": 4.4375,
-      "tiempoEstimado": 20
+      "tiempoEstimado": 15015
     },
     {
       "id_plato": 101,
       "nombre": "Pizza margarita",
       "descripcion": "Pizza tradicional con salsa de tomate, mozzarella y albahaca fresca",
-      "vendidos": 122,
+      "vendidos": 124,
       "feedback": 4.85,
       "tiempoEstimado": 25
     },
@@ -51,7 +51,7 @@
     {
       "id_plato": 106,
       "nombre": "Tacos de carne",
-      "descripcion": "Tortillas de ma\u00EDz rellenas de carne sazonada con guarniciones frescas",
+      "descripcion": "oui",
       "vendidos": 130,
       "feedback": 3.7,
       "tiempoEstimado": 25
@@ -159,6 +159,14 @@
       "vendidos": 120,
       "feedback": 4.2,
       "tiempoEstimado": 10
+    },
+    {
+      "id_plato": 124,
+      "nombre": "Pupusas",
+      "descripcion": "no ocupa",
+      "vendidos": 0,
+      "feedback": 0,
+      "tiempoEstimado": 0
     }
   ]
 }

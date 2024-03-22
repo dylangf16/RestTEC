@@ -11,7 +11,7 @@
       "fecha_nacimiento": null,
       "telefonos": null,
       "direccion": null,
-      "Rol": null,
+      "Rol": "chef",
       "NumPedidos": 0
     },
     {
@@ -25,7 +25,7 @@
       "fecha_nacimiento": null,
       "telefonos": null,
       "direccion": null,
-      "Rol": null,
+      "Rol": "chef",
       "NumPedidos": 0
     },
     {
@@ -39,7 +39,7 @@
       "fecha_nacimiento": null,
       "telefonos": null,
       "direccion": null,
-      "Rol": null,
+      "Rol": "administrador",
       "NumPedidos": 0
     },
     {
@@ -53,7 +53,7 @@
       "fecha_nacimiento": null,
       "telefonos": null,
       "direccion": null,
-      "Rol": null,
+      "Rol": "administrador",
       "NumPedidos": 0
     },
     {
@@ -67,7 +67,7 @@
       "fecha_nacimiento": null,
       "telefonos": null,
       "direccion": null,
-      "Rol": null,
+      "Rol": "administrador",
       "NumPedidos": 0
     },
     {
@@ -81,7 +81,7 @@
       "fecha_nacimiento": null,
       "telefonos": null,
       "direccion": null,
-      "Rol": null,
+      "Rol": "administrador",
       "NumPedidos": 0
     },
     {
@@ -124,7 +124,7 @@
         "distrito": "San Jose"
       },
       "Rol": "cliente",
-      "NumPedidos": 0
+      "NumPedidos": 45
     },
     {
       "id": 108,
@@ -144,7 +144,7 @@
         "distrito": "San Juan Sur"
       },
       "Rol": "cliente",
-      "NumPedidos": 3
+      "NumPedidos": 4
     }
   ]
 }
