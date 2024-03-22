@@ -1,0 +1,150 @@
+{
+  "usuarios": [
+    {
+      "id": 100,
+      "nombre": "pepito ramirez",
+      "apellido1": null,
+      "apellido2": null,
+      "correo": "pepito@chef.com",
+      "contrasena": "chef123",
+      "cedula": null,
+      "fecha_nacimiento": null,
+      "telefonos": null,
+      "direccion": null,
+      "Rol": "chef",
+      "NumPedidos": 0
+    },
+    {
+      "id": 101,
+      "nombre": "juanita ramirez",
+      "apellido1": null,
+      "apellido2": null,
+      "correo": "juana@chef.com",
+      "contrasena": "chef321",
+      "cedula": null,
+      "fecha_nacimiento": null,
+      "telefonos": null,
+      "direccion": null,
+      "Rol": "chef",
+      "NumPedidos": 0
+    },
+    {
+      "id": 102,
+      "nombre": "pepito rodriguez",
+      "apellido1": null,
+      "apellido2": null,
+      "correo": "pepito@admin.com",
+      "contrasena": "admin123",
+      "cedula": null,
+      "fecha_nacimiento": null,
+      "telefonos": null,
+      "direccion": null,
+      "Rol": "administrador",
+      "NumPedidos": 0
+    },
+    {
+      "id": 103,
+      "nombre": "juanita rodriguez",
+      "apellido1": null,
+      "apellido2": null,
+      "correo": "juana@admin.com",
+      "contrasena": "admin321",
+      "cedula": null,
+      "fecha_nacimiento": null,
+      "telefonos": null,
+      "direccion": null,
+      "Rol": "administrador",
+      "NumPedidos": 0
+    },
+    {
+      "id": 104,
+      "nombre": "dylanPRO",
+      "apellido1": null,
+      "apellido2": null,
+      "correo": "admin@adming.sis",
+      "contrasena": "123456",
+      "cedula": null,
+      "fecha_nacimiento": null,
+      "telefonos": null,
+      "direccion": null,
+      "Rol": "administrador",
+      "NumPedidos": 0
+    },
+    {
+      "id": 105,
+      "nombre": "cers",
+      "apellido1": null,
+      "apellido2": null,
+      "correo": "admin@sis.com",
+      "contrasena": "123456",
+      "cedula": null,
+      "fecha_nacimiento": null,
+      "telefonos": null,
+      "direccion": null,
+      "Rol": "administrador",
+      "NumPedidos": 0
+    },
+    {
+      "id": 106,
+      "nombre": "Ale",
+      "apellido1": "Rodriguez",
+      "apellido2": "castro",
+      "correo": "alerod@hotmail.com",
+      "contrasena": "aleeee",
+      "cedula": "1234567",
+      "fecha_nacimiento": "2002-12-07",
+      "telefonos": [
+        "8112821",
+        "1234565"
+      ],
+      "direccion": {
+        "provincia": "alajuela",
+        "canton": "poas",
+        "distrito": "san pedro"
+      },
+      "Rol": null,
+      "NumPedidos": 7
+    },
+    {
+      "id": 107,
+      "nombre": "John",
+      "apellido1": "Doe",
+      "apellido2": "Smith",
+      "correo": "pepe.doe@example.com",
+      "contrasena": "securepassword",
+      "cedula": "123456789",
+      "fecha_nacimiento": "1990-01-01",
+      "telefonos": [
+        "1234567890",
+        "0987654321"
+      ],
+      "direccion": {
+        "provincia": "San Jose",
+        "canton": "San Jose",
+        "distrito": "San Jose"
+      },
+      "Rol": "cliente",
+      "NumPedidos": 45
+    },
+    {
+      "id": 108,
+      "nombre": "Dylan",
+      "apellido1": "Garbanzo",
+      "apellido2": "Fallas",
+      "correo": "dgarbanzof@estudiantec.cr",
+      "contrasena": "dylan12",
+      "cedula": "118650414",
+      "fecha_nacimiento": "2003/01/16",
+      "telefonos": [
+        "83164704"
+      ],
+      "direccion": {
+        "provincia": "Cartago",
+        "canton": "Corralillo",
+        "distrito": "San Juan Sur"
+      },
+      "Rol": "cliente",
+      "NumPedidos": 4
+    }
+  ]
+}

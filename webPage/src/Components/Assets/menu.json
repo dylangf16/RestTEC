@@ -1,0 +1,145 @@
+{
+    "menu": [
+      {
+        "id_plato": 100,
+        "nombre_plato": "Hamburguesa clásica",
+        "precio_colones": 5510,
+        "calorias": 600,
+        "tipo": "Principal"
+      },
+      {
+        "id_plato": 101,
+        "nombre_plato": "Pizza margarita",
+        "precio_colones": 6736,
+        "calorias": 800,
+        "tipo": "Principal"
+      },
+      {
+        "id_plato": 102,
+        "nombre_plato": "Ensalada César",
+        "precio_colones": 4588,
+        "calorias": 350,
+        "tipo": "Entrante"
+      },
+      {
+        "id_plato": 103,
+        "nombre_plato": "Sopa de tomate",
+        "precio_colones": 3670,
+        "calorias": 200,
+        "tipo": "Entrante"
+      },
+      {
+        "id_plato": 104,
+        "nombre_plato": "Filete de salmón",
+        "precio_colones": 7962,
+        "calorias": 450,
+        "tipo": "Principal"
+      },
+      {
+        "id_plato": 105,
+        "nombre_plato": "Pasta Alfredo",
+        "precio_colones": 6114,
+        "calorias": 700,
+        "tipo": "Principal"
+      },
+      {
+        "id_plato": 106,
+        "nombre_plato": "Tacos de carne",
+        "precio_colones": 7036,
+        "calorias": 550,
+        "tipo": "Principal"
+      },
+      {
+        "id_plato": 107,
+        "nombre_plato": "Sushi variado",
+        "precio_colones": 9188,
+        "calorias": 650,
+        "tipo": "Principal"
+      },
+      {
+        "id_plato": 108,
+        "nombre_plato": "Bruschetta",
+        "precio_colones": 3977,
+        "calorias": 300,
+        "tipo": "Entrante"
+      },
+      {
+        "id_plato": 109,
+        "nombre_plato": "Pollo asado",
+        "precio_colones": 5808,
+        "calorias": 400,
+        "tipo": "Principal"
+      },
+      {
+        "id_plato": 110,
+        "nombre_plato": "Lasagna",
+        "precio_colones": 6736,
+        "calorias": 750,
+        "tipo": "Principal"
+      },
+      {
+        "id_plato": 111,
+        "nombre_plato": "Rollitos primavera",
+        "precio_colones": 5202,
+        "calorias": 500,
+        "tipo": "Entrante"
+      },
+      {
+        "id_plato": 112,
+        "nombre_plato": "Sopa de pollo",
+        "precio_colones": 3670,
+        "calorias": 250,
+        "tipo": "Entrante"
+      },
+      {
+        "id_plato": 113,
+        "nombre_plato": "Hummus con crudités",
+        "precio_colones": 4282,
+        "calorias": 200,
+        "tipo": "Entrante"
+      },
+      {
+        "id_plato": 114,
+        "nombre_plato": "Parrillada mixta",
+        "precio_colones": 9799,
+        "calorias": 850,
+        "tipo": "Principal"
+      },
+      {
+        "id_plato": 115,
+        "nombre_plato": "Papas fritas",
+        "precio_colones": 3058,
+        "calorias": 400,
+        "tipo": "Acompañamiento"
+      },
+      {
+        "id_plato": 116,
+        "nombre_plato": "Tarta de queso",
+        "precio_colones": 4899,
+        "calorias": 600,
+        "tipo": "Postre"
+      },
+      {
+        "id_plato": 117,
+        "nombre_plato": "Helado de vainilla",
+        "precio_colones": 2446,
+        "calorias": 300,
+        "tipo": "Postre"
+      },
+      {
+        "id_plato": 118,
+        "nombre_plato": "Tiramisú",
+        "precio_colones": 4282,
+        "calorias": 500,
+        "tipo": "Postre"
+      },
+      {
+        "id_plato": 119,
+        "nombre_plato": "Frutas frescas",
+        "precio_colones": 3361,
+        "calorias": 200,
+        "tipo": "Postre"
+      }
+    ]
+  }
+  

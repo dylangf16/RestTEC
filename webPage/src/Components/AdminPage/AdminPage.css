@@ -1,0 +1,208 @@
+.nav-pills .nav-link {
+  border-radius: 0;
+  color: #000000;
+  background-color: black;
+}
+
+.nav-pills .nav-item:hover .nav-link {
+  background-color: #b3b3b3;
+}
+.nav-pills .nav-item .nav-link {
+  border-radius: 10%;
+  margin-left: 5px;
+  margin-right: 10px;
+}
+
+.nav-pills .nav-item .nav-link {
+  background-color: rgb(85, 196, 233);
+}
+
+.nav-pills .nav-item .nav-link.active {
+  background-color: orange;
+}
+
+.tab-content {
+  background-color: #f9fafb;
+  border: 1px solid #dddddd;
+}
+
+.py-4 h1 {
+  color: white;
+  align-self: center;
+}
+
+.table-wrapper {
+  width: 100%;
+}
+
+.table {
+  display: block;
+  overflow: hidden;
+  table-layout: fixed;
+  border-collapse: collapse;
+  box-shadow: 0px 10px 10px #ccc;
+  border-radius: 10px;
+  white-space: nowrap;
+  width: 100em;
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
+  table-layout: auto;
+  overflow-x: auto;
+}
+
+.table thead th {
+  background-color: #ccc;
+  color: #222;
+}
+
+.table th,
+.table td {
+  padding: 0.8rem;
+}
+
+.table td {
+  border-top: 0.5px solid #ddd;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table tbody tr:hover td {
+  background-color: #eee;
+}
+
+.expand {
+  width: 100%;
+}
+
+.label {
+  border-radius: 3px;
+  padding: 0.3rem;
+  color: white;
+}
+
+.label-draft {
+  background-color: #777;
+}
+
+.label-live {
+  background-color: #42a942;
+}
+
+.label-error {
+  background-color: #d9534f;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-around;
+}
+
+.actions svg {
+  cursor: pointer;
+}
+
+.delete-btn {
+  color: #e10d05;
+}
+
+.sr-only {
+  position: absolute;
+  top: -30em;
+}
+
+table.sortable td,
+table.sortable th {
+  padding: 0.125em 0.25em;
+  width: 8em;
+}
+
+table.sortable th {
+  font-weight: bold;
+  border-bottom: thin solid #888;
+  position: relative;
+}
+
+table.sortable th.no-sort {
+  padding-top: 0.35em;
+}
+
+table.sortable th:nth-child(5) {
+  width: 10em;
+}
+
+table.sortable th button {
+  padding: 4px;
+  margin: 1px;
+  font-size: 100%;
+  font-weight: bold;
+  background: transparent;
+  border: none;
+  display: inline;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: left;
+  outline: none;
+  cursor: pointer;
+}
+
+table.sortable th button span {
+  position: absolute;
+  right: 4px;
+}
+
+table.sortable th[aria-sort="descending"] span::after {
+  content: "▼";
+  color: currentcolor;
+  font-size: 100%;
+  top: 0;
+}
+
+table.sortable th[aria-sort="ascending"] span::after {
+  content: "▲";
+  color: currentcolor;
+  font-size: 100%;
+  top: 0;
+}
+
+table.show-unsorted-icon th:not([aria-sort]) button span::after {
+  content: "♢";
+  color: currentcolor;
+  font-size: 100%;
+  position: relative;
+  top: -3px;
+  left: -4px;
+}
+
+table.sortable td.num {
+  text-align: right;
+}
+
+table.sortable tbody tr:nth-child(odd) {
+  background-color: #ddd;
+}
+
+/* Focus and hover styling */
+
+table.sortable th button:focus,
+table.sortable th button:hover {
+  padding: 2px;
+  border: 2px solid currentcolor;
+  background-color: #e5f4ff;
+}
+
+table.sortable th button:focus span,
+table.sortable th button:hover span {
+  right: 2px;
+}
+
+table.sortable th:not([aria-sort]) button:focus span::after,
+table.sortable th:not([aria-sort]) button:hover span::after {
+  content: "▼";
+  color: currentcolor;
+  font-size: 100%;
+  top: 0;
+}

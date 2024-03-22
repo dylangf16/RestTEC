@@ -1,0 +1,46 @@
+{
+  "pedidos": [
+    {
+      "id_cliente": 105,
+      "platos": [
+        {
+          "id_plato": 100,
+          "nombre_plato": "Hamburguesa clásica",
+          "precio": 5510,
+          "cantidad": 2
+        },
+        {
+          "id_plato": 101,
+          "nombre_plato": "Pizza margarita",
+          "precio": 6736,
+          "cantidad": 1
+        }
+      ],
+      "total": 17756
+    },
+    {
+      "id_cliente": 106,
+      "platos": [
+        {
+          "id_plato": 100,
+          "nombre_plato": "Hamburguesa clásica",
+          "precio": 5510,
+          "cantidad": 1
+        },
+        {
+          "id_plato": 101,
+          "nombre_plato": "Pizza margarita",
+          "precio": 6736,
+          "cantidad": 1
+        },
+        {
+          "id_plato": 102,
+          "nombre_plato": "Ensalada César",
+          "precio": 4588,
+          "cantidad": 1
+        }
+      ],
+      "total": 16834
+    }
+  ]
+}
